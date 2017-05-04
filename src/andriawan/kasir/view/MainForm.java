@@ -6,14 +6,21 @@
 package andriawan.kasir.view;
 
 import andriawan.kasir.controller.BarangController;
+import andriawan.kasir.controller.UserController;
 import andriawan.kasir.model.Barang;
 import andriawan.kasir.model.TabelBarang;
-import andriawan.kasir.model.Transaksi;
+import andriawan.kasir.model.TabelUser;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,17 +33,6 @@ public class MainForm extends javax.swing.JFrame{
     String dateF = sdf.format(dt);
     private int screenHeight;
     private int screenWidth;
-    List<Barang> lb;
-    List<Transaksi> tr;
-   
-    
-    public void getSizeScreen(){
-        Dimension screenSize = getMaximumSize();
-        this.screenHeight = screenSize.height;
-        this.screenWidth = screenSize.width;
-        
-    }
-    
 
     /**
      * Creates new form MainForm
@@ -45,11 +41,31 @@ public class MainForm extends javax.swing.JFrame{
     public MainForm() throws SQLException {
         initComponents();
         
-        BarangController bc = new BarangController();
-        this.lb = bc.getAllBarang();
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                setVisible(true);
+            }
+        });
         
-        TabelBarang tb = new TabelBarang(lb);
-        tableBarang.setModel(tb);
+        UserController uc = new UserController();
+        TabelUser tu = new TabelUser(uc.getAllUser());
+        tabelUser.setModel(tu);
+        
+        panelHeader.add(panelSearchBarang);
+        panelSearchBarang.setVisible(false);
+        
+        panelHeader.add(panelSearchTransaksi);
+        panelSearchTransaksi.setVisible(false);
+        
+        panelHeader.add(panelSearchUser);
+        panelSearchUser.setVisible(false);
+        
+        panelButtonAction.add(panelCRUDBarangButton);
+        panelCRUDBarangButton.setVisible(false);
+        
+        panelButtonAction.add(panelCRUDUserButton);
+        panelCRUDUserButton.setVisible(false);
         
         
     }
@@ -65,12 +81,35 @@ public class MainForm extends javax.swing.JFrame{
 
         jScrollBarang = new javax.swing.JScrollPane();
         tableBarang = new javax.swing.JTable();
+        jScrollUser = new javax.swing.JScrollPane();
+        tabelUser = new javax.swing.JTable();
+        panelSearchBarang = new javax.swing.JPanel();
+        btnCariBarang = new javax.swing.JButton();
+        txtCariBarang = new javax.swing.JTextField();
+        panelSearchTransaksi = new javax.swing.JPanel();
+        btnCariTransaksi = new javax.swing.JButton();
+        txtCariTransaksi = new javax.swing.JTextField();
+        panelSearchUser = new javax.swing.JPanel();
+        btnCariUser = new javax.swing.JButton();
+        txtCariUser = new javax.swing.JTextField();
+        jScrollPaneResultBarang = new javax.swing.JScrollPane();
+        jTableResultBarang = new javax.swing.JTable();
+        panelCRUDBarangButton = new javax.swing.JPanel();
+        btnEditorTambahBarang = new javax.swing.JButton();
+        btnEditorHapusBarang = new javax.swing.JButton();
+        btnEditorEditBarang = new javax.swing.JButton();
+        panelCRUDUserButton = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         panelButtonAction = new javax.swing.JPanel();
+        panelMainButton = new javax.swing.JPanel();
+        btnTransaksi = new javax.swing.JButton();
         btnCekLaporan = new javax.swing.JButton();
         btnCekBarang = new javax.swing.JButton();
         btnInfoUser = new javax.swing.JButton();
-        btnTransaksi = new javax.swing.JButton();
-        PanelHeader = new javax.swing.JPanel();
+        panelHeader = new javax.swing.JPanel();
+        panelTextHeader = new javax.swing.JPanel();
         txtHeader = new javax.swing.JLabel();
         date = new javax.swing.JLabel();
         panelTabel = new javax.swing.JPanel();
@@ -93,11 +132,297 @@ public class MainForm extends javax.swing.JFrame{
             }
         ));
         tableBarang.setRowHeight(30);
+        tableBarang.setRowMargin(5);
         jScrollBarang.setViewportView(tableBarang);
+
+        tabelUser.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tabelUser.setRowHeight(30);
+        jScrollUser.setViewportView(tabelUser);
+
+        btnCariBarang.setBackground(new java.awt.Color(51, 153, 255));
+        btnCariBarang.setForeground(new java.awt.Color(255, 255, 255));
+        btnCariBarang.setText("Cari Barang");
+        btnCariBarang.setBorderPainted(false);
+        btnCariBarang.setMargin(new java.awt.Insets(5, 10, 5, 10));
+        btnCariBarang.setName(""); // NOI18N
+        btnCariBarang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCariBarangActionPerformed(evt);
+            }
+        });
+
+        txtCariBarang.setText("Masukan kode barang atau nama barang");
+        txtCariBarang.setToolTipText("");
+        txtCariBarang.setMargin(new java.awt.Insets(0, 5, 0, 0));
+        txtCariBarang.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtCariBarangFocusGained(evt);
+            }
+        });
+        txtCariBarang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCariBarangActionPerformed(evt);
+            }
+        });
+        txtCariBarang.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCariBarangKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelSearchBarangLayout = new javax.swing.GroupLayout(panelSearchBarang);
+        panelSearchBarang.setLayout(panelSearchBarangLayout);
+        panelSearchBarangLayout.setHorizontalGroup(
+            panelSearchBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSearchBarangLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(txtCariBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCariBarang)
+                .addGap(0, 0, 0))
+        );
+        panelSearchBarangLayout.setVerticalGroup(
+            panelSearchBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSearchBarangLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(panelSearchBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnCariBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtCariBarang))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        btnCariBarang.getAccessibleContext().setAccessibleName("Cari Barang");
+
+        btnCariTransaksi.setBackground(new java.awt.Color(51, 153, 255));
+        btnCariTransaksi.setForeground(new java.awt.Color(255, 255, 255));
+        btnCariTransaksi.setText("Cari Transaksi");
+        btnCariTransaksi.setBorderPainted(false);
+        btnCariTransaksi.setMargin(new java.awt.Insets(5, 10, 5, 10));
+        btnCariTransaksi.setName(""); // NOI18N
+
+        txtCariTransaksi.setText("Masukan kode transaksi atau tanggal");
+        txtCariTransaksi.setToolTipText("");
+        txtCariTransaksi.setMargin(new java.awt.Insets(0, 5, 0, 0));
+        txtCariTransaksi.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtCariTransaksiFocusGained(evt);
+            }
+        });
+        txtCariTransaksi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCariTransaksiActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelSearchTransaksiLayout = new javax.swing.GroupLayout(panelSearchTransaksi);
+        panelSearchTransaksi.setLayout(panelSearchTransaksiLayout);
+        panelSearchTransaksiLayout.setHorizontalGroup(
+            panelSearchTransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSearchTransaksiLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(txtCariTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCariTransaksi)
+                .addGap(0, 0, 0))
+        );
+        panelSearchTransaksiLayout.setVerticalGroup(
+            panelSearchTransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSearchTransaksiLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(panelSearchTransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCariTransaksi)
+                    .addComponent(txtCariTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        btnCariUser.setBackground(new java.awt.Color(51, 153, 255));
+        btnCariUser.setForeground(new java.awt.Color(255, 255, 255));
+        btnCariUser.setText("Cari User");
+        btnCariUser.setBorderPainted(false);
+        btnCariUser.setMargin(new java.awt.Insets(5, 10, 5, 10));
+        btnCariUser.setName(""); // NOI18N
+
+        txtCariUser.setText("Masukan kode user atau username atau nama");
+        txtCariUser.setToolTipText("");
+        txtCariUser.setMargin(new java.awt.Insets(0, 5, 0, 0));
+        txtCariUser.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtCariUserFocusGained(evt);
+            }
+        });
+        txtCariUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCariUserActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelSearchUserLayout = new javax.swing.GroupLayout(panelSearchUser);
+        panelSearchUser.setLayout(panelSearchUserLayout);
+        panelSearchUserLayout.setHorizontalGroup(
+            panelSearchUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSearchUserLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(txtCariUser, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCariUser)
+                .addGap(0, 0, 0))
+        );
+        panelSearchUserLayout.setVerticalGroup(
+            panelSearchUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSearchUserLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(panelSearchUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCariUser)
+                    .addComponent(txtCariUser, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTableResultBarang.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTableResultBarang.setRowHeight(30);
+        jScrollPaneResultBarang.setViewportView(jTableResultBarang);
+
+        panelCRUDBarangButton.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Editor Barang", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+
+        btnEditorTambahBarang.setBackground(new java.awt.Color(51, 153, 255));
+        btnEditorTambahBarang.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditorTambahBarang.setText("Tambah Barang");
+        btnEditorTambahBarang.setBorderPainted(false);
+        btnEditorTambahBarang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditorTambahBarangActionPerformed(evt);
+            }
+        });
+
+        btnEditorHapusBarang.setBackground(new java.awt.Color(51, 153, 255));
+        btnEditorHapusBarang.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditorHapusBarang.setText("Hapus Barang");
+        btnEditorHapusBarang.setBorderPainted(false);
+        btnEditorHapusBarang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditorHapusBarangActionPerformed(evt);
+            }
+        });
+
+        btnEditorEditBarang.setBackground(new java.awt.Color(51, 153, 255));
+        btnEditorEditBarang.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditorEditBarang.setText("Edit Barang");
+        btnEditorEditBarang.setBorderPainted(false);
+        btnEditorEditBarang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditorEditBarangActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelCRUDBarangButtonLayout = new javax.swing.GroupLayout(panelCRUDBarangButton);
+        panelCRUDBarangButton.setLayout(panelCRUDBarangButtonLayout);
+        panelCRUDBarangButtonLayout.setHorizontalGroup(
+            panelCRUDBarangButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCRUDBarangButtonLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelCRUDBarangButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnEditorTambahBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEditorHapusBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+                    .addComponent(btnEditorEditBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        panelCRUDBarangButtonLayout.setVerticalGroup(
+            panelCRUDBarangButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCRUDBarangButtonLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnEditorTambahBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnEditorHapusBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnEditorEditBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        panelCRUDUserButton.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Editor", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+
+        jButton1.setBackground(new java.awt.Color(51, 153, 255));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Tambah Pengguna");
+        jButton1.setBorderPainted(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setBackground(new java.awt.Color(51, 153, 255));
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Hapus Pengguna");
+        jButton2.setBorderPainted(false);
+
+        jButton4.setBackground(new java.awt.Color(51, 153, 255));
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("Edit Pengguna");
+        jButton4.setBorderPainted(false);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelCRUDUserButtonLayout = new javax.swing.GroupLayout(panelCRUDUserButton);
+        panelCRUDUserButton.setLayout(panelCRUDUserButtonLayout);
+        panelCRUDUserButtonLayout.setHorizontalGroup(
+            panelCRUDUserButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCRUDUserButtonLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelCRUDUserButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        panelCRUDUserButtonLayout.setVerticalGroup(
+            panelCRUDUserButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCRUDUserButtonLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+
+        panelButtonAction.setLayout(new javax.swing.BoxLayout(panelButtonAction, javax.swing.BoxLayout.PAGE_AXIS));
+
+        btnTransaksi.setBackground(new java.awt.Color(51, 153, 255));
+        btnTransaksi.setForeground(new java.awt.Color(255, 255, 255));
+        btnTransaksi.setText("Cek Transaksi");
+        btnTransaksi.setBorderPainted(false);
+        btnTransaksi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTransaksiActionPerformed(evt);
+            }
+        });
 
         btnCekLaporan.setBackground(new java.awt.Color(51, 153, 255));
         btnCekLaporan.setForeground(new java.awt.Color(255, 255, 255));
@@ -129,28 +454,23 @@ public class MainForm extends javax.swing.JFrame{
             }
         });
 
-        btnTransaksi.setBackground(new java.awt.Color(51, 153, 255));
-        btnTransaksi.setForeground(new java.awt.Color(255, 255, 255));
-        btnTransaksi.setText("Cek Transaksi");
-        btnTransaksi.setBorderPainted(false);
-        btnTransaksi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTransaksiActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout panelButtonActionLayout = new javax.swing.GroupLayout(panelButtonAction);
-        panelButtonAction.setLayout(panelButtonActionLayout);
-        panelButtonActionLayout.setHorizontalGroup(
-            panelButtonActionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnCekLaporan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnCekBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnInfoUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        javax.swing.GroupLayout panelMainButtonLayout = new javax.swing.GroupLayout(panelMainButton);
+        panelMainButton.setLayout(panelMainButtonLayout);
+        panelMainButtonLayout.setHorizontalGroup(
+            panelMainButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelMainButtonLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelMainButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCekLaporan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCekBarang, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnInfoUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE))
+                .addContainerGap())
         );
-        panelButtonActionLayout.setVerticalGroup(
-            panelButtonActionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelButtonActionLayout.createSequentialGroup()
+        panelMainButtonLayout.setVerticalGroup(
+            panelMainButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelMainButtonLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(btnTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnCekLaporan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -161,28 +481,36 @@ public class MainForm extends javax.swing.JFrame{
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        panelButtonAction.add(panelMainButton);
+
+        panelHeader.setLayout(new javax.swing.BoxLayout(panelHeader, javax.swing.BoxLayout.Y_AXIS));
+
         txtHeader.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         txtHeader.setText("Informasi Transaksi");
 
-        date.setText("Informasi Waktu Login :" + dateF);
+        date.setText("Informasi Waktu Login : " + dateF);
 
-        javax.swing.GroupLayout PanelHeaderLayout = new javax.swing.GroupLayout(PanelHeader);
-        PanelHeader.setLayout(PanelHeaderLayout);
-        PanelHeaderLayout.setHorizontalGroup(
-            PanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelHeaderLayout.createSequentialGroup()
-                .addComponent(txtHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(190, 190, 190)
-                .addComponent(date))
+        javax.swing.GroupLayout panelTextHeaderLayout = new javax.swing.GroupLayout(panelTextHeader);
+        panelTextHeader.setLayout(panelTextHeaderLayout);
+        panelTextHeaderLayout.setHorizontalGroup(
+            panelTextHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelTextHeaderLayout.createSequentialGroup()
+                .addComponent(txtHeader)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(date)
+                .addContainerGap())
         );
-        PanelHeaderLayout.setVerticalGroup(
-            PanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelHeaderLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addGroup(PanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(date)))
+        panelTextHeaderLayout.setVerticalGroup(
+            panelTextHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelTextHeaderLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelTextHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtHeader)
+                    .addComponent(date))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        panelHeader.add(panelTextHeader);
 
         tabelTransaksi.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -203,13 +531,14 @@ public class MainForm extends javax.swing.JFrame{
         panelTabel.setLayout(panelTabelLayout);
         panelTabelLayout.setHorizontalGroup(
             panelTabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollTabelTransaksi, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jScrollTabelTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         panelTabelLayout.setVerticalGroup(
             panelTabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelTabelLayout.createSequentialGroup()
-                .addComponent(jScrollTabelTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
-                .addGap(2, 2, 2))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTabelLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jScrollTabelTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
 
         jMenu1.setText("File");
@@ -231,20 +560,22 @@ public class MainForm extends javax.swing.JFrame{
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(PanelHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelHeader, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE)
                     .addComponent(panelTabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(14, 14, 14)
-                .addComponent(panelButtonAction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelButtonAction, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(PanelHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelButtonAction, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelTabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(panelTabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(panelButtonAction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -256,36 +587,217 @@ public class MainForm extends javax.swing.JFrame{
     }//GEN-LAST:event_btnCekLaporanActionPerformed
 
     private void btnInfoUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfoUserActionPerformed
+        jScrollTabelTransaksi.setViewportView(tabelUser);
         txtHeader.setText("Informasi Pengguna");
+        panelSearchUser.setVisible(true);
+        panelSearchBarang.setVisible(false);
+        panelSearchTransaksi.setVisible(false);
+        
+        panelCRUDBarangButton.setVisible(false);
+        panelCRUDUserButton.setVisible(true);
     }//GEN-LAST:event_btnInfoUserActionPerformed
 
     private void btnCekBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCekBarangActionPerformed
-        txtHeader.setText("Informasi Stok Barang");
-        jScrollTabelTransaksi.setViewportView(tableBarang);
+        // Set Tabel Model for Barang
+        BarangController bc = new BarangController();      
+        TabelBarang tb;
+        try {
+            tb = new TabelBarang(bc.getAllBarang());
+            txtHeader.setText("Informasi Stok Barang");
+            jScrollTabelTransaksi.setViewportView(tableBarang);
+            tableBarang.setModel(tb);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        panelSearchBarang.setVisible(true);
+        panelSearchUser.setVisible(false);
+        panelSearchTransaksi.setVisible(false);
+        
+        panelCRUDBarangButton.setVisible(true);
+        panelCRUDUserButton.setVisible(false);
     }//GEN-LAST:event_btnCekBarangActionPerformed
 
     private void btnTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaksiActionPerformed
         jScrollTabelTransaksi.setViewportView(tabelTransaksi);
         txtHeader.setText("Informasi Transaksi");
+        panelSearchTransaksi.setVisible(true);
+        panelSearchBarang.setVisible(false);
+        panelSearchUser.setVisible(false);
     }//GEN-LAST:event_btnTransaksiActionPerformed
 
+    private void txtCariBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCariBarangActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCariBarangActionPerformed
+
+    private void txtCariTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCariTransaksiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCariTransaksiActionPerformed
+
+    private void txtCariUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCariUserActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCariUserActionPerformed
+
+    private void txtCariBarangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCariBarangFocusGained
+        txtCariBarang.setText("");
+    }//GEN-LAST:event_txtCariBarangFocusGained
+
+    private void txtCariTransaksiFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCariTransaksiFocusGained
+        txtCariTransaksi.setText("");
+    }//GEN-LAST:event_txtCariTransaksiFocusGained
+
+    private void txtCariUserFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCariUserFocusGained
+        txtCariUser.setText("");
+    }//GEN-LAST:event_txtCariUserFocusGained
+
+    private void btnCariBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariBarangActionPerformed
+        
+        try {
+            BarangController bc = new BarangController();
+            String name = txtCariBarang.getText();
+            
+            Barang barang;
+            barang = bc.multiSearch(name, name, name, name);
+            List<Barang> brList = new ArrayList<>();
+            brList.add(barang);
+            
+            TabelBarang tb = new TabelBarang(brList);
+            jTableResultBarang.setModel(tb);
+            
+            jScrollTabelTransaksi.setViewportView(jTableResultBarang);
+            
+        } catch (SQLException | NullPointerException ex) {
+            JOptionPane.showMessageDialog(null, "Kesalahan: Data tidak ditemukan");
+        }
+    }//GEN-LAST:event_btnCariBarangActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void btnEditorEditBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditorEditBarangActionPerformed
+        if(tableBarang.getSelectedRow()>= 0){
+            BarangController bc = new BarangController();
+            String s;
+            s = tableBarang.getValueAt(tableBarang.getSelectedRow(), 0).toString();
+            try {
+                Barang br = bc.getBarang(new Integer(s));
+                BarangController.getUpdateEditorBarangFormInstance().
+                        setVisible(true);
+                BarangController.getUpdateEditorBarangFormInstance().
+                        setVisibilityBtnUpdate();
+                BarangController.getUpdateEditorBarangFormInstance().
+                        setTxtFieldNamaBarang(br.getNamaBarang());
+                BarangController.getUpdateEditorBarangFormInstance().
+                        setTxtFieldHarga(String.valueOf(br.getHarga()));
+                BarangController.getUpdateEditorBarangFormInstance().
+                        setTxtFieldStok(String.valueOf(br.getStok()));
+                BarangController.getUpdateEditorBarangFormInstance().
+                        setTxtFieldIdBarang(String.valueOf(s));
+            } catch (SQLException ex) {
+                Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Pilih barang yang akan di edit pada tabel terlebih dahulu");
+        }
+        
+    }//GEN-LAST:event_btnEditorEditBarangActionPerformed
+
+    private void txtCariBarangKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariBarangKeyPressed
+        try {
+            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                ActionEvent et = null;
+                btnCariBarangActionPerformed(et);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }//GEN-LAST:event_txtCariBarangKeyPressed
+
+    private void btnEditorTambahBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditorTambahBarangActionPerformed
+        BarangController.getInsertEditorBarangFormInstance().setVisible(true);
+        BarangController.getInsertEditorBarangFormInstance().setVisibilityBtnTambah();
+    }//GEN-LAST:event_btnEditorTambahBarangActionPerformed
+
+    private void btnEditorHapusBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditorHapusBarangActionPerformed
+        if(tableBarang.getSelectedRow()>= 0){
+            BarangController bc = new BarangController();
+            String id = tableBarang.getValueAt(tableBarang.getSelectedRow(), 0).toString();
+            String nama = tableBarang.getValueAt(tableBarang.getSelectedRow(), 1).toString();
+            String harga = tableBarang.getValueAt(tableBarang.getSelectedRow(), 2).toString();
+            String stok = tableBarang.getValueAt(tableBarang.getSelectedRow(), 3).toString();
+            String message = "Apakah anda yakin akan menghapus barang " 
+                    + nama + " dengan harga "
+                    + harga + " dan jumlah stok "
+                    + stok + " ?";
+            try {
+                int action = JOptionPane.showConfirmDialog(
+                        null, message, 
+                        "Konfirmasi", 
+                        JOptionPane.YES_NO_OPTION, 
+                        JOptionPane.INFORMATION_MESSAGE);
+                if(action == JOptionPane.YES_OPTION){
+                    bc.hapusBarang(new Integer(id));
+                }
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Pilih barang yang akan di edit pada tabel terlebih dahulu");
+        }
+    }//GEN-LAST:event_btnEditorHapusBarangActionPerformed
+    // Custom Code
+    public void getSizeScreen(){
+        Dimension screenSize = getMaximumSize();
+        this.screenHeight = screenSize.height;
+        this.screenWidth = screenSize.width;
+        
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel PanelHeader;
+    private javax.swing.JButton btnCariBarang;
+    private javax.swing.JButton btnCariTransaksi;
+    private javax.swing.JButton btnCariUser;
     private javax.swing.JButton btnCekBarang;
     private javax.swing.JButton btnCekLaporan;
+    private javax.swing.JButton btnEditorEditBarang;
+    private javax.swing.JButton btnEditorHapusBarang;
+    private javax.swing.JButton btnEditorTambahBarang;
     private javax.swing.JButton btnInfoUser;
     private javax.swing.JButton btnTransaksi;
     private javax.swing.JLabel date;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton4;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollBarang;
+    private javax.swing.JScrollPane jScrollPaneResultBarang;
     private javax.swing.JScrollPane jScrollTabelTransaksi;
+    private javax.swing.JScrollPane jScrollUser;
+    private javax.swing.JTable jTableResultBarang;
     private javax.swing.JMenuBar mainMenu;
     private javax.swing.JPanel panelButtonAction;
+    private javax.swing.JPanel panelCRUDBarangButton;
+    private javax.swing.JPanel panelCRUDUserButton;
+    private javax.swing.JPanel panelHeader;
+    private javax.swing.JPanel panelMainButton;
+    private javax.swing.JPanel panelSearchBarang;
+    private javax.swing.JPanel panelSearchTransaksi;
+    private javax.swing.JPanel panelSearchUser;
     private javax.swing.JPanel panelTabel;
+    private javax.swing.JPanel panelTextHeader;
     private javax.swing.JTable tabelTransaksi;
+    private javax.swing.JTable tabelUser;
     private javax.swing.JTable tableBarang;
+    private javax.swing.JTextField txtCariBarang;
+    private javax.swing.JTextField txtCariTransaksi;
+    private javax.swing.JTextField txtCariUser;
     private javax.swing.JLabel txtHeader;
     // End of variables declaration//GEN-END:variables
 

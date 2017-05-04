@@ -15,9 +15,9 @@ import java.util.List;
 public interface BarangDao {
     
     List<Barang> getAllBarang();
-    Barang getBarang(String kode);
+    Barang getBarang(int kode);
     void updateBarang(Barang barang);
-    void deleteBarang(String kodebarang);
+    void deleteBarang(int kodebarang);
     void insertBarang(Barang barang);
     
 }

@@ -7,11 +7,10 @@ package andriawan.kasir.view;
 
 import andriawan.kasir.controller.UserLoginController;
 import andriawan.kasir.dao.impl.UserDaoImpl;
-import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -47,7 +46,6 @@ public class LoginForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        message = new javax.swing.JOptionPane();
         loginPanel = new javax.swing.JPanel();
         headerLogin = new javax.swing.JLabel();
         labelPengguna = new javax.swing.JLabel();
@@ -59,8 +57,6 @@ public class LoginForm extends javax.swing.JFrame {
         hint = new javax.swing.JLabel();
         jabatan = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
-
-        message.setForeground(new java.awt.Color(51, 51, 255));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("App");
@@ -270,7 +266,7 @@ public class LoginForm extends javax.swing.JFrame {
                 new MainForm().setVisible(true);
                 setVisible(false);
                 }else{
-                    message.showMessageDialog(null, "Password atau Username salah");
+                    JOptionPane.showMessageDialog(null, "Password atau Username salah");
                 }
                 break;
             case 1:
@@ -278,20 +274,22 @@ public class LoginForm extends javax.swing.JFrame {
                     isValidKasirUser(
                             txtFieldPengguna.getText(), 
                             new String(txtPass.getPassword()))) {
-                    message.showMessageDialog(null, "Anda Kasir");
+                    JOptionPane.showMessageDialog(null, "Anda Kasir");
                 }else{
-                    message.showMessageDialog(null, "Password atau Username salah");
+                    JOptionPane.showMessageDialog(null, "Password atau Username salah");
                 }
                 break;
                 
             default:
-                message.showMessageDialog(null, "Anda Penyusup");
+                JOptionPane.showMessageDialog(null, "Anda Penyusup");
             break;
             
             }
             
         } catch (NullPointerException h) {
-            message.showMessageDialog(null, "Error: Periksa opsi jabatan apakah sudah benar");
+            JOptionPane.showMessageDialog(null, "Error: Periksa opsi jabatan apakah sudah benar");
+        } catch (SQLException sql) {
+            JOptionPane.showMessageDialog(null, "Error: Kesalahan Database");
         }
 
     }//GEN-LAST:event_loginButtonActionPerformed
@@ -317,7 +315,6 @@ public class LoginForm extends javax.swing.JFrame {
     private javax.swing.JLabel labelPengguna;
     private javax.swing.JButton loginButton;
     private javax.swing.JPanel loginPanel;
-    private javax.swing.JOptionPane message;
     private javax.swing.JToolBar toolBarLogin;
     private javax.swing.JTextField txtFieldPengguna;
     private javax.swing.JPasswordField txtPass;

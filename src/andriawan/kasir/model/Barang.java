@@ -10,23 +10,29 @@ package andriawan.kasir.model;
  * @author andriawan
  */
 public class Barang {
-    private String kodeBarang;
+    private int kodeBarang;
     private String namaBarang;
     private int harga;
     private int Stok;
 
-    public Barang(String kodeBarang, String namaBarang, int harga, int Stok) {
+    public Barang(int kodeBarang, String namaBarang, int harga, int Stok) {
         this.kodeBarang = kodeBarang;
         this.namaBarang = namaBarang;
         this.harga = harga;
         this.Stok = Stok;
     }
+    
+    public Barang(String namaBarang, int harga, int Stok) {
+        this.namaBarang = namaBarang;
+        this.harga = harga;
+        this.Stok = Stok;
+    }
 
-    public String getKodeBarang() {
+    public int getKodeBarang() {
         return kodeBarang;
     }
 
-    public void setKodeBarang(String kodeBarang) {
+    public void setKodeBarang(int kodeBarang) {
         this.kodeBarang = kodeBarang;
     }
 

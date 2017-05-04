@@ -52,6 +52,15 @@ public class BarangDaoImpl implements BarangDao {
             " WHERE " 
             + COLUMN_KODE_BARANG + "=?";
     
+    private static final String MULTI_SEARCH = 
+            "SELECT * FROM " 
+            + TABLE + 
+            " WHERE " 
+            + COLUMN_KODE_BARANG + "=? OR "
+            + COLUMN_NAMA_BARANG + "=? OR "
+            + COLUMN_HARGA + "=? OR "
+            + COLUMN_STOK + "=?";
+    
     //FIND by nama_barang
     private static final String FIND_BY_NAME = 
             "SELECT * FROM " 
@@ -62,10 +71,9 @@ public class BarangDaoImpl implements BarangDao {
     private static final String INSERT = 
             "INSERT INTO " 
             + TABLE + "("
-            + COLUMN_KODE_BARANG + ", "
             + COLUMN_NAMA_BARANG + ", "
             + COLUMN_HARGA + ", "
-            + COLUMN_STOK + ") VALUES(?, ?, ?, ?)";
+            + COLUMN_STOK + ") VALUES(?, ?, ?)";
     //UPDATE
     private static final String UPDATE = "UPDATE " + TABLE + " SET "
             + COLUMN_NAMA_BARANG + "=?, "
@@ -84,7 +92,7 @@ public class BarangDaoImpl implements BarangDao {
             result = preparedStatement.executeQuery();
 
             while (result.next()) {
-                String kode = result.getString(1);
+                int kode = result.getInt(1);
                 String nama_barang = result.getString(2);
                 int harga = result.getInt(3);
                 int stok = result.getInt(4);
@@ -109,16 +117,16 @@ public class BarangDaoImpl implements BarangDao {
     }
 
     @Override
-    public Barang getBarang(String kodeBarang) {
+    public Barang getBarang(int kodeBarang) {
         ResultSet result = null;
         try {
             con = ConnectionManager.getConnection();
             preparedStatement = con.prepareStatement(FIND_BY_ID);
-            preparedStatement.setString(1, kodeBarang);
+            preparedStatement.setInt(1, kodeBarang);
             result = preparedStatement.executeQuery();
 
             if (result.next()) {
-                String kode = result.getString(1);
+                int kode = result.getInt(1);
                 String nama_barang = result.getString(2);
                 int harga = result.getInt(3);
                 int stok = result.getInt(4);
@@ -136,6 +144,38 @@ public class BarangDaoImpl implements BarangDao {
             close(preparedStatement);
         }
     }
+    
+    public Barang multiSearch(String a, String b, String c, String d) {
+        ResultSet result = null;
+        try {
+            con = ConnectionManager.getConnection();
+            preparedStatement = con.prepareStatement(MULTI_SEARCH);
+            preparedStatement.setString(1, a);
+            preparedStatement.setString(2, b);
+            preparedStatement.setString(3, c);
+            preparedStatement.setString(4, d);
+            result = preparedStatement.executeQuery();
+
+            if (result.next()) {
+                int kode = result.getInt(1);
+                String nama_barang = result.getString(2);
+                int harga = result.getInt(3);
+                int stok = result.getInt(4);
+                Barang brx = new Barang(kode, nama_barang, harga, stok);
+
+                return brx;
+            } else {
+                return null;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(con);
+            close(preparedStatement);
+        }
+    }
+    
 
     @Override
     public void updateBarang(Barang barang) {
@@ -145,7 +185,7 @@ public class BarangDaoImpl implements BarangDao {
             preparedStatement.setString(1, barang.getNamaBarang());
             preparedStatement.setInt(2, barang.getHarga());
             preparedStatement.setInt(3, barang.getStok());
-            preparedStatement.setString(4, barang.getKodeBarang());
+            preparedStatement.setInt(4, barang.getKodeBarang());
             
             int status = preparedStatement.executeUpdate();
             
@@ -159,11 +199,11 @@ public class BarangDaoImpl implements BarangDao {
     }
 
     @Override
-    public void deleteBarang(String kodebarang) {
+    public void deleteBarang(int kodebarang) {
         try {
             con = ConnectionManager.getConnection();
             preparedStatement = con.prepareStatement(DELETE);
-            preparedStatement.setString(1, kodebarang);
+            preparedStatement.setInt(1, kodebarang);
             
             int status = preparedStatement.executeUpdate();
             
@@ -182,10 +222,9 @@ public class BarangDaoImpl implements BarangDao {
             con = ConnectionManager.getConnection();
             
             preparedStatement = con.prepareStatement(INSERT);
-            preparedStatement.setString(1, barang.getKodeBarang());
-            preparedStatement.setString(2, barang.getNamaBarang());
-            preparedStatement.setInt(3, barang.getHarga());
-            preparedStatement.setInt(4, barang.getStok());
+            preparedStatement.setString(1, barang.getNamaBarang());
+            preparedStatement.setInt(2, barang.getHarga());
+            preparedStatement.setInt(3, barang.getStok());
             
             int status = preparedStatement.executeUpdate();
             

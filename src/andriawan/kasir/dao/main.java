@@ -17,8 +17,6 @@ import andriawan.kasir.view.LoginForm;
 public class main {
     
     public static void main(String[] args) {
-        UserDaoImpl su = new UserDaoImpl();
-        su.insertUser(new User("rewa", "12345678", "rewa axa", "kasir"));
         
         UserDaoImpl user = new UserDaoImpl();
         LoginForm loginForm = new LoginForm();
