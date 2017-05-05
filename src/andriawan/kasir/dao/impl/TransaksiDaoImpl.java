@@ -11,7 +11,7 @@ import andriawan.kasir.model.Pelanggan;
 import andriawan.kasir.model.Transaksi;
 import andriawan.kasir.model.User;
 import andriawan.safe.password.SafePassword;
-import connection.ConnectionManager;
+import utilities.ConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

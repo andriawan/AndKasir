@@ -6,7 +6,7 @@
 package andriawan.kasir.dao.impl;
 
 import andriawan.kasir.dao.BarangDao;
-import connection.ConnectionManager;
+import utilities.ConnectionManager;
 import andriawan.kasir.model.Barang;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import utilities.RupiahFormat;
 
 /**
  *
@@ -56,10 +57,10 @@ public class BarangDaoImpl implements BarangDao {
             "SELECT * FROM " 
             + TABLE + 
             " WHERE " 
-            + COLUMN_KODE_BARANG + "=? OR "
-            + COLUMN_NAMA_BARANG + "=? OR "
-            + COLUMN_HARGA + "=? OR "
-            + COLUMN_STOK + "=?";
+            + COLUMN_KODE_BARANG + " like ? OR "
+            + COLUMN_NAMA_BARANG + " like ? OR "
+            + COLUMN_HARGA + " like ? OR "
+            + COLUMN_STOK + " like ?";
     
     //FIND by nama_barang
     private static final String FIND_BY_NAME = 
@@ -97,7 +98,7 @@ public class BarangDaoImpl implements BarangDao {
                 int harga = result.getInt(3);
                 int stok = result.getInt(4);
 
-                barangs.add(new Barang(kode, nama_barang, harga, stok));
+                barangs.add(new Barang(kode, nama_barang, RupiahFormat.setRupiahFormat(harga), stok));
             }
 
             this.semuaBarang = barangs;
@@ -145,27 +146,25 @@ public class BarangDaoImpl implements BarangDao {
         }
     }
     
-    public Barang multiSearch(String a, String b, String c, String d) {
+    public List<Barang> multiSearch(String a, String b, String c, String d) {
         ResultSet result = null;
+        List<Barang> barangs = new ArrayList<Barang>();
         try {
             con = ConnectionManager.getConnection();
             preparedStatement = con.prepareStatement(MULTI_SEARCH);
-            preparedStatement.setString(1, a);
-            preparedStatement.setString(2, b);
-            preparedStatement.setString(3, c);
-            preparedStatement.setString(4, d);
+            preparedStatement.setString(1, "%" + a + "%");
+            preparedStatement.setString(2, "%" + b + "%");
+            preparedStatement.setString(3, "%" + c + "%");
+            preparedStatement.setString(4, "%" + d + "%");
             result = preparedStatement.executeQuery();
 
-            if (result.next()) {
+            while (result.next()) {
                 int kode = result.getInt(1);
                 String nama_barang = result.getString(2);
                 int harga = result.getInt(3);
                 int stok = result.getInt(4);
-                Barang brx = new Barang(kode, nama_barang, harga, stok);
-
-                return brx;
-            } else {
-                return null;
+                Barang brx = new Barang(kode, nama_barang, RupiahFormat.setRupiahFormat(harga), stok);
+                barangs.add(brx);
             }
 
         } catch (SQLException e) {
@@ -174,6 +173,7 @@ public class BarangDaoImpl implements BarangDao {
             close(con);
             close(preparedStatement);
         }
+        return barangs;
     }
     
 

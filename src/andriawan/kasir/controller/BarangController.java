@@ -31,17 +31,17 @@ public class BarangController {
         return new BarangDaoImpl().getBarang(kodeBarang);
     }
     
-    public Barang multiSearch(String a, String b, String c, String d) throws SQLException{
+    public List<Barang> multiSearch(String a, String b, String c, String d) throws SQLException{
         return new BarangDaoImpl().multiSearch(a, b, c, d);
     }
     
     //Singleton insert Editor form
-    public static EditorBarangForm getInsertEditorBarangFormInstance(){
+    public static EditorBarangForm getInsertFormInstance(){
         return insert;
     }
     
     //Singleton insert Editor form
-    public static EditorBarangForm getUpdateEditorBarangFormInstance(){
+    public static EditorBarangForm getUpdateFormInstance(){
         return update;
     }
     

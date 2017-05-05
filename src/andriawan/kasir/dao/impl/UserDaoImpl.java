@@ -8,7 +8,7 @@ package andriawan.kasir.dao.impl;
 import andriawan.kasir.dao.UserDao;
 import andriawan.kasir.model.User;
 import andriawan.safe.password.SafePassword;
-import connection.ConnectionManager;
+import utilities.ConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -67,6 +67,16 @@ public class UserDaoImpl implements UserDao {
             + TABLE
             + " WHERE "
             + COLUMN_USERNAME + "=?";
+    
+    //MULTI SEARCH
+    private static final String MULTI_SEARCH = 
+            "SELECT * FROM " 
+            + TABLE + 
+            " WHERE " 
+            + COLUMN_KODE_USER + " like ? OR "
+            + COLUMN_USERNAME + " like ? OR "
+            + COLUMN_NAMA_ASLI + " like ? OR "
+            + COLUMN_STATUS+ " like ?";
     //INSERT
     private static final String INSERT
             = "INSERT INTO "
@@ -79,6 +89,13 @@ public class UserDaoImpl implements UserDao {
     private static final String UPDATE = "UPDATE " + TABLE + " SET "
             + COLUMN_USERNAME + "=?, "
             + COLUMN_PASSWORD + "=?, "
+            + COLUMN_NAMA_ASLI + "=?, "
+            + COLUMN_STATUS + "=? "
+            + "WHERE "
+            + COLUMN_KODE_USER + "=?";
+    
+    private static final String UPDATE_NO_PASSWORD = "UPDATE " + TABLE + " SET "
+            + COLUMN_USERNAME + "=?, "
             + COLUMN_NAMA_ASLI + "=?, "
             + COLUMN_STATUS + "=? "
             + "WHERE "
@@ -154,7 +171,7 @@ public class UserDaoImpl implements UserDao {
             con = ConnectionManager.getConnection();
             preparedStatement = con.prepareStatement(UPDATE);
             preparedStatement.setString(1, user.getUsername());
-            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(2, SafePassword.hashSecureBcrypt(user.getPassword()));
             preparedStatement.setString(3, user.getNama());
             preparedStatement.setString(4, user.getStatus());
             preparedStatement.setInt(5, id);
@@ -168,6 +185,26 @@ public class UserDaoImpl implements UserDao {
             close(preparedStatement);
         }
     }
+    
+    public void updateUserNoPassword(User user, int id) {
+        try {
+            con = ConnectionManager.getConnection();
+            preparedStatement = con.prepareStatement(UPDATE_NO_PASSWORD);
+            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(2, user.getNama());
+            preparedStatement.setString(3, user.getStatus());
+            preparedStatement.setInt(4, id);
+            
+            preparedStatement.executeUpdate();
+            
+            } catch (SQLException ex) {
+            Logger.getLogger(BarangDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            close(con);
+            close(preparedStatement);
+        }
+    }
+    
 
     @Override
     public void deleteUser(int kodeUser) {
@@ -234,6 +271,38 @@ public class UserDaoImpl implements UserDao {
             } else {
                 return null;
             }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(con);
+            close(preparedStatement);
+        }
+    }
+    
+    public List<User> multiSearch(String a, String b, String c, String d) {
+        ResultSet result = null;
+        List<User> list = new ArrayList<>();
+        try {
+            con = ConnectionManager.getConnection();
+            preparedStatement = con.prepareStatement(MULTI_SEARCH);
+            preparedStatement.setString(1, "%" + a + "%");
+            preparedStatement.setString(2, "%" + b + "%");
+            preparedStatement.setString(3, "%" + c + "%");
+            preparedStatement.setString(4, "%" + d + "%");
+            result = preparedStatement.executeQuery();
+            
+            while (result.next()) {
+                int kode = result.getInt(1);
+                String username = result.getString(2);
+                String password = result.getString(3);
+                String fullname = result.getString(4);
+                String status = result.getString(5);
+
+                list.add(new User(kode, username, password, fullname, status));
+            }
+            
+            return list;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

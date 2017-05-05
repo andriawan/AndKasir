@@ -37,7 +37,7 @@ public class TabelBarang extends AbstractTableModel {
             case 1:
                 return barang.get(rowIndex).getNamaBarang();
             case 2:
-                return barang.get(rowIndex).getHarga();
+                return barang.get(rowIndex).getHargaFormat();
             case 3:
                 return barang.get(rowIndex).getStok();
             default:
@@ -56,7 +56,7 @@ public class TabelBarang extends AbstractTableModel {
             case 2:
                 return "Harga";
             case 3:
-                return "Status";  
+                return "Stok";  
             default:
                 return null;
         }

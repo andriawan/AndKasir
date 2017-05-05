@@ -11,15 +11,15 @@ package andriawan.kasir.model;
  */
 public class User {
     
-    protected int id;
-    protected int levelPermission;
+    int id;
+    int levelPermission;
     
-    protected String nama;
-    protected String username;
-    protected String kategori;
-    protected String email;
-    protected String password;
-    protected String status;
+    private String nama;
+    private String username;
+    private String kategori;
+    private String email;
+    private String password;
+    private String status;
     
     
     
@@ -48,6 +48,12 @@ public class User {
         this.status = status;
     }
     
+    public User(int id, String username, String namaAsli, String status) {
+        this.id = id;
+        this.nama = namaAsli;
+        this.username = username;
+        this.status = status;
+    }
     
 
     public String getStatus() {

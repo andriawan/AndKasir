@@ -10,15 +10,25 @@ package andriawan.kasir.model;
  * @author andriawan
  */
 public class Barang {
+    
     private int kodeBarang;
     private String namaBarang;
+    private String hargaFormat;
     private int harga;
     private int Stok;
+    
 
     public Barang(int kodeBarang, String namaBarang, int harga, int Stok) {
         this.kodeBarang = kodeBarang;
         this.namaBarang = namaBarang;
         this.harga = harga;
+        this.Stok = Stok;
+    }
+    
+    public Barang(int kodeBarang, String namaBarang, String harga, int Stok) {
+        this.kodeBarang = kodeBarang;
+        this.namaBarang = namaBarang;
+        this.hargaFormat = harga;
         this.Stok = Stok;
     }
     
@@ -59,5 +69,15 @@ public class Barang {
     public void setStok(int Stok) {
         this.Stok = Stok;
     }
+
+    public String getHargaFormat() {
+        return hargaFormat;
+    }
+
+    public void setHargaFormat(String hargaFormat) {
+        this.hargaFormat = hargaFormat;
+    }
+    
+    
     
 }

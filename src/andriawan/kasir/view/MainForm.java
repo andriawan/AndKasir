@@ -7,6 +7,7 @@ package andriawan.kasir.view;
 
 import andriawan.kasir.controller.BarangController;
 import andriawan.kasir.controller.UserController;
+import andriawan.kasir.model.User;
 import andriawan.kasir.model.Barang;
 import andriawan.kasir.model.TabelBarang;
 import andriawan.kasir.model.TabelUser;
@@ -47,10 +48,6 @@ public class MainForm extends javax.swing.JFrame{
                 setVisible(true);
             }
         });
-        
-        UserController uc = new UserController();
-        TabelUser tu = new TabelUser(uc.getAllUser());
-        tabelUser.setModel(tu);
         
         panelHeader.add(panelSearchBarang);
         panelSearchBarang.setVisible(false);
@@ -99,9 +96,9 @@ public class MainForm extends javax.swing.JFrame{
         btnEditorHapusBarang = new javax.swing.JButton();
         btnEditorEditBarang = new javax.swing.JButton();
         panelCRUDUserButton = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnTambahUser = new javax.swing.JButton();
+        btnHapusUser = new javax.swing.JButton();
+        btnEditUser = new javax.swing.JButton();
         panelButtonAction = new javax.swing.JPanel();
         panelMainButton = new javax.swing.JPanel();
         btnTransaksi = new javax.swing.JButton();
@@ -201,14 +198,17 @@ public class MainForm extends javax.swing.JFrame{
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        btnCariBarang.getAccessibleContext().setAccessibleName("Cari Barang");
-
         btnCariTransaksi.setBackground(new java.awt.Color(51, 153, 255));
         btnCariTransaksi.setForeground(new java.awt.Color(255, 255, 255));
         btnCariTransaksi.setText("Cari Transaksi");
         btnCariTransaksi.setBorderPainted(false);
         btnCariTransaksi.setMargin(new java.awt.Insets(5, 10, 5, 10));
         btnCariTransaksi.setName(""); // NOI18N
+        btnCariTransaksi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCariTransaksiActionPerformed(evt);
+            }
+        });
 
         txtCariTransaksi.setText("Masukan kode transaksi atau tanggal");
         txtCariTransaksi.setToolTipText("");
@@ -251,6 +251,11 @@ public class MainForm extends javax.swing.JFrame{
         btnCariUser.setBorderPainted(false);
         btnCariUser.setMargin(new java.awt.Insets(5, 10, 5, 10));
         btnCariUser.setName(""); // NOI18N
+        btnCariUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCariUserActionPerformed(evt);
+            }
+        });
 
         txtCariUser.setText("Masukan kode user atau username atau nama");
         txtCariUser.setToolTipText("");
@@ -260,9 +265,9 @@ public class MainForm extends javax.swing.JFrame{
                 txtCariUserFocusGained(evt);
             }
         });
-        txtCariUser.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCariUserActionPerformed(evt);
+        txtCariUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCariUserKeyPressed(evt);
             }
         });
 
@@ -359,28 +364,33 @@ public class MainForm extends javax.swing.JFrame{
 
         panelCRUDUserButton.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Editor", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
-        jButton1.setBackground(new java.awt.Color(51, 153, 255));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Tambah Pengguna");
-        jButton1.setBorderPainted(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnTambahUser.setBackground(new java.awt.Color(51, 153, 255));
+        btnTambahUser.setForeground(new java.awt.Color(255, 255, 255));
+        btnTambahUser.setText("Tambah Pengguna");
+        btnTambahUser.setBorderPainted(false);
+        btnTambahUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnTambahUserActionPerformed(evt);
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(51, 153, 255));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Hapus Pengguna");
-        jButton2.setBorderPainted(false);
-
-        jButton4.setBackground(new java.awt.Color(51, 153, 255));
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("Edit Pengguna");
-        jButton4.setBorderPainted(false);
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnHapusUser.setBackground(new java.awt.Color(51, 153, 255));
+        btnHapusUser.setForeground(new java.awt.Color(255, 255, 255));
+        btnHapusUser.setText("Hapus Pengguna");
+        btnHapusUser.setBorderPainted(false);
+        btnHapusUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnHapusUserActionPerformed(evt);
+            }
+        });
+
+        btnEditUser.setBackground(new java.awt.Color(51, 153, 255));
+        btnEditUser.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditUser.setText("Edit Pengguna");
+        btnEditUser.setBorderPainted(false);
+        btnEditUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditUserActionPerformed(evt);
             }
         });
 
@@ -391,20 +401,20 @@ public class MainForm extends javax.swing.JFrame{
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCRUDUserButtonLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelCRUDUserButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnEditUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnTambahUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
+                    .addComponent(btnHapusUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelCRUDUserButtonLayout.setVerticalGroup(
             panelCRUDUserButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCRUDUserButtonLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnTambahUser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnHapusUser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnEditUser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -587,14 +597,22 @@ public class MainForm extends javax.swing.JFrame{
     }//GEN-LAST:event_btnCekLaporanActionPerformed
 
     private void btnInfoUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfoUserActionPerformed
-        jScrollTabelTransaksi.setViewportView(tabelUser);
-        txtHeader.setText("Informasi Pengguna");
-        panelSearchUser.setVisible(true);
-        panelSearchBarang.setVisible(false);
-        panelSearchTransaksi.setVisible(false);
-        
-        panelCRUDBarangButton.setVisible(false);
-        panelCRUDUserButton.setVisible(true);
+        UserController uc = new UserController();
+        try {
+            TabelUser tu = new TabelUser(uc.getAllUser());
+            tabelUser.setModel(tu);
+            jScrollTabelTransaksi.setViewportView(tabelUser);
+
+            txtHeader.setText("Informasi Pengguna");
+            panelSearchUser.setVisible(true);
+            panelSearchBarang.setVisible(false);
+            panelSearchTransaksi.setVisible(false);
+
+            panelCRUDBarangButton.setVisible(false);
+            panelCRUDUserButton.setVisible(true);
+            
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_btnInfoUserActionPerformed
 
     private void btnCekBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCekBarangActionPerformed
@@ -634,10 +652,6 @@ public class MainForm extends javax.swing.JFrame{
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCariTransaksiActionPerformed
 
-    private void txtCariUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCariUserActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCariUserActionPerformed
-
     private void txtCariBarangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCariBarangFocusGained
         txtCariBarang.setText("");
     }//GEN-LAST:event_txtCariBarangFocusGained
@@ -657,27 +671,57 @@ public class MainForm extends javax.swing.JFrame{
             String name = txtCariBarang.getText();
             
             Barang barang;
-            barang = bc.multiSearch(name, name, name, name);
-            List<Barang> brList = new ArrayList<>();
-            brList.add(barang);
+            List<Barang> brList = bc.multiSearch(name, name, name, name);
             
             TabelBarang tb = new TabelBarang(brList);
-            jTableResultBarang.setModel(tb);
+            tableBarang.setModel(tb);
             
-            jScrollTabelTransaksi.setViewportView(jTableResultBarang);
+            jScrollTabelTransaksi.setViewportView(tableBarang);
             
         } catch (SQLException | NullPointerException ex) {
             JOptionPane.showMessageDialog(null, "Kesalahan: Data tidak ditemukan");
         }
     }//GEN-LAST:event_btnCariBarangActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnTambahUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahUserActionPerformed
+        UserController.getInsertFormInstance().setVisible(true);
+        UserController.getInsertFormInstance().
+                setVisibilityBtnTambah(true);
+        UserController.getInsertFormInstance().
+                setVisibilityBtnUpdate(false);
+        UserController.getInsertFormInstance().
+                setVisibilityCombo(false);
+        UserController.getInsertFormInstance().
+                setEnablePassField(true);
+        UserController.getInsertFormInstance().
+                setLabelHeader("Tambah Pengguna");
+    }//GEN-LAST:event_btnTambahUserActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void btnEditUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditUserActionPerformed
+        if(tabelUser.getSelectedRow()>= 0){
+            UserController uc = new UserController();
+            String s;
+            s = tabelUser.getValueAt(tabelUser.getSelectedRow(), 0).toString();
+            User usr = uc.getUser(new Integer(s));
+            UserController.getUpdateFormInstance().
+                    setVisible(true);
+            UserController.getUpdateFormInstance().
+                    setVisibilityBtnUpdate(true);
+            UserController.getUpdateFormInstance().
+                    setVisibilityBtnTambah(false);
+            
+            
+            UserController.getUpdateFormInstance().
+                    setTxtUsername(usr.getUsername());
+            UserController.getUpdateFormInstance().
+                    setTxtNama(usr.getNama());
+            UserController.getUpdateFormInstance().
+                    setTxtId(new Integer(usr.getId()).toString());
+            
+        }else {
+            JOptionPane.showMessageDialog(null, "Pilih barang yang akan di edit pada tabel terlebih dahulu");
+        }
+    }//GEN-LAST:event_btnEditUserActionPerformed
 
     private void btnEditorEditBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditorEditBarangActionPerformed
         if(tableBarang.getSelectedRow()>= 0){
@@ -686,17 +730,17 @@ public class MainForm extends javax.swing.JFrame{
             s = tableBarang.getValueAt(tableBarang.getSelectedRow(), 0).toString();
             try {
                 Barang br = bc.getBarang(new Integer(s));
-                BarangController.getUpdateEditorBarangFormInstance().
+                BarangController.getUpdateFormInstance().
                         setVisible(true);
-                BarangController.getUpdateEditorBarangFormInstance().
+                BarangController.getUpdateFormInstance().
                         setVisibilityBtnUpdate();
-                BarangController.getUpdateEditorBarangFormInstance().
+                BarangController.getUpdateFormInstance().
                         setTxtFieldNamaBarang(br.getNamaBarang());
-                BarangController.getUpdateEditorBarangFormInstance().
+                BarangController.getUpdateFormInstance().
                         setTxtFieldHarga(String.valueOf(br.getHarga()));
-                BarangController.getUpdateEditorBarangFormInstance().
+                BarangController.getUpdateFormInstance().
                         setTxtFieldStok(String.valueOf(br.getStok()));
-                BarangController.getUpdateEditorBarangFormInstance().
+                BarangController.getUpdateFormInstance().
                         setTxtFieldIdBarang(String.valueOf(s));
             } catch (SQLException ex) {
                 Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
@@ -719,8 +763,8 @@ public class MainForm extends javax.swing.JFrame{
     }//GEN-LAST:event_txtCariBarangKeyPressed
 
     private void btnEditorTambahBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditorTambahBarangActionPerformed
-        BarangController.getInsertEditorBarangFormInstance().setVisible(true);
-        BarangController.getInsertEditorBarangFormInstance().setVisibilityBtnTambah();
+        BarangController.getInsertFormInstance().setVisible(true);
+        BarangController.getInsertFormInstance().setVisibilityBtnTambah();
     }//GEN-LAST:event_btnEditorTambahBarangActionPerformed
 
     private void btnEditorHapusBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditorHapusBarangActionPerformed
@@ -751,6 +795,65 @@ public class MainForm extends javax.swing.JFrame{
             JOptionPane.showMessageDialog(null, "Pilih barang yang akan di edit pada tabel terlebih dahulu");
         }
     }//GEN-LAST:event_btnEditorHapusBarangActionPerformed
+
+    private void btnHapusUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusUserActionPerformed
+        if (tabelUser.getSelectedRow()>= 0){
+            UserController uc = new UserController();
+            
+            String id = tabelUser.getValueAt(tabelUser.getSelectedRow(), 0).toString();
+            String username = tabelUser.getValueAt(tabelUser.getSelectedRow(), 1).toString();
+            String nama = tabelUser.getValueAt(tabelUser.getSelectedRow(), 3).toString();
+            String jabatan = tabelUser.getValueAt(tabelUser.getSelectedRow(), 4).toString();
+            
+            String message = "<html>Apakah anda yakin akan menghapus pengguna dengan username " 
+                    + username + " dengan Nama  "
+                    + nama + " dan jabatan "
+                    + jabatan + " ?</html>";
+            
+            try {
+                int action = JOptionPane.showConfirmDialog(
+                        null, message, 
+                        "Konfirmasi", 
+                        JOptionPane.YES_NO_OPTION, 
+                        JOptionPane.INFORMATION_MESSAGE);
+                if(action == JOptionPane.YES_OPTION){
+                    uc.deleteUser(new Integer(id));
+                }
+                
+            } catch (RuntimeException f){
+                f.printStackTrace();
+            }            
+        }else{
+            JOptionPane.showMessageDialog(
+                    null, "Pilih Pengguna yang akan di hapus");
+        }
+    }//GEN-LAST:event_btnHapusUserActionPerformed
+
+    private void btnCariTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariTransaksiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCariTransaksiActionPerformed
+
+    private void btnCariUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariUserActionPerformed
+        String usr = txtCariUser.getText();
+        UserController uc = new UserController();        
+        TabelUser tu = new TabelUser(
+                uc.multiSeacrh(usr, usr, usr, usr));
+        tabelUser.setModel(tu);
+        
+        jScrollTabelTransaksi.setViewportView(tabelUser);
+        
+    }//GEN-LAST:event_btnCariUserActionPerformed
+
+    private void txtCariUserKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariUserKeyPressed
+        try {
+            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                ActionEvent et = null;
+                btnCariUserActionPerformed(et);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }//GEN-LAST:event_txtCariUserKeyPressed
     // Custom Code
     public void getSizeScreen(){
         Dimension screenSize = getMaximumSize();
@@ -764,15 +867,15 @@ public class MainForm extends javax.swing.JFrame{
     private javax.swing.JButton btnCariUser;
     private javax.swing.JButton btnCekBarang;
     private javax.swing.JButton btnCekLaporan;
+    private javax.swing.JButton btnEditUser;
     private javax.swing.JButton btnEditorEditBarang;
     private javax.swing.JButton btnEditorHapusBarang;
     private javax.swing.JButton btnEditorTambahBarang;
+    private javax.swing.JButton btnHapusUser;
     private javax.swing.JButton btnInfoUser;
+    private javax.swing.JButton btnTambahUser;
     private javax.swing.JButton btnTransaksi;
     private javax.swing.JLabel date;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuItem jMenuItem1;

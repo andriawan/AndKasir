@@ -7,6 +7,7 @@ package andriawan.kasir.controller;
 
 import andriawan.kasir.dao.impl.UserDaoImpl;
 import andriawan.kasir.model.User;
+import andriawan.kasir.view.EditorUserForm;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -16,7 +17,42 @@ import java.util.List;
  */
 public class UserController {
     
+    private static EditorUserForm insert = new EditorUserForm();
+    private static EditorUserForm update = new EditorUserForm();
+    
     public List<User> getAllUser() throws SQLException{
         return new UserDaoImpl().getAllUser();
+    }
+    
+    public void insertUser(User user){
+        new UserDaoImpl().insertUser(user);
+    }
+    
+    public User getUser(int kode){
+        return new UserDaoImpl().getUser(kode);
+    }
+    
+    public void updateUser(User user){
+        new UserDaoImpl().updateUser(user, user.getId());
+    }
+    
+    public void updateUserNoPassword(User user){
+        new UserDaoImpl().updateUserNoPassword(user, user.getId());
+    }
+    
+    public void deleteUser(int kode){
+        new UserDaoImpl().deleteUser(kode);
+    }
+    
+    public List<User> multiSeacrh(String a, String b, String c, String d){
+        return new UserDaoImpl().multiSearch(a, b, c, d);
+    }
+    
+    public static EditorUserForm getInsertFormInstance(){
+        return insert;
+    }
+    
+    public static EditorUserForm getUpdateFormInstance(){
+        return update;
     }
 }
