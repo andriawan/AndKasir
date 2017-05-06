@@ -32,6 +32,10 @@ public class Barang {
         this.Stok = Stok;
     }
     
+    public Barang(int kodeBarang){
+        this.kodeBarang = kodeBarang;
+    }
+    
     public Barang(String namaBarang, int harga, int Stok) {
         this.namaBarang = namaBarang;
         this.harga = harga;

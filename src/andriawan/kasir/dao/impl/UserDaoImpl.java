@@ -66,7 +66,8 @@ public class UserDaoImpl implements UserDao {
             = "SELECT * FROM "
             + TABLE
             + " WHERE "
-            + COLUMN_USERNAME + "=?";
+            + COLUMN_USERNAME + "=? AND "
+            + COLUMN_STATUS + "=kasir";
     
     //MULTI SEARCH
     private static final String MULTI_SEARCH = 
@@ -258,13 +259,15 @@ public class UserDaoImpl implements UserDao {
 
             if (result.next()) {
                 String usernamer = result.getString(2);
-                String password = result.getString(3);
+                String id = result.getString(1);
+                String pass = result.getString(3);
                 String statusr = result.getString(5);
                 
                 ArrayList<String> container = new ArrayList<String>();
                 container.add(usernamer);
-                container.add(password);
+                container.add(id);
                 container.add(statusr);
+                container.add(pass);
                 
                 return container;
                 

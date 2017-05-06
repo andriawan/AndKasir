@@ -6,18 +6,17 @@
 package andriawan.kasir.dao.impl;
 
 import andriawan.kasir.dao.TransaksiDao;
+import andriawan.kasir.model.DetailTransaksi;
 import andriawan.kasir.model.KasirUser;
-import andriawan.kasir.model.Pelanggan;
 import andriawan.kasir.model.Transaksi;
-import andriawan.kasir.model.User;
-import andriawan.safe.password.SafePassword;
+import utilities.Formater;
 import utilities.ConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Formatter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,11 +33,31 @@ public class TransaksiDaoImpl implements TransaksiDao {
 
     // info table
     private static final String TABLE = "transaksi";
-    private static final String COLUMN_ID_TRANSAKSI = "idtransaksi";
+    private static final String TABLE2 = "detail_transaksi";
+    
+    //TABLE
+    private static final String COLUMN_ID_TRANSAKSI = "id_transaksi";
     private static final String COLUMN_TGL_TRANSAKSI = "tgl_transaksi";
     private static final String COLUMN_TOTAL_ITEM = "total_item";
     private static final String COLUMN_TOTAL_HARGA = "total_harga";
-    private static final String COLUMN_ID_PETUGAS = "idpetugas";
+    private static final String COLUMN_ID_PETUGAS = "id_petugas";
+    
+    //TABLE2
+    private static final String COLUMN_ID_DETAIL = "id_detail";
+    private static final String COLUMN_ID_TRANSAKSI_DETAIL = "id_transaksi";
+    private static final String COLUMN_BARANG = "id_barang";
+    private static final String COLUMN_JUMLAH = "jumlah";
+    private static final String COLUMN_HARGA = "harga";
+    
+    //INSERT DETAIL TRANSAKSI
+    private static final String INSERT_DETAIL
+            = "INSERT INTO "
+            + TABLE2 + "("
+            + COLUMN_ID_TRANSAKSI_DETAIL + ", "
+            + COLUMN_BARANG + ", "
+            + COLUMN_JUMLAH + ", "
+            + COLUMN_HARGA +") VALUES(?, ?, ?, ?)";
+    
 
     // FIND ALL
     private static final String FIND_ALL
@@ -80,6 +99,12 @@ public class TransaksiDaoImpl implements TransaksiDao {
             + COLUMN_ID_PETUGAS + "=? "
             + "WHERE "
             + COLUMN_ID_TRANSAKSI + "=?";
+    
+    private static final String GET_LAST_RECORD
+            = "SELECT * FROM "
+            + TABLE + " ORDER BY "
+            + COLUMN_ID_TRANSAKSI + " DESC LIMIT 1";
+    
 
     public TransaksiDaoImpl() {
         ResultSet result = null;
@@ -174,10 +199,10 @@ public class TransaksiDaoImpl implements TransaksiDao {
             con = ConnectionManager.getConnection();
             
             preparedStatement = con.prepareStatement(INSERT);
-            preparedStatement.setDate(1, new java.sql.Date(transaksi.getTglTransaksi()));
+            preparedStatement.setString(1, Formater.setStringReadSql(transaksi.getTglTransaksi()));
             preparedStatement.setInt(2, transaksi.getTotalItem());
             preparedStatement.setInt(3, transaksi.getTotalHarga());
-            preparedStatement.setInt(4, transaksi.getKasir().getId());
+            preparedStatement.setInt(4, transaksi.getIdKasir());
             
             
             int status = preparedStatement.executeUpdate();
@@ -192,7 +217,7 @@ public class TransaksiDaoImpl implements TransaksiDao {
     
     
     // CUSTOM CRUD
-    
+  
     public List<Transaksi> getAllTransaksiForTabel() {
         ResultSet result = null;
         List<Transaksi> semuaTransaksi = new ArrayList<Transaksi>();
@@ -223,6 +248,64 @@ public class TransaksiDaoImpl implements TransaksiDao {
             close(preparedStatement);
         }
         return semuaTransaksi;
+    }
+    
+    public Transaksi getLastRecord() {
+        
+        ResultSet result = null;
+
+        try {
+            con = ConnectionManager.getConnection();
+            preparedStatement = con.prepareStatement(GET_LAST_RECORD);
+            result = preparedStatement.executeQuery();
+
+            if (result.next()) {
+                int idTransaksi = result.getInt(1);
+                long date = result.getDate(2).getTime();
+                int totalItem = result.getInt(3);
+                int totalHarga = result.getInt(4);
+                int idPetugas = result.getInt(5);
+                
+                
+                KasirUser ku = new KasirUser();
+                ku.setId(idPetugas);
+                
+                Transaksi tr = new Transaksi(idTransaksi, totalItem, totalHarga, date, ku );
+                
+                return tr;
+                
+            } else{
+                return null;
+            }
+
+        } catch (SQLException sq) {
+            throw new RuntimeException(sq);
+        } finally {
+            this.close(con);
+            close(preparedStatement);
+        }
+    }
+    
+    public void insertDetailTransaksi(DetailTransaksi detailTransaksi) {
+        try {
+            
+            con = ConnectionManager.getConnection();
+            
+            preparedStatement = con.prepareStatement(INSERT_DETAIL);
+            preparedStatement.setInt(1, detailTransaksi.getId_transaksi());
+            preparedStatement.setInt(2, detailTransaksi.getId_barang());
+            preparedStatement.setInt(3, detailTransaksi.getJumlah());
+            preparedStatement.setInt(4, detailTransaksi.getHarga());
+            
+            
+            int status = preparedStatement.executeUpdate();
+            
+            } catch (SQLException ex) {
+            Logger.getLogger(BarangDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            close(con);
+            close(preparedStatement);
+        }
     }
     
     

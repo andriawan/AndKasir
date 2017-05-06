@@ -5,12 +5,17 @@
  */
 package andriawan.kasir.view;
 
+import andriawan.kasir.controller.UserController;
 import andriawan.kasir.controller.UserLoginController;
 import andriawan.kasir.dao.impl.UserDaoImpl;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -263,9 +268,9 @@ public class LoginForm extends javax.swing.JFrame {
                     .isValidAdminUser(
                             txtFieldPengguna.getText(), 
                             new String(txtPass.getPassword()))) {
-                new MainForm().setVisible(true);
-                setVisible(false);
-                }else{
+                    new MainForm().setVisible(true);
+                    setVisible(false);
+                } else {
                     JOptionPane.showMessageDialog(null, "Password atau Username salah");
                 }
                 break;
@@ -274,7 +279,22 @@ public class LoginForm extends javax.swing.JFrame {
                     isValidKasirUser(
                             txtFieldPengguna.getText(), 
                             new String(txtPass.getPassword()))) {
-                    JOptionPane.showMessageDialog(null, "Anda Kasir");
+                    UserController uc = new UserController();
+                    ArrayList<String> as = uc.getUserLevel(txtFieldPengguna.getText(),
+                            jabatan.getSelectedItem().toString());
+                    KasirForm kf = new KasirForm();
+                    kf.setVisible(true);
+                    String kasir = txtFieldPengguna.getText();
+                    kf.setLabelIdKasir(as.get(1));
+                    kf.setTxtPetugasKasir(kasir);
+                    
+                    Date dt = new Date();
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyy HH:mm");
+                    String dateF = sdf.format(dt);
+                    
+                    kf.setTxtWaktuLogin(dateF);
+                    
+                    setVisible(false);
                 }else{
                     JOptionPane.showMessageDialog(null, "Password atau Username salah");
                 }

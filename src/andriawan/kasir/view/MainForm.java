@@ -805,9 +805,9 @@ public class MainForm extends javax.swing.JFrame{
             String nama = tabelUser.getValueAt(tabelUser.getSelectedRow(), 3).toString();
             String jabatan = tabelUser.getValueAt(tabelUser.getSelectedRow(), 4).toString();
             
-            String message = "<html>Apakah anda yakin akan menghapus pengguna dengan username " 
-                    + username + " dengan Nama  "
-                    + nama + " dan jabatan "
+            String message = "<html>Apakah anda yakin akan menghapus pengguna dengan \n\n username " 
+                    + username + "\nNama  "
+                    + nama + "\ndan jabatan "
                     + jabatan + " ?</html>";
             
             try {

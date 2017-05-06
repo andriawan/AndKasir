@@ -9,6 +9,7 @@ import andriawan.kasir.dao.impl.UserDaoImpl;
 import andriawan.kasir.model.User;
 import andriawan.kasir.view.EditorUserForm;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +31,10 @@ public class UserController {
     
     public User getUser(int kode){
         return new UserDaoImpl().getUser(kode);
+    }
+    
+    public ArrayList<String> getUserLevel(String username, String status){
+        return new UserDaoImpl().getUserLevel(username, status);
     }
     
     public void updateUser(User user){

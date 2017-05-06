@@ -30,7 +30,7 @@ public class UserLoginController {
     public boolean isValidAdminUser(String User, String pass){
         ArrayList<String> array = user.getUserLevel(User, "admin");
         String userd = array.get(0);
-        String passd = array.get(1);
+        String passd = array.get(3);
         
         return User.equals(userd) && SafePassword.verifySecureBcrypt(pass, passd);
     }
@@ -38,7 +38,8 @@ public class UserLoginController {
     public boolean isValidKasirUser(String User, String pass){
         ArrayList<String> array = user.getUserLevel(User, "kasir");
         String userd = array.get(0);
-        String passd = array.get(1);
+        String passd = array.get(3);
+        String status = array.get(2);
         
         if (User.equals(userd) && SafePassword.verifySecureBcrypt(pass, passd)) {
             return true;

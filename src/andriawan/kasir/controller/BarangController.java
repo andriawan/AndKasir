@@ -53,6 +53,10 @@ public class BarangController {
         new BarangDaoImpl().updateBarang(br);
     }
     
+    public void updateStok(Barang br) throws SQLException{
+        new BarangDaoImpl().updateStok(br);
+    }
+    
     public void hapusBarang(int kode) throws SQLException{
         new BarangDaoImpl().deleteBarang(kode);
     }

@@ -62,4 +62,6 @@ public class TabelBarang extends AbstractTableModel {
         }
     }
     
+    
+    
 }

@@ -9,10 +9,67 @@ package andriawan.kasir.model;
  *
  * @author andriawan
  */
-public class DetailTransaksi extends Transaksi{
+public class DetailTransaksi{
+    
+    int id_detail;
+    int id_transaksi;
+    int id_barang;
+    int jumlah;
+    int harga;
+    
+    public DetailTransaksi(int id_detail, int id_transaksi, int id_barang, int jumlah, int harga) {
+        this.id_detail = id_detail;
+        this.id_transaksi = id_transaksi;
+        this.id_barang = id_barang;
+        this.jumlah = jumlah;
+        this.harga = harga;
+    }
+    
+    public DetailTransaksi(int id_transaksi, int id_barang, int jumlah, int harga) {
+        this.id_transaksi = id_transaksi;
+        this.id_barang = id_barang;
+        this.jumlah = jumlah;
+        this.harga = harga;
+    }    
+    
+    public int getId_detail() {
+        return id_detail;
+    }
 
-    public DetailTransaksi() {
-        super(0, 0, 0, 0, null);
+    public void setId_detail(int id_detail) {
+        this.id_detail = id_detail;
+    }
+
+    public int getId_transaksi() {
+        return id_transaksi;
+    }
+
+    public void setId_transaksi(int id_transaksi) {
+        this.id_transaksi = id_transaksi;
+    }
+
+    public int getId_barang() {
+        return id_barang;
+    }
+
+    public void setId_barang(int id_barang) {
+        this.id_barang = id_barang;
+    }
+
+    public int getJumlah() {
+        return jumlah;
+    }
+
+    public void setJumlah(int jumlah) {
+        this.jumlah = jumlah;
+    }
+
+    public int getHarga() {
+        return harga;
+    }
+
+    public void setHarga(int harga) {
+        this.harga = harga;
     }
     
 }

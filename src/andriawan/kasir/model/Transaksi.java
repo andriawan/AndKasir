@@ -16,6 +16,7 @@ public class Transaksi {
     private int idTransaksi;
     private int totalItem;
     private int totalHarga;
+    private int idKasir;
     private long tglTransaksi;
     private KasirUser kasir;
     
@@ -26,6 +27,14 @@ public class Transaksi {
         this.tglTransaksi = tglTransaksi;
         this.kasir = kasir;
     }
+    
+    public Transaksi(int totalItem ,int totalHarga, long tglTransaksi, int idKasir) {
+        this.totalItem = totalItem;
+        this.totalHarga = totalHarga;
+        this.tglTransaksi = tglTransaksi;
+        this.idKasir = idKasir;
+    }
+    
 
     public int getTotalItem() {
         return totalItem;
@@ -66,7 +75,14 @@ public class Transaksi {
     public void setKasir(KasirUser kasir) {
         this.kasir = kasir;
     }
-    
+
+    public int getIdKasir() {
+        return idKasir;
+    }
+
+    public void setIdKasir(int idKasir) {
+        this.idKasir = idKasir;
+    }    
     
     
 }

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import utilities.RupiahFormat;
+import utilities.Formater;
 
 /**
  *
@@ -82,6 +82,11 @@ public class BarangDaoImpl implements BarangDao {
             + COLUMN_STOK + "=? "
             + "WHERE "
             + COLUMN_KODE_BARANG + "=?";
+    
+    private static final String UPDATE_STOK = "UPDATE " + TABLE + " SET "
+            + COLUMN_STOK + "=stok-1 "
+            + "WHERE "
+            + COLUMN_KODE_BARANG + "=?";
 
     public BarangDaoImpl() throws SQLException {
         ResultSet result = null;
@@ -98,7 +103,7 @@ public class BarangDaoImpl implements BarangDao {
                 int harga = result.getInt(3);
                 int stok = result.getInt(4);
 
-                barangs.add(new Barang(kode, nama_barang, RupiahFormat.setRupiahFormat(harga), stok));
+                barangs.add(new Barang(kode, nama_barang, Formater.setRupiahFormat(harga), stok));
             }
 
             this.semuaBarang = barangs;
@@ -163,7 +168,7 @@ public class BarangDaoImpl implements BarangDao {
                 String nama_barang = result.getString(2);
                 int harga = result.getInt(3);
                 int stok = result.getInt(4);
-                Barang brx = new Barang(kode, nama_barang, RupiahFormat.setRupiahFormat(harga), stok);
+                Barang brx = new Barang(kode, nama_barang, Formater.setRupiahFormat(harga), stok);
                 barangs.add(brx);
             }
 
@@ -234,6 +239,24 @@ public class BarangDaoImpl implements BarangDao {
             close(con);
             close(preparedStatement);
         }
+    }
+    
+    // CUSTOM CRUD
+    public void updateStok(Barang barang) {
+        try {
+            con = ConnectionManager.getConnection();
+            preparedStatement = con.prepareStatement(UPDATE_STOK);
+            preparedStatement.setInt(1, barang.getKodeBarang());
+            
+            int status = preparedStatement.executeUpdate();
+            
+            } catch (SQLException ex) {
+            Logger.getLogger(BarangDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            close(con);
+            close(preparedStatement);
+        }
+
     }
 
     private static void close(Connection con) {
