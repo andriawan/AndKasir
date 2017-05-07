@@ -84,7 +84,7 @@ public class BarangDaoImpl implements BarangDao {
             + COLUMN_KODE_BARANG + "=?";
     
     private static final String UPDATE_STOK = "UPDATE " + TABLE + " SET "
-            + COLUMN_STOK + "=stok-1 "
+            + COLUMN_STOK + "=stok-? "
             + "WHERE "
             + COLUMN_KODE_BARANG + "=?";
 
@@ -242,11 +242,12 @@ public class BarangDaoImpl implements BarangDao {
     }
     
     // CUSTOM CRUD
-    public void updateStok(Barang barang) {
+    public void updateStok(Barang barang, int jumlah) {
         try {
             con = ConnectionManager.getConnection();
             preparedStatement = con.prepareStatement(UPDATE_STOK);
-            preparedStatement.setInt(1, barang.getKodeBarang());
+            preparedStatement.setInt(1, jumlah);
+            preparedStatement.setInt(2, barang.getKodeBarang());
             
             int status = preparedStatement.executeUpdate();
             

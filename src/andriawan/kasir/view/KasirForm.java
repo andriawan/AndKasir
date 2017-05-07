@@ -6,15 +6,19 @@
 package andriawan.kasir.view;
 
 import andriawan.kasir.controller.BarangController;
+import andriawan.kasir.controller.StrukController;
 import andriawan.kasir.controller.TransaksiController;
 import andriawan.kasir.model.Barang;
 import andriawan.kasir.model.DetailTransaksi;
+import andriawan.kasir.model.ItemStruk;
+import andriawan.kasir.model.Struk;
 import andriawan.kasir.model.TableBarang;
 import andriawan.kasir.model.TableListBelanja;
 import andriawan.kasir.model.Transaksi;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -840,20 +844,47 @@ public class KasirForm extends javax.swing.JFrame {
         tc.insertTransaksi(new Transaksi(jumlah, harga, Calendar.getInstance().
                 getTimeInMillis(), new Integer(labelIdKasir.getText().toString())));
         Transaksi tr = tc.getLastRecord();
-        
+        ArrayList<ItemStruk> ais = new ArrayList<>();
+        BarangController bc = new BarangController();
         for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
             tc.insertTransaksiDetail(new DetailTransaksi(tr.getIdTransaksi(),  
                     new Integer(jTableListBelanja.getValueAt(i, 0).toString()),
                     new Integer(jTableListBelanja.getValueAt(i, 3).toString()), 
                     new Integer(jTableListBelanja.getValueAt(i, 2).toString())));
-            BarangController bc = new BarangController();
+            
+            ais.add(new ItemStruk(jTableListBelanja.getValueAt(i, 1).toString(),
+                    jTableListBelanja.getValueAt(i, 3).toString(), 
+                    jTableListBelanja.getValueAt(i, 2).toString(), 
+                    String.valueOf(
+                            new Integer(jTableListBelanja.getValueAt(i, 2).toString()) * 
+                            new Integer(jTableListBelanja.getValueAt(i, 3).toString()))));
+            
             try {
                 bc.updateStok(
                         new Barang( new Integer(jTableListBelanja.
-                                getValueAt(i, 0).toString())));
+                                getValueAt(i, 0).toString())), new Integer(jTableListBelanja.
+                                getValueAt(i, 3).toString()));
             } catch (SQLException ex) {
                 Logger.getLogger(KasirForm.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+        
+        //Cetak Struk
+        String idTransaksi = String.valueOf(tr.getIdTransaksi());
+        String idPetugas = labelIdKasir.getText();
+        String totalHarga = labelTotalFooter.getText();
+        String totalBayar = txtKembalian.getText();
+        String totalKembalian = labelKembalian.getText() ;
+        String tanggal =  Formater.setNiceIndonesianDate(System.currentTimeMillis());
+        String namaPetugas = txtPetugasKasir.getText();
+        
+        
+        Struk struk = new Struk(idTransaksi,totalHarga,
+                totalBayar,totalKembalian,ais,namaPetugas,tanggal);
+        try {
+            StrukController.previewCetakStruk(struk);
+        } catch (IOException ex) {
+            Logger.getLogger(KasirForm.class.getName()).log(Level.SEVERE, null, ex);
         }
             
     }//GEN-LAST:event_btnCetakStrukActionPerformed

@@ -3,27 +3,36 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/controller/BarangController.java</file>
-            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/view/KasirForm.java</file>
             <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/model/TableTransaksi.java</file>
-            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/model/TabelBarang.java</file>
-            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/view/EditorUserForm.java</file>
-            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/model/TabelUser.java</file>
-            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/model/DetailTransaksi.java</file>
+            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/model/newjson.json</file>
+            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/view/InfoDetailTransaksiForm.java</file>
             <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/model/Barang.java</file>
-            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/controller/TransaksiController.java</file>
-            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/controller/UserLoginController.java</file>
-            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/view/MainForm.java</file>
-            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/model/User.java</file>
-            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/view/LoginForm.java</file>
+            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/controller/StrukController.java</file>
             <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/dao/impl/UserDaoImpl.java</file>
             <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/model/TableListBelanja.java</file>
             <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/model/Transaksi.java</file>
             <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/view/EditorBarangForm.java</file>
+            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/controller/UserController.java</file>
+            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/model/TableDetailTransaksi.java</file>
+            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/controller/BarangController.java</file>
+            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/view/KasirForm.java</file>
+            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/view/EditorUserForm.java</file>
+            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/model/DetailTransaksi.java</file>
+            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/controller/TransaksiController.java</file>
+            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/controller/UserLoginController.java</file>
+            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/dao/TransaksiDao.java</file>
+            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/utilities/ConnectionManager.java</file>
+            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/model/Struk.java</file>
+            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/view/MainForm.java</file>
+            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/model/User.java</file>
+            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/view/LoginForm.java</file>
+            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/model/TableBarang.java</file>
             <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/dao/impl/BarangDaoImpl.java</file>
             <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/dao/impl/TransaksiDaoImpl.java</file>
-            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/controller/UserController.java</file>
+            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/utilities/TabelHelper.java</file>
             <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/model/AdminUser.java</file>
+            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/model/TableUser.java</file>
+            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/model/ItemStruk.java</file>
             <file>file:/home/andriawan/NetBeansProjects/Kasir/src/utilities/Formater.java</file>
         </group>
     </open-files>

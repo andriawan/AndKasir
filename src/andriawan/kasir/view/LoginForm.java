@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import utilities.Formater;
 
 /**
  *
@@ -310,11 +311,7 @@ public class LoginForm extends javax.swing.JFrame {
                     kf.setLabelIdKasir(as.get(1));
                     kf.setTxtPetugasKasir(kasir);
                     
-                    Date dt = new Date();
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyy HH:mm");
-                    String dateF = sdf.format(dt);
-                    
-                    kf.setTxtWaktuLogin(dateF);
+                    kf.setTxtWaktuLogin(Formater.setNiceIndonesianDate(System.currentTimeMillis()));
                     
                     setVisible(false);
                 }else{

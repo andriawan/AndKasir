@@ -72,8 +72,8 @@ public class BarangController {
         new BarangDaoImpl().updateBarang(br);
     }
     
-    public void updateStok(Barang br) throws SQLException{
-        new BarangDaoImpl().updateStok(br);
+    public void updateStok(Barang br, int jumlah) throws SQLException{
+        new BarangDaoImpl().updateStok(br,jumlah);
     }
     
     public void hapusBarang(int kode) throws SQLException{

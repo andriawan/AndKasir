@@ -1,0 +1,30 @@
+{
+     "pageFormat": {
+         "pageLength": 20,
+         "pageWidth": 45,
+         "usePageLengthFromPrinter": true
+     },
+     "template": {
+         "header": [ " WINDY COLLECTIONS         ${tanggal:20::right}",
+			" JL. XXXX NO XXX","" ],
+         "detail": [
+             " Nomor Faktur: ${idTransaksi:20}",
+	     " PETUGAS KASIR : ${petugasKasir:20}",
+             {
+                "table": "listItemStruk",
+                "border": true,
+                "columns": [
+                    { "caption": "Nama Barang", "source": "namaBarang", "width": 15, "wrap": true },
+                    { "caption": "Jumlah", "source": "jumlah::right", "width": 7 },
+                    { "caption": "Harga", "source": "harga::right", "width": 12 },
+		    { "caption": "Total", "source": "totalPerItem::right", "width": 12 }
+                ]
+             },
+             
+             " Total Harga:${totalHarga:32::right}",
+             " Bayar: ${totalBayar:37::right}",
+             " Kembalian: ${totalKembalian:33::right}"
+         ],
+	"footer":[""," The footer"]
+     }
+ }
