@@ -58,6 +58,22 @@ public class TransaksiDaoImpl implements TransaksiDao {
             + COLUMN_JUMLAH + ", "
             + COLUMN_HARGA +") VALUES(?, ?, ?, ?)";
     
+    //FIND_DETAIL by kode_Transaksi JOIN with Tabel Barang
+    private static final String FIND_DETAIL_BY_ID
+            = "SELECT "
+            + "detail_transaksi.id_transaksi, "
+            + "detail_transaksi.id_barang, "
+            + "barang.nama_barang,"
+            + "detail_transaksi.harga,"
+            + "detail_transaksi.jumlah "
+            + "FROM "
+            + "detail_transaksi "
+            + "INNER JOIN "
+            + "barang "
+            + "ON "
+            + "barang.kode_barang=detail_transaksi.id_barang "
+            + "WHERE "
+            + "detail_transaksi.id_transaksi=?";
 
     // FIND ALL
     private static final String FIND_ALL
@@ -121,11 +137,8 @@ public class TransaksiDaoImpl implements TransaksiDao {
                 int totalItem = result.getInt(3);
                 int totalHarga = result.getInt(4);
                 int idPetugas = result.getInt(5);
-                
-                KasirUser ku = new KasirUser();
-                ku.setId(idPetugas);
 
-                semuaTransaksi.add(new Transaksi(idTransaksi, totalItem, totalHarga, tglTransaksi, ku));
+                semuaTransaksi.add(new Transaksi(idTransaksi, totalItem, totalHarga, tglTransaksi, idPetugas));
             }
 
             this.semuaTransaksi = semuaTransaksi;
@@ -143,16 +156,49 @@ public class TransaksiDaoImpl implements TransaksiDao {
     public List<Transaksi> getAllTransaksi() {
         return semuaTransaksi;
     }
+    
+    public List<DetailTransaksi> getDetailTransaksi(int kode) {
+        
+        ResultSet result = null;
+        
+        List<DetailTransaksi> semuaTransaksi = new ArrayList<>();
 
+        try {
+            con = ConnectionManager.getConnection();
+            preparedStatement = con.prepareStatement(FIND_DETAIL_BY_ID);
+            preparedStatement.setInt(1, kode);
+            result = preparedStatement.executeQuery();
+
+            while (result.next()) {
+                int idTransaksi = result.getInt(1);
+                int idBarang = result.getInt(2);
+                String namaBarang = result.getString(3);
+                int harga = result.getInt(4);
+                int jumlah = result.getInt(5);
+                
+                semuaTransaksi.add(
+                        new DetailTransaksi(idTransaksi, idBarang, namaBarang, jumlah, harga));
+            }
+            
+            return semuaTransaksi;
+
+        } catch (SQLException sq) {
+            throw new RuntimeException(sq);
+        } finally {
+            this.close(con);
+            close(preparedStatement);
+        }
+    }
+    
     @Override
     public Transaksi getTransaksi(int kode) {
         
         ResultSet result = null;
-        List<Transaksi> semuaTransaksi = new ArrayList<Transaksi>();
 
         try {
             con = ConnectionManager.getConnection();
-            preparedStatement = con.prepareStatement(FIND_ALL);
+            preparedStatement = con.prepareStatement(FIND_BY_ID);
+            preparedStatement.setInt(1, kode);
             result = preparedStatement.executeQuery();
 
             if (result.next()) {
@@ -166,7 +212,7 @@ public class TransaksiDaoImpl implements TransaksiDao {
                 KasirUser ku = new KasirUser();
                 ku.setId(idPetugas);
                 
-                Transaksi tr = new Transaksi(idTransaksi, totalItem, totalHarga, date, ku );
+                Transaksi tr = new Transaksi(idTransaksi, totalItem, totalHarga, date, ku.getId() );
                 
                 return tr;
                 
@@ -181,6 +227,8 @@ public class TransaksiDaoImpl implements TransaksiDao {
             close(preparedStatement);
         }
     }
+    
+    
 
     @Override
     public void updateTransaksi(Transaksi transaksi, int id) {
@@ -199,7 +247,7 @@ public class TransaksiDaoImpl implements TransaksiDao {
             con = ConnectionManager.getConnection();
             
             preparedStatement = con.prepareStatement(INSERT);
-            preparedStatement.setString(1, Formater.setStringReadSql(transaksi.getTglTransaksi()));
+            preparedStatement.setString(1, Formater.setStringReadySql(transaksi.getTglTransaksi()));
             preparedStatement.setInt(2, transaksi.getTotalItem());
             preparedStatement.setInt(3, transaksi.getTotalHarga());
             preparedStatement.setInt(4, transaksi.getIdKasir());

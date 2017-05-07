@@ -12,11 +12,11 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author andriawan
  */
-public class TabelUser extends AbstractTableModel{
+public class TableUser extends AbstractTableModel{
     
     List<User> users;
 
-    public TabelUser(List<User> users) {
+    public TableUser(List<User> users) {
         this.users = users;
     }
 

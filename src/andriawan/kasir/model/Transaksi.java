@@ -28,6 +28,14 @@ public class Transaksi {
         this.kasir = kasir;
     }
     
+    public Transaksi(int idTransaksi, int totalItem ,int totalHarga, long tglTransaksi, int idKasir) {
+        this.idTransaksi = idTransaksi;
+        this.totalItem = totalItem;
+        this.totalHarga = totalHarga;
+        this.tglTransaksi = tglTransaksi;
+        this.idKasir = idKasir;
+    }
+    
     public Transaksi(int totalItem ,int totalHarga, long tglTransaksi, int idKasir) {
         this.totalItem = totalItem;
         this.totalHarga = totalHarga;

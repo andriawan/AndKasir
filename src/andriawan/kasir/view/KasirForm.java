@@ -9,7 +9,7 @@ import andriawan.kasir.controller.BarangController;
 import andriawan.kasir.controller.TransaksiController;
 import andriawan.kasir.model.Barang;
 import andriawan.kasir.model.DetailTransaksi;
-import andriawan.kasir.model.TabelBarang;
+import andriawan.kasir.model.TableBarang;
 import andriawan.kasir.model.TableListBelanja;
 import andriawan.kasir.model.Transaksi;
 import java.awt.Color;
@@ -160,6 +160,8 @@ public class KasirForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 
+        jTableBarangKasir.setIntercellSpacing(new java.awt.Dimension(10, 5));
+        jTableBarangKasir.setRowHeight(25);
         jTableBarangKasir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jTableBarangKasirMousePressed(evt);
@@ -224,6 +226,8 @@ public class KasirForm extends javax.swing.JFrame {
         jLabel12.setText("List Belanja");
 
         jTableListBelanja.setModel(new TableListBelanja());
+        jTableListBelanja.setIntercellSpacing(new java.awt.Dimension(10, 5));
+        jTableListBelanja.setRowHeight(25);
         jTableListBelanja.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jTableListBelanjaFocusGained(evt);
@@ -606,7 +610,7 @@ public class KasirForm extends javax.swing.JFrame {
             Barang barang;
             List<Barang> brList = bc.multiSearch(name, name, name, name);
 
-            TabelBarang tb = new TabelBarang(brList);
+            TableBarang tb = new TableBarang(brList);
             jTableBarangKasir.setModel(tb);
 
             jScrollPaneKasirBarang.setViewportView(jTableBarangKasir);

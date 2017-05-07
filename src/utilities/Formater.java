@@ -85,9 +85,17 @@ public class Formater {
         return setTerbilang(s) + "Rupiah";
     }
     
-    public static String setStringReadSql(long l){
+    public static String setStringReadySql(long l){
         Date dt = new java.sql.Date(l);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateF = sdf.format(dt);
+        return dateF;
+    }
+    
+    public static String setNiceIndonesianDate(long l){
+        Date dt = new java.sql.Date(l);
+        SimpleDateFormat sdf = new SimpleDateFormat(
+                "dd MMMM yyyy HH:mm:ss", new java.util.Locale("id"));
         String dateF = sdf.format(dt);
         return dateF;
     }

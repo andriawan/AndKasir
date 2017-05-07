@@ -7,6 +7,7 @@ package andriawan.kasir.model;
 
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+import utilities.Formater;
 
 /**
  *
@@ -37,13 +38,15 @@ public class TableTransaksi extends AbstractTableModel {
             case 0:
                 return list.get(rowIndex).getIdTransaksi();
             case 1:
-                return list.get(rowIndex).getTglTransaksi();
+                return Formater.setNiceIndonesianDate(
+                        list.get(rowIndex).getTglTransaksi());
             case 2:
                 return list.get(rowIndex).getTotalItem();
             case 3:
-                return list.get(rowIndex).getTotalHarga();
+                return Formater.setRupiahFormat(
+                        list.get(rowIndex).getTotalHarga());
             case 4:
-                return list.get(rowIndex).getKasir();
+                return list.get(rowIndex).getIdKasir();
             default:
                 return null;
         }

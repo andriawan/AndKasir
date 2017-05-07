@@ -7,7 +7,6 @@ package andriawan.kasir.view;
 
 import andriawan.kasir.controller.UserController;
 import andriawan.kasir.model.User;
-import java.util.Arrays;
 import javax.swing.JOptionPane;
 
 /**

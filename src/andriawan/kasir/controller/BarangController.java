@@ -37,12 +37,31 @@ public class BarangController {
     
     //Singleton insert Editor form
     public static EditorBarangForm getInsertFormInstance(){
-        return insert;
+        
+        try {
+            if(insert == null){
+            insert = new EditorBarangForm();
+        }
+            return insert;
+            
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
     }
     
     //Singleton insert Editor form
     public static EditorBarangForm getUpdateFormInstance(){
-        return update;
+        try {
+            if(update == null){
+            update = new EditorBarangForm();
+        }
+            return update;
+            
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
     }
     
     public void insertBarang(Barang br) throws SQLException{

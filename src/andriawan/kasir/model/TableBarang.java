@@ -11,11 +11,11 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author andriawan
  */
-public class TabelBarang extends AbstractTableModel {
+public class TableBarang extends AbstractTableModel {
     
     List<Barang> barang;
 
-    public TabelBarang(List<Barang> barang) {
+    public TableBarang(List<Barang> barang) {
         this.barang = barang;
     }
 

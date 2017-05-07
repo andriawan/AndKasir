@@ -17,6 +17,8 @@ public class DetailTransaksi{
     int jumlah;
     int harga;
     
+    String namaBarang;
+    
     public DetailTransaksi(int id_detail, int id_transaksi, int id_barang, int jumlah, int harga) {
         this.id_detail = id_detail;
         this.id_transaksi = id_transaksi;
@@ -30,6 +32,14 @@ public class DetailTransaksi{
         this.id_barang = id_barang;
         this.jumlah = jumlah;
         this.harga = harga;
+    }
+    
+    public DetailTransaksi(int id_transaksi, int id_barang, String nama, int jumlah, int harga) {
+        this.id_transaksi = id_transaksi;
+        this.id_barang = id_barang;
+        this.jumlah = jumlah;
+        this.harga = harga;
+        this.namaBarang = nama;
     }    
     
     public int getId_detail() {
@@ -72,4 +82,11 @@ public class DetailTransaksi{
         this.harga = harga;
     }
     
+    public String getNamaBarang() {
+        return namaBarang;
+    }
+
+    public void setNamaBarang(String namaBarang) {
+        this.namaBarang = namaBarang;
+    }
 }

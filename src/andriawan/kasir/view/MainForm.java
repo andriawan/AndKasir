@@ -6,11 +6,15 @@
 package andriawan.kasir.view;
 
 import andriawan.kasir.controller.BarangController;
+import andriawan.kasir.controller.TransaksiController;
 import andriawan.kasir.controller.UserController;
 import andriawan.kasir.model.User;
 import andriawan.kasir.model.Barang;
-import andriawan.kasir.model.TabelBarang;
-import andriawan.kasir.model.TabelUser;
+import andriawan.kasir.model.TableBarang;
+import andriawan.kasir.model.TableDetailTransaksi;
+import andriawan.kasir.model.TableUser;
+import andriawan.kasir.model.TableTransaksi;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -22,6 +26,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import sun.swing.table.DefaultTableCellHeaderRenderer;
 
 /**
  *
@@ -128,6 +136,7 @@ public class MainForm extends javax.swing.JFrame{
                 "Kode Barang", "Nama Barang", "Harga", "Stok"
             }
         ));
+        tableBarang.setIntercellSpacing(new java.awt.Dimension(10, 5));
         tableBarang.setRowHeight(30);
         tableBarang.setRowMargin(5);
         jScrollBarang.setViewportView(tableBarang);
@@ -143,6 +152,7 @@ public class MainForm extends javax.swing.JFrame{
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tabelUser.setIntercellSpacing(new java.awt.Dimension(10, 5));
         tabelUser.setRowHeight(30);
         jScrollUser.setViewportView(tabelUser);
 
@@ -221,6 +231,11 @@ public class MainForm extends javax.swing.JFrame{
         txtCariTransaksi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCariTransaksiActionPerformed(evt);
+            }
+        });
+        txtCariTransaksi.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCariTransaksiKeyPressed(evt);
             }
         });
 
@@ -303,6 +318,7 @@ public class MainForm extends javax.swing.JFrame{
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTableResultBarang.setIntercellSpacing(new java.awt.Dimension(10, 5));
         jTableResultBarang.setRowHeight(30);
         jScrollPaneResultBarang.setViewportView(jTableResultBarang);
 
@@ -480,15 +496,15 @@ public class MainForm extends javax.swing.JFrame{
         panelMainButtonLayout.setVerticalGroup(
             panelMainButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMainButtonLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addComponent(btnTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnCekLaporan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnCekBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnInfoUser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnInfoUser, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         panelButtonAction.add(panelMainButton);
@@ -533,8 +549,15 @@ public class MainForm extends javax.swing.JFrame{
                 "ID Transaksi", "Tanggal Transaksi", "Total Item", "Total Harga", "Petugas"
             }
         ));
+        tabelTransaksi.setIntercellSpacing(new java.awt.Dimension(10, 5));
         tabelTransaksi.setOpaque(true);
         tabelTransaksi.setRowHeight(30);
+        tabelTransaksi.getTableHeader().setReorderingAllowed(false);
+        tabelTransaksi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tabelTransaksiMousePressed(evt);
+            }
+        });
         jScrollTabelTransaksi.setViewportView(tabelTransaksi);
 
         javax.swing.GroupLayout panelTabelLayout = new javax.swing.GroupLayout(panelTabel);
@@ -599,7 +622,7 @@ public class MainForm extends javax.swing.JFrame{
     private void btnInfoUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfoUserActionPerformed
         UserController uc = new UserController();
         try {
-            TabelUser tu = new TabelUser(uc.getAllUser());
+            TableUser tu = new TableUser(uc.getAllUser());
             tabelUser.setModel(tu);
             jScrollTabelTransaksi.setViewportView(tabelUser);
 
@@ -618,9 +641,9 @@ public class MainForm extends javax.swing.JFrame{
     private void btnCekBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCekBarangActionPerformed
         // Set Tabel Model for Barang
         BarangController bc = new BarangController();      
-        TabelBarang tb;
+        TableBarang tb;
         try {
-            tb = new TabelBarang(bc.getAllBarang());
+            tb = new TableBarang(bc.getAllBarang());
             txtHeader.setText("Informasi Stok Barang");
             jScrollTabelTransaksi.setViewportView(tableBarang);
             tableBarang.setModel(tb);
@@ -637,7 +660,14 @@ public class MainForm extends javax.swing.JFrame{
     }//GEN-LAST:event_btnCekBarangActionPerformed
 
     private void btnTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaksiActionPerformed
+        TransaksiController tc = new TransaksiController();
+        TableTransaksi tt;
+        
+        tt = new TableTransaksi(tc.getAllTransakasi());
+        txtHeader.setText("Informasi Transaksi");
         jScrollTabelTransaksi.setViewportView(tabelTransaksi);
+        tabelTransaksi.setModel(tt);
+                    
         txtHeader.setText("Informasi Transaksi");
         panelSearchTransaksi.setVisible(true);
         panelSearchBarang.setVisible(false);
@@ -673,7 +703,7 @@ public class MainForm extends javax.swing.JFrame{
             Barang barang;
             List<Barang> brList = bc.multiSearch(name, name, name, name);
             
-            TabelBarang tb = new TabelBarang(brList);
+            TableBarang tb = new TableBarang(brList);
             tableBarang.setModel(tb);
             
             jScrollTabelTransaksi.setViewportView(tableBarang);
@@ -774,8 +804,8 @@ public class MainForm extends javax.swing.JFrame{
             String nama = tableBarang.getValueAt(tableBarang.getSelectedRow(), 1).toString();
             String harga = tableBarang.getValueAt(tableBarang.getSelectedRow(), 2).toString();
             String stok = tableBarang.getValueAt(tableBarang.getSelectedRow(), 3).toString();
-            String message = "Apakah anda yakin akan menghapus barang " 
-                    + nama + " dengan harga "
+            String message = "Apakah anda yakin akan menghapus barang\n " 
+                    + nama + " dengan harga\n "
                     + harga + " dan jumlah stok "
                     + stok + " ?";
             try {
@@ -830,13 +860,18 @@ public class MainForm extends javax.swing.JFrame{
     }//GEN-LAST:event_btnHapusUserActionPerformed
 
     private void btnCariTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariTransaksiActionPerformed
-        // TODO add your handling code here:
+        TransaksiController tc = TransaksiController.getInstanceTransaksiController();
+        TableTransaksi tt = new TableTransaksi(
+                tc.getTransakasi(
+                        new Integer(txtCariTransaksi.getText().toString())));
+        tabelTransaksi.setModel(tt);
+        jScrollTabelTransaksi.setViewportView(tabelTransaksi);
     }//GEN-LAST:event_btnCariTransaksiActionPerformed
 
     private void btnCariUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariUserActionPerformed
         String usr = txtCariUser.getText();
         UserController uc = new UserController();        
-        TabelUser tu = new TabelUser(
+        TableUser tu = new TableUser(
                 uc.multiSeacrh(usr, usr, usr, usr));
         tabelUser.setModel(tu);
         
@@ -854,6 +889,33 @@ public class MainForm extends javax.swing.JFrame{
             System.out.println(ex);
         }
     }//GEN-LAST:event_txtCariUserKeyPressed
+
+    private void txtCariTransaksiKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariTransaksiKeyPressed
+        try {
+            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                ActionEvent et = null;
+                btnCariTransaksiActionPerformed(et);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }//GEN-LAST:event_txtCariTransaksiKeyPressed
+
+    private void tabelTransaksiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelTransaksiMousePressed
+        if(evt.getClickCount() == 2){
+            int idTransaksi = new Integer(tabelTransaksi.getValueAt(
+                    tabelTransaksi.getSelectedRow(), 0 ).toString());
+            TransaksiController tc = new TransaksiController();
+            TableDetailTransaksi tdt = new TableDetailTransaksi(tc.getDetailTransakasi(idTransaksi));
+            String id = tabelTransaksi.getValueAt(
+                            tabelTransaksi.getSelectedRow(), 0).toString();
+            String tgl = tabelTransaksi.getValueAt(
+                            tabelTransaksi.getSelectedRow(), 1).toString();
+            InfoDetailTransaksiForm ifD = new InfoDetailTransaksiForm(tdt,id,tgl);
+            ifD.setVisible(true);
+
+        }
+    }//GEN-LAST:event_tabelTransaksiMousePressed
     // Custom Code
     public void getSizeScreen(){
         Dimension screenSize = getMaximumSize();
