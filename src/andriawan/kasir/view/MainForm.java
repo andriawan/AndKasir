@@ -14,26 +14,33 @@ import andriawan.kasir.model.TableBarang;
 import andriawan.kasir.model.TableDetailTransaksi;
 import andriawan.kasir.model.TableUser;
 import andriawan.kasir.model.TableTransaksi;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
-import sun.swing.table.DefaultTableCellHeaderRenderer;
+import utilities.Formater;
 
 /**
  *
  * @author andriawan
+ * 
+ * TO DO:
+ * 
+ * 1. Set Draggable pada tabel, hal ini akan mengacaukan update ke databases
+ * cek MainForm bagian Tabel User dan Barang
+ * 
+ * 2. Mengganti icon dan nama Frame
+ * 
+ * 3. Validasi dan filterasi input user
+ * 
+ * 4. ActionListener Keypressed Enter untuk Button supaya mempercepat penggunaan
+ * tanpa mouse (Keyboard user)
  */
 public class MainForm extends javax.swing.JFrame{
     
@@ -56,6 +63,11 @@ public class MainForm extends javax.swing.JFrame{
                 setVisible(true);
             }
         });
+        
+        tableBarang.setDragEnabled(false);
+        
+        btnCekTransaksiActionPerformed(null);
+        panelSearchTransaksi.setVisible(true);
         
         panelHeader.add(panelSearchBarang);
         panelSearchBarang.setVisible(false);
@@ -109,7 +121,7 @@ public class MainForm extends javax.swing.JFrame{
         btnEditUser = new javax.swing.JButton();
         panelButtonAction = new javax.swing.JPanel();
         panelMainButton = new javax.swing.JPanel();
-        btnTransaksi = new javax.swing.JButton();
+        btnCekTransaksi = new javax.swing.JButton();
         btnCekLaporan = new javax.swing.JButton();
         btnCekBarang = new javax.swing.JButton();
         btnInfoUser = new javax.swing.JButton();
@@ -136,9 +148,14 @@ public class MainForm extends javax.swing.JFrame{
                 "Kode Barang", "Nama Barang", "Harga", "Stok"
             }
         ));
+        tableBarang.setDragEnabled(false);
         tableBarang.setIntercellSpacing(new java.awt.Dimension(10, 5));
         tableBarang.setRowHeight(30);
-        tableBarang.setRowMargin(5);
+        tableBarang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tableBarangMousePressed(evt);
+            }
+        });
         jScrollBarang.setViewportView(tableBarang);
 
         tabelUser.setModel(new javax.swing.table.DefaultTableModel(
@@ -154,6 +171,11 @@ public class MainForm extends javax.swing.JFrame{
         ));
         tabelUser.setIntercellSpacing(new java.awt.Dimension(10, 5));
         tabelUser.setRowHeight(30);
+        tabelUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tabelUserMousePressed(evt);
+            }
+        });
         jScrollUser.setViewportView(tabelUser);
 
         btnCariBarang.setBackground(new java.awt.Color(51, 153, 255));
@@ -440,13 +462,13 @@ public class MainForm extends javax.swing.JFrame{
 
         panelButtonAction.setLayout(new javax.swing.BoxLayout(panelButtonAction, javax.swing.BoxLayout.PAGE_AXIS));
 
-        btnTransaksi.setBackground(new java.awt.Color(51, 153, 255));
-        btnTransaksi.setForeground(new java.awt.Color(255, 255, 255));
-        btnTransaksi.setText("Cek Transaksi");
-        btnTransaksi.setBorderPainted(false);
-        btnTransaksi.addActionListener(new java.awt.event.ActionListener() {
+        btnCekTransaksi.setBackground(new java.awt.Color(51, 153, 255));
+        btnCekTransaksi.setForeground(new java.awt.Color(255, 255, 255));
+        btnCekTransaksi.setText("Cek Transaksi");
+        btnCekTransaksi.setBorderPainted(false);
+        btnCekTransaksi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTransaksiActionPerformed(evt);
+                btnCekTransaksiActionPerformed(evt);
             }
         });
 
@@ -490,14 +512,14 @@ public class MainForm extends javax.swing.JFrame{
                     .addComponent(btnCekLaporan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCekBarang, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnInfoUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE))
+                    .addComponent(btnCekTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelMainButtonLayout.setVerticalGroup(
             panelMainButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMainButtonLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(btnTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCekTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnCekLaporan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -514,7 +536,7 @@ public class MainForm extends javax.swing.JFrame{
         txtHeader.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         txtHeader.setText("Informasi Transaksi");
 
-        date.setText("Informasi Waktu Login : " + dateF);
+        date.setText("Informasi Waktu Login : " + Formater.setNiceIndonesianDate(System.currentTimeMillis()));
 
         javax.swing.GroupLayout panelTextHeaderLayout = new javax.swing.GroupLayout(panelTextHeader);
         panelTextHeader.setLayout(panelTextHeaderLayout);
@@ -659,7 +681,7 @@ public class MainForm extends javax.swing.JFrame{
         panelCRUDUserButton.setVisible(false);
     }//GEN-LAST:event_btnCekBarangActionPerformed
 
-    private void btnTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaksiActionPerformed
+    private void btnCekTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCekTransaksiActionPerformed
         TransaksiController tc = new TransaksiController();
         TableTransaksi tt;
         
@@ -672,7 +694,10 @@ public class MainForm extends javax.swing.JFrame{
         panelSearchTransaksi.setVisible(true);
         panelSearchBarang.setVisible(false);
         panelSearchUser.setVisible(false);
-    }//GEN-LAST:event_btnTransaksiActionPerformed
+        
+        panelCRUDBarangButton.setVisible(false);
+        panelCRUDUserButton.setVisible(false);
+    }//GEN-LAST:event_btnCekTransaksiActionPerformed
 
     private void txtCariBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCariBarangActionPerformed
         // TODO add your handling code here:
@@ -739,14 +764,14 @@ public class MainForm extends javax.swing.JFrame{
                     setVisibilityBtnUpdate(true);
             UserController.getUpdateFormInstance().
                     setVisibilityBtnTambah(false);
-            
-            
             UserController.getUpdateFormInstance().
                     setTxtUsername(usr.getUsername());
             UserController.getUpdateFormInstance().
                     setTxtNama(usr.getNama());
             UserController.getUpdateFormInstance().
                     setTxtId(new Integer(usr.getId()).toString());
+            UserController.getUpdateFormInstance().
+                setLabelHeader("Edit Pengguna");
             
         }else {
             JOptionPane.showMessageDialog(null, "Pilih barang yang akan di edit pada tabel terlebih dahulu");
@@ -767,7 +792,7 @@ public class MainForm extends javax.swing.JFrame{
                 BarangController.getUpdateFormInstance().
                         setTxtFieldNamaBarang(br.getNamaBarang());
                 BarangController.getUpdateFormInstance().
-                        setTxtFieldHarga(String.valueOf(br.getHarga()));
+                        setTxtFieldHarga(Formater.setRupiahFormat(br.getHarga()));
                 BarangController.getUpdateFormInstance().
                         setTxtFieldStok(String.valueOf(br.getStok()));
                 BarangController.getUpdateFormInstance().
@@ -804,8 +829,8 @@ public class MainForm extends javax.swing.JFrame{
             String nama = tableBarang.getValueAt(tableBarang.getSelectedRow(), 1).toString();
             String harga = tableBarang.getValueAt(tableBarang.getSelectedRow(), 2).toString();
             String stok = tableBarang.getValueAt(tableBarang.getSelectedRow(), 3).toString();
-            String message = "Apakah anda yakin akan menghapus barang\n " 
-                    + nama + " dengan harga\n "
+            String message = "Apakah anda yakin akan menghapus barang\n\n " 
+                    + nama + " dengan harga \n"
                     + harga + " dan jumlah stok "
                     + stok + " ?";
             try {
@@ -816,6 +841,18 @@ public class MainForm extends javax.swing.JFrame{
                         JOptionPane.INFORMATION_MESSAGE);
                 if(action == JOptionPane.YES_OPTION){
                     bc.hapusBarang(new Integer(id));
+                    try {
+                        
+                        List<Barang> brList = bc.getAllBarang();
+
+                        TableBarang tb = new TableBarang(brList);
+                        tableBarang.setModel(tb);
+
+                        jScrollTabelTransaksi.setViewportView(tableBarang);
+
+                    } catch (SQLException | NullPointerException ex) {
+                        JOptionPane.showMessageDialog(null, "Kesalahan: Data tidak ditemukan");
+                    }
                 }
                 
             } catch (SQLException ex) {
@@ -902,6 +939,8 @@ public class MainForm extends javax.swing.JFrame{
     }//GEN-LAST:event_txtCariTransaksiKeyPressed
 
     private void tabelTransaksiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelTransaksiMousePressed
+        // Jika Konten Tabel diklik 2 kali akan mengeksekusi
+        // kode di bawah ini
         if(evt.getClickCount() == 2){
             int idTransaksi = new Integer(tabelTransaksi.getValueAt(
                     tabelTransaksi.getSelectedRow(), 0 ).toString());
@@ -916,6 +955,22 @@ public class MainForm extends javax.swing.JFrame{
 
         }
     }//GEN-LAST:event_tabelTransaksiMousePressed
+
+    private void tabelUserMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelUserMousePressed
+        
+        if(evt.getClickCount() == 2){
+            btnEditUserActionPerformed(null);
+            UserController.getUpdateFormInstance().
+                setLabelHeader("Edit Pengguna");
+        }
+    }//GEN-LAST:event_tabelUserMousePressed
+
+    private void tableBarangMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableBarangMousePressed
+        
+        if(evt.getClickCount() == 2){
+            btnEditorEditBarangActionPerformed(null);
+        }
+    }//GEN-LAST:event_tableBarangMousePressed
     // Custom Code
     public void getSizeScreen(){
         Dimension screenSize = getMaximumSize();
@@ -929,6 +984,7 @@ public class MainForm extends javax.swing.JFrame{
     private javax.swing.JButton btnCariUser;
     private javax.swing.JButton btnCekBarang;
     private javax.swing.JButton btnCekLaporan;
+    private javax.swing.JButton btnCekTransaksi;
     private javax.swing.JButton btnEditUser;
     private javax.swing.JButton btnEditorEditBarang;
     private javax.swing.JButton btnEditorHapusBarang;
@@ -936,7 +992,6 @@ public class MainForm extends javax.swing.JFrame{
     private javax.swing.JButton btnHapusUser;
     private javax.swing.JButton btnInfoUser;
     private javax.swing.JButton btnTambahUser;
-    private javax.swing.JButton btnTransaksi;
     private javax.swing.JLabel date;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;

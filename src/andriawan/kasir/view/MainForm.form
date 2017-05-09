@@ -17,15 +17,20 @@
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0"/>
             </Property>
+            <Property name="dragEnabled" type="boolean" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="false" type="code"/>
+            </Property>
             <Property name="intercellSpacing" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[10, 5]"/>
             </Property>
             <Property name="rowHeight" type="int" value="30"/>
-            <Property name="rowMargin" type="int" value="5"/>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tableBarangMousePressed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -51,6 +56,9 @@
             </Property>
             <Property name="rowHeight" type="int" value="30"/>
           </Properties>
+          <Events>
+            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tabelUserMousePressed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -535,7 +543,7 @@
                           <Component id="btnCekLaporan" alignment="0" max="32767" attributes="0"/>
                           <Component id="btnCekBarang" alignment="1" max="32767" attributes="0"/>
                           <Component id="btnInfoUser" alignment="1" max="32767" attributes="0"/>
-                          <Component id="btnTransaksi" alignment="0" pref="182" max="32767" attributes="0"/>
+                          <Component id="btnCekTransaksi" alignment="0" pref="182" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -545,7 +553,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
-                      <Component id="btnTransaksi" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="btnCekTransaksi" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnCekLaporan" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -558,7 +566,7 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="btnTransaksi">
+            <Component class="javax.swing.JButton" name="btnCekTransaksi">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="99" red="33" type="rgb"/>
@@ -570,7 +578,7 @@
                 <Property name="borderPainted" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTransaksiActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCekTransaksiActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnCekLaporan">
@@ -666,7 +674,7 @@
             <Component class="javax.swing.JLabel" name="date">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="&quot;Informasi Waktu Login : &quot; + dateF" type="code"/>
+                  <Connection code="&quot;Informasi Waktu Login : &quot; + Formater.setNiceIndonesianDate(System.currentTimeMillis())" type="code"/>
                 </Property>
               </Properties>
             </Component>
