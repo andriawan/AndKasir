@@ -28,7 +28,7 @@ public class TabelLaporan extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 10;
+        return 9;
     }
 
     @Override
@@ -46,14 +46,13 @@ public class TabelLaporan extends AbstractTableModel {
             case 4:
                 return laporan.get(rowIndex).getNamaBarang();
             case 5:
-                return laporan.get(rowIndex).getHarga();
+                return Formater.setRupiahFormat(
+                        laporan.get(rowIndex).getHarga());
             case 6:
                 return laporan.get(rowIndex).getJumlah();
             case 7:
                 return laporan.get(rowIndex).getUsername();
             case 8:
-                return laporan.get(rowIndex).getNamaLengkap();
-            case 9:
                 return laporan.get(rowIndex).getStatus();
             default:
                 return null;

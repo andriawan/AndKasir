@@ -9,6 +9,7 @@ import andriawan.kasir.controller.BarangController;
 import andriawan.kasir.controller.LaporanController;
 import andriawan.kasir.model.Barang;
 import andriawan.kasir.model.TabelLaporan;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -213,32 +214,27 @@ panelLaporanLayout.setHorizontalGroup(
     .addGroup(panelLaporanLayout.createSequentialGroup()
         .addGap(20, 20, 20)
         .addGroup(panelLaporanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(labelHeaderLaporan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(labelHeaderLaporan, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(txtTanggalLaporan)
+            .addComponent(jLabel5)
+            .addComponent(jLabel3)
+            .addComponent(jLabel4)
+            .addGroup(panelLaporanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addComponent(dateChooserCombo2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
+                .addComponent(dateChooserCombo1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(txtTotalPendapatan, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(panelLaporanLayout.createSequentialGroup()
-                .addGroup(panelLaporanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelLaporanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLaporanLayout.createSequentialGroup()
-                            .addGroup(panelLaporanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtTanggalLaporan)
-                                .addComponent(jLabel5))
-                            .addGap(375, 375, 375))
-                        .addComponent(jLabel3)
-                        .addComponent(jLabel4)
-                        .addComponent(txtTotalPendapatan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(dateChooserCombo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(dateChooserCombo2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(panelLaporanLayout.createSequentialGroup()
-                        .addComponent(btnLihatLaporan)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCetakPdf))
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(txtBarangMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtBarangKeluar, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTglRange))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 609, Short.MAX_VALUE)
-                .addGap(20, 20, 20))))
+                .addComponent(btnLihatLaporan)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCetakPdf))
+            .addComponent(jLabel1)
+            .addComponent(jLabel2)
+            .addComponent(txtBarangMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(txtBarangKeluar, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(txtTglRange))
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE)
+        .addContainerGap())
     );
     panelLaporanLayout.setVerticalGroup(
         panelLaporanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -246,38 +242,37 @@ panelLaporanLayout.setHorizontalGroup(
             .addGap(9, 9, 9)
             .addComponent(labelHeaderLaporan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGap(18, 18, 18)
-            .addGroup(panelLaporanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelLaporanLayout.createSequentialGroup()
-                    .addComponent(jLabel1)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(dateChooserCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(jLabel2)
-                    .addGap(4, 4, 4)
-                    .addComponent(dateChooserCombo2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addGroup(panelLaporanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnLihatLaporan, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnCetakPdf, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(18, 18, 18)
-                    .addComponent(txtTanggalLaporan)
-                    .addGap(18, 18, 18)
-                    .addComponent(txtTglRange)
-                    .addGap(18, 18, 18)
-                    .addComponent(jLabel5)
-                    .addGap(18, 18, 18)
-                    .addComponent(txtTotalPendapatan)
-                    .addGap(18, 18, 18)
-                    .addComponent(jLabel3)
-                    .addGap(18, 18, 18)
-                    .addComponent(txtBarangMasuk)
-                    .addGap(18, 18, 18)
-                    .addComponent(jLabel4)
-                    .addGap(18, 18, 18)
-                    .addComponent(txtBarangKeluar)
-                    .addGap(0, 0, Short.MAX_VALUE))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 685, Short.MAX_VALUE))
-            .addContainerGap())
+            .addComponent(jLabel1)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(dateChooserCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(18, 18, 18)
+            .addComponent(jLabel2)
+            .addGap(4, 4, 4)
+            .addComponent(dateChooserCombo2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(18, 18, 18)
+            .addGroup(panelLaporanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(btnLihatLaporan, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCetakPdf, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(18, 18, 18)
+            .addComponent(txtTanggalLaporan)
+            .addGap(18, 18, 18)
+            .addComponent(txtTglRange)
+            .addGap(18, 18, 18)
+            .addComponent(jLabel5)
+            .addGap(18, 18, 18)
+            .addComponent(txtTotalPendapatan)
+            .addGap(18, 18, 18)
+            .addComponent(jLabel3)
+            .addGap(18, 18, 18)
+            .addComponent(txtBarangMasuk)
+            .addGap(18, 18, 18)
+            .addComponent(jLabel4)
+            .addGap(18, 18, 18)
+            .addComponent(txtBarangKeluar)
+            .addContainerGap(155, Short.MAX_VALUE))
+        .addGroup(panelLaporanLayout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(jScrollPane1))
     );
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -305,7 +300,16 @@ panelLaporanLayout.setHorizontalGroup(
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCetakPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakPdfActionPerformed
-         
+        btnLihatLaporanActionPerformed(null);
+        try {
+            LaporanController.printReportToPDF(txtTglRange.getText(), tabelLaporan, 
+                    txtTglRange.getText(),
+                    txtTotalPendapatan.getText(),
+                    txtBarangMasuk.getText(),
+                    txtBarangKeluar.getText());
+        } catch (IOException ex) {
+            Logger.getLogger(LaporanForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnCetakPdfActionPerformed
 
     private void btnLihatLaporanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLihatLaporanActionPerformed
@@ -342,7 +346,7 @@ panelLaporanLayout.setHorizontalGroup(
             jumlah = jumlah + new Integer(
                     tabelLaporan.getValueAt(i, 6).toString());
             totalHarga = totalHarga + (
-                    new Integer(
+                    Formater.setRupiahToInteger(
                     tabelLaporan.getValueAt(i, 5).toString()) *
                     new Integer(
                     tabelLaporan.getValueAt(i, 6).toString()));

@@ -5,6 +5,7 @@
  */
 package andriawan.kasir.app;
 
+import andriawan.kasir.controller.LaporanController;
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
@@ -38,29 +39,29 @@ public class TesterClassic {
     
     public static void test() throws FileNotFoundException, IOException{
         
-        String s;
-        s = "laporan";
-        
-        File file = new File(s);
-        
-        JFileChooser jf = new JFileChooser();
-        
-        jf.setFileFilter(new FileNameExtensionFilter("*.pdf", "pdf"));
-        jf.setSelectedFile(file);
-        jf.showSaveDialog(null);
-        
-        PdfWriter writer = new PdfWriter(jf.getSelectedFile().toString() + ".pdf");
-        PdfDocument pdf = new PdfDocument(writer);
-        
-        PdfFont font = PdfFontFactory.createFont(FontConstants.HELVETICA);
-        try (Document document = new Document(pdf)) {
-            document.add(
-                    new Paragraph("hello andriawan this is awsome").setFont(font));
-        }
-        
-        Desktop desk = Desktop.getDesktop();
-        File fileOutput = new File(jf.getSelectedFile().toString() + ".pdf");
-        desk.open(fileOutput);
+//        String s;
+//        s = "laporan";
+//        
+//        File file = new File(s);
+//        
+//        JFileChooser jf = new JFileChooser();
+//        
+//        jf.setFileFilter(new FileNameExtensionFilter("*.pdf", "pdf"));
+//        jf.setSelectedFile(file);
+//        jf.showSaveDialog(null);
+//        
+//        PdfWriter writer = new PdfWriter(jf.getSelectedFile().toString() + ".pdf");
+//        PdfDocument pdf = new PdfDocument(writer);
+//        
+//        PdfFont font = PdfFontFactory.createFont(FontConstants.HELVETICA);
+//        try (Document document = new Document(pdf)) {
+//            document.add(
+//                    new Paragraph("hello andriawan this is awsome").setFont(font));
+//        }
+//        
+//        Desktop desk = Desktop.getDesktop();
+//        File fileOutput = new File(jf.getSelectedFile().toString() + ".pdf");
+//        desk.open(fileOutput);
     }
     
 }

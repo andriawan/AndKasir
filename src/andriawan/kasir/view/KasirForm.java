@@ -782,6 +782,7 @@ public class KasirForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHapusItemBelanjaActionPerformed
 
     private void jTableListBelanjaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTableListBelanjaFocusGained
+        
         int jumlah = new Integer(
                 jTableListBelanja.getValueAt(
                         jTableListBelanja.getSelectedRow(), 3).toString());
@@ -832,16 +833,23 @@ public class KasirForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void btnCetakStrukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakStrukActionPerformed
+        
         int harga = 0;
         int jumlah = 0;
+        int totalHargaStruk = 0;
         TransaksiController tc = new TransaksiController();
+        
         for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
             jumlah = jumlah + new Integer(
                     jTableListBelanja.getValueAt(i, 3).toString());
             harga = harga + new Integer(
                     jTableListBelanja.getValueAt(i, 2).toString());
+            totalHargaStruk = totalHargaStruk + new Integer(
+                    jTableListBelanja.getValueAt(i, 2).toString())
+                    * new Integer(
+                            jTableListBelanja.getValueAt(i, 3).toString());
         }
-        tc.insertTransaksi(new Transaksi(jumlah, harga, Calendar.getInstance().
+        tc.insertTransaksi(new Transaksi(jumlah, totalHargaStruk, Calendar.getInstance().
                 getTimeInMillis(), new Integer(labelIdKasir.getText().toString())));
         Transaksi tr = tc.getLastRecord();
         ArrayList<ItemStruk> ais = new ArrayList<>();
