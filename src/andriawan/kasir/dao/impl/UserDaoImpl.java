@@ -21,39 +21,53 @@ import java.util.logging.Logger;
 /**
  *
  * @author andriawan
+ * 
+ * Class yang mengimplementasikan koneksi ke database untuk mengakses resource
+ * yang telah didefinisikan dalam Model User
  */
 public class UserDaoImpl implements UserDao {
 
+    // List yang akan menangkap hasil query ke variable semuaUser
     private final List<User> semuaUser;
+    
+    // Objek Koneksi ke Databases
     private Connection con;
+    
+    // PreparedStatement digunakan untuk menghindari Sql Injection dan Optimasi Query ke database
     private PreparedStatement preparedStatement;
 
-    // info table
+    // info table SQL
     private static final String TABLE = "userapp";
+    
+    // info Kolom SQL
     private static final String COLUMN_KODE_USER = "kode_user";
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
     private static final String COLUMN_NAMA_ASLI = "nama_asli";
     private static final String COLUMN_STATUS = "status";
+    
+    // Perintah Query SQL
 
     // FIND ALL
     private static final String FIND_ALL
             = "SELECT * FROM "
             + TABLE;
-    // Delete
+    
+    // DELETE (1 preparedstatement input filter)
     private static final String DELETE
             = "DELETE FROM "
             + TABLE
             + " WHERE "
             + COLUMN_KODE_USER + "=?";
 
-    //FIND by kode_barang
+    //FIND by kode_barang (2 preparedstatement input filter)
     private static final String FIND_BY_ID
             = "SELECT * FROM "
             + TABLE
             + " WHERE "
             + COLUMN_KODE_USER + "=?";
     
+    //FIND by status (2 preparedstatement input filter)
     private static final String FIND_BY_LEVEL
             = "SELECT * FROM "
             + TABLE
@@ -61,7 +75,7 @@ public class UserDaoImpl implements UserDao {
             + COLUMN_USERNAME + "=? AND "
             + COLUMN_STATUS +"=?";
 
-    //FIND by nama_barang
+    //FIND by nama_barang (1 preparedstatement input filter)
     private static final String FIND_BY_NAME
             = "SELECT * FROM "
             + TABLE
@@ -69,7 +83,7 @@ public class UserDaoImpl implements UserDao {
             + COLUMN_USERNAME + "=? AND "
             + COLUMN_STATUS + "=kasir";
     
-    //MULTI SEARCH
+    //MULTI SEARCH (4 preparedstatement input filter)
     private static final String MULTI_SEARCH = 
             "SELECT * FROM " 
             + TABLE + 
@@ -78,7 +92,8 @@ public class UserDaoImpl implements UserDao {
             + COLUMN_USERNAME + " like ? OR "
             + COLUMN_NAMA_ASLI + " like ? OR "
             + COLUMN_STATUS+ " like ?";
-    //INSERT
+    
+    //INSERT (4 preparedstatement input filter)
     private static final String INSERT
             = "INSERT INTO "
             + TABLE + "("
@@ -86,7 +101,8 @@ public class UserDaoImpl implements UserDao {
             + COLUMN_PASSWORD + ", "
             + COLUMN_NAMA_ASLI + ", "
             + COLUMN_STATUS + ") VALUES(?, ?, ? , ?)";
-    //UPDATE
+    
+    //UPDATE (5 preparedstatement input filter)
     private static final String UPDATE = "UPDATE " + TABLE + " SET "
             + COLUMN_USERNAME + "=?, "
             + COLUMN_PASSWORD + "=?, "
@@ -95,65 +111,117 @@ public class UserDaoImpl implements UserDao {
             + "WHERE "
             + COLUMN_KODE_USER + "=?";
     
+    //UPDATE USER WITH NO PASSWORD
     private static final String UPDATE_NO_PASSWORD = "UPDATE " + TABLE + " SET "
             + COLUMN_USERNAME + "=?, "
             + COLUMN_NAMA_ASLI + "=?, "
             + COLUMN_STATUS + "=? "
             + "WHERE "
             + COLUMN_KODE_USER + "=?";
-
+    
+    // Konstruktor akan memanggil query semua user
+    // TO DO: Penerapan perintah Limit pada quey getAll dan multisearch 
+    // untuk membatasi konsumsi memori
     public UserDaoImpl() {
+        
+        // Inisialisasi Object ResultSet untuk penampung hasil query
         ResultSet result = null;
+        
+        // List Kosong untuk penampung Object User
         List<User> users = new ArrayList<User>();
-
+        
+        // Try Catch meminimalisir error SQL
         try {
+            // Assignment Object con (field variable) dari static Object 
+            // Connection manager
             con = ConnectionManager.getConnection();
+            
+            // Assignment Object PreparedStatement dari Object con 
+            // yang memanggil fungsi prepareStatement dengan parameter String FIND_ALL 
             preparedStatement = con.prepareStatement(FIND_ALL);
+            
+            // object Resultset Assignment dari Objeck preparedStatement yang memanggil
+            /// fungsi executQuery dengan pengembalian Object Resultset
             result = preparedStatement.executeQuery();
-
+            
+            // While loop untuk mengambil semua hasil dari result set dengan
+            // kondisi boolean yang dihasilkan fungsi next
             while (result.next()) {
+                
+                // Assignment variable dari hasil result tabel sql
                 int kode = result.getInt(1);
                 String username = result.getString(2);
                 String password = result.getString(3);
                 String fullname = result.getString(4);
                 String status = result.getString(5);
-
+                
+                // menyimpan variable ke User Objek (Anonim) dengan konstruktor 
+                // yang mengambil parameter dari variable di atas (hasil resultset)
+                // ke ArrayList
                 users.add(new User(kode, username, password, fullname, status));
             }
-
+            
+            // Assignment field variable semuaUser dari value users
             this.semuaUser = users;
-
+            
         } catch (SQLException sq) {
             throw new RuntimeException(sq);
         } finally {
-            this.close(con);
+            // Setelah prosedur fungsi selesai, selalu diakhiri dengan
+            // fungsi close untuk membebaskan hasil query dari memori sebagai
+            // parktek keamanan yang baik
+            close(con);
             close(preparedStatement);
         }
     }
 
+    // fungsi dari interface. menangani pengembalian List Object User
     @Override
     public List<User> getAllUser() {
         return semuaUser;
     }
-
+    
+    // fungsi dari interface. menangani pengembalian Object User
+    // Parameter int merujuk pada id user dalam kolom tabel sql
     @Override
     public User getUser(int kode) {
+        
+        // Inisialisasi Object ResultSet untuk penampung hasil query
         ResultSet result = null;
+        
+        // Try Catch meminimalisir error SQL
         try {
+            
+            // Assignment Object con (field variable) dari static Object 
+            // Connection manager
             con = ConnectionManager.getConnection();
+            
+            // Assignment Object PreparedStatement dari Object con 
+            // yang memanggil fungsi prepareStatement dengan parameter String FIND_BY_ID
             preparedStatement = con.prepareStatement(FIND_BY_ID);
+            
+            // metode setInt akan mengambil parameter ke 1 dari variabel FIND_BY_ID
+            // dari tanda "?"  dan variable kedua kode sebagai valuenya. kode merupakan
+            // parameter dari metode getUser
             preparedStatement.setInt(1, kode);
+            
+            // object Resultset Assignment dari Objeck preparedStatement yang memanggil
+            /// fungsi executQuery dengan pengembalian Object Resultset
             result = preparedStatement.executeQuery();
-
+            
+            // kondisi jika resultset menghasilkan objek. jika ada maka akan di
+            // tampung ke variable dibawah
             if (result.next()) {
                 String username = result.getString(2);
                 String password = result.getString(3);
                 String fullname = result.getString(4);
                 String status = result.getString(5);
                 
-                User usr = new User(kode, username, password, fullname, status);
-
-                return usr;
+                // mengembalikan object User (anonim) dengan konstruktor berparameter
+                // variable diatas
+                return new User(kode, username, password, fullname, status);
+                
+            // return null jika tidak ada objek yang dihasilkan
             } else {
                 return null;
             }
@@ -161,6 +229,9 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
+            // Setelah prosedur fungsi selesai, selalu diakhiri dengan
+            // fungsi close untuk membebaskan hasil query dari memori sebagai
+            // parktek keamanan yang baik
             close(con);
             close(preparedStatement);
         }
@@ -182,6 +253,9 @@ public class UserDaoImpl implements UserDao {
             } catch (SQLException ex) {
             Logger.getLogger(BarangDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally{
+            // Setelah prosedur selesai, selalu diakhiri dengan
+            // fungsi close untuk membebaskan hasil query dari memori sebagai
+            // parktek keamanan yang baik
             close(con);
             close(preparedStatement);
         }
@@ -201,6 +275,9 @@ public class UserDaoImpl implements UserDao {
             } catch (SQLException ex) {
             Logger.getLogger(BarangDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally{
+            // Setelah prosedur selesai, selalu diakhiri dengan
+            // fungsi close untuk membebaskan hasil query dari memori sebagai
+            // parktek keamanan yang baik
             close(con);
             close(preparedStatement);
         }
@@ -219,6 +296,9 @@ public class UserDaoImpl implements UserDao {
             } catch (SQLException ex) {
             Logger.getLogger(BarangDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally{
+            // Setelah prosedur fungsi selesai, selalu diakhiri dengan
+            // fungsi close untuk membebaskan hasil query dari memori sebagai
+            // parktek keamanan yang baik
             close(con);
             close(preparedStatement);
         }
@@ -241,6 +321,9 @@ public class UserDaoImpl implements UserDao {
             } catch (SQLException ex) {
             Logger.getLogger(BarangDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally{
+            // Setelah prosedur fungsi selesai, selalu diakhiri dengan
+            // fungsi close untuk membebaskan hasil query dari memori sebagai
+            // parktek keamanan yang baik
             close(con);
             close(preparedStatement);
         }
@@ -278,6 +361,9 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
+            // Setelah prosedur fungsi selesai, selalu diakhiri dengan
+            // fungsi close untuk membebaskan hasil query dari memori sebagai
+            // parktek keamanan yang baik
             close(con);
             close(preparedStatement);
         }
@@ -310,11 +396,15 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
+            // Setelah prosedur fungsi selesai, selalu diakhiri dengan
+            // fungsi close untuk membebaskan hasil query dari memori sebagai
+            // parktek keamanan yang baik
             close(con);
             close(preparedStatement);
         }
     }
-
+    
+    //Melepaskan resource Connection dari memori
     private static void close(Connection con) {
         if (con != null) {
             try {
@@ -325,7 +415,8 @@ public class UserDaoImpl implements UserDao {
             }
         }
     }
-
+    
+    //Melepaskan resource PreparedStatement dari memori
     private static void close(PreparedStatement preparedStatement) {
         if (preparedStatement != null) {
             try {
@@ -336,5 +427,4 @@ public class UserDaoImpl implements UserDao {
             }
         }
     }
-
 }

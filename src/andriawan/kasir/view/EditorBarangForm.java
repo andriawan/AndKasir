@@ -9,6 +9,7 @@ import andriawan.kasir.controller.BarangController;
 import andriawan.kasir.model.Barang;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import utilities.Formater;
 
 /**
  *
@@ -99,6 +100,11 @@ public class EditorBarangForm extends javax.swing.JFrame {
         labelNamaBarang.setText("Nama Barang");
 
         txtFieldHarga.setMargin(new java.awt.Insets(0, 5, 0, 0));
+        txtFieldHarga.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFieldHargaKeyReleased(evt);
+            }
+        });
 
         labelHeader.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         labelHeader.setText("Tambah Barang");
@@ -207,7 +213,7 @@ public class EditorBarangForm extends javax.swing.JFrame {
         
         int id = Integer.parseInt(txtIdBarang.getText());
         String nmBarang = txtFieldNamaBarang.getText();
-        int harga = Integer.parseInt(txtFieldHarga.getText());
+        int harga = Formater.setRupiahToInteger(txtFieldHarga.getText());
         int total = Integer.parseInt(txtFieldstok.getText());
         
         try {
@@ -224,10 +230,10 @@ public class EditorBarangForm extends javax.swing.JFrame {
     private void btnTambahBarangFrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahBarangFrameActionPerformed
         BarangController bc = new BarangController();
         String nmBarang = txtFieldNamaBarang.getText();
-        int harga = Integer.parseInt(txtFieldHarga.getText());
+        int harga = Formater.setRupiahToInteger(txtFieldHarga.getText());
         int total = Integer.parseInt(txtFieldstok.getText());
         try {
-            bc.insertBarang(new Barang(nmBarang, harga, total));
+            bc.insertBarang(new Barang(nmBarang, harga, total, System.currentTimeMillis(), total));
             JOptionPane.showMessageDialog(null, "Barang berhasil ditambahkan");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Terjadi kesalahan: periksa inputan anda");
@@ -240,6 +246,14 @@ public class EditorBarangForm extends javax.swing.JFrame {
         txtFieldstok.setText("");
     }//GEN-LAST:event_btnTambahBarangFrameActionPerformed
 
+    private void txtFieldHargaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldHargaKeyReleased
+        try {
+            txtFieldHarga.setText(Formater.setRupiahFormat(Formater.setRupiahToInteger(txtFieldHarga.getText())));            
+        } catch (Exception e) {
+            txtFieldHarga.setText("");
+        }
+    }//GEN-LAST:event_txtFieldHargaKeyReleased
+
     public void setVisibilityBtnUpdate(){
         btnUpdateBarangFrame.setVisible(true);
         btnTambahBarangFrame.setVisible(false);
@@ -249,40 +263,6 @@ public class EditorBarangForm extends javax.swing.JFrame {
         btnUpdateBarangFrame.setVisible(false);
         btnTambahBarangFrame.setVisible(true);
         labelHeader.setText("Tambah Barang");
-    }
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EditorBarangForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EditorBarangForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EditorBarangForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EditorBarangForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new EditorBarangForm().setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

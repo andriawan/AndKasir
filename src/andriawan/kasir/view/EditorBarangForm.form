@@ -192,6 +192,9 @@
               <Insets value="[0, 5, 0, 0]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtFieldHargaKeyReleased"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="labelHeader">
           <Properties>

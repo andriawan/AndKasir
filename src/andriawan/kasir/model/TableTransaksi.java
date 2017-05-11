@@ -65,7 +65,7 @@ public class TableTransaksi extends AbstractTableModel {
             case 3:
                 return "Total Harga";
             case 4:
-                return "Petugas Kasir";
+                return "ID Kasir";
             default:
                 return null;
         }

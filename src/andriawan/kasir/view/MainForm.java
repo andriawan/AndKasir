@@ -6,6 +6,7 @@
 package andriawan.kasir.view;
 
 import andriawan.kasir.controller.BarangController;
+import andriawan.kasir.controller.LaporanController;
 import andriawan.kasir.controller.TransaksiController;
 import andriawan.kasir.controller.UserController;
 import andriawan.kasir.model.User;
@@ -639,6 +640,8 @@ public class MainForm extends javax.swing.JFrame{
 
     private void btnCekLaporanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCekLaporanActionPerformed
         txtHeader.setText("Laporan");
+        LaporanForm lf = LaporanController.getInstanceLaporanForm();
+        lf.setVisible(true);
     }//GEN-LAST:event_btnCekLaporanActionPerformed
 
     private void btnInfoUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfoUserActionPerformed

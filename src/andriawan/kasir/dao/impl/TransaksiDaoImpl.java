@@ -16,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Formatter;
 import java.util.List;
 import java.util.logging.Level;
@@ -56,7 +57,8 @@ public class TransaksiDaoImpl implements TransaksiDao {
             + COLUMN_ID_TRANSAKSI_DETAIL + ", "
             + COLUMN_BARANG + ", "
             + COLUMN_JUMLAH + ", "
-            + COLUMN_HARGA +") VALUES(?, ?, ?, ?)";
+            + COLUMN_HARGA + ", "
+            + COLUMN_ID_PETUGAS + ") VALUES(?, ?, ?, ?, ?)";
     
     //FIND_DETAIL by kode_Transaksi JOIN with Tabel Barang
     private static final String FIND_DETAIL_BY_ID
@@ -203,7 +205,7 @@ public class TransaksiDaoImpl implements TransaksiDao {
 
             if (result.next()) {
                 int idTransaksi = result.getInt(1);
-                long date = result.getDate(2).getTime();
+                long date = result.getTimestamp(2).getTime();
                 int totalItem = result.getInt(3);
                 int totalHarga = result.getInt(4);
                 int idPetugas = result.getInt(5);
@@ -344,6 +346,7 @@ public class TransaksiDaoImpl implements TransaksiDao {
             preparedStatement.setInt(2, detailTransaksi.getId_barang());
             preparedStatement.setInt(3, detailTransaksi.getJumlah());
             preparedStatement.setInt(4, detailTransaksi.getHarga());
+            preparedStatement.setInt(5, detailTransaksi.getId_petugas());
             
             
             int status = preparedStatement.executeUpdate();

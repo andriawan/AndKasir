@@ -850,7 +850,8 @@ public class KasirForm extends javax.swing.JFrame {
             tc.insertTransaksiDetail(new DetailTransaksi(tr.getIdTransaksi(),  
                     new Integer(jTableListBelanja.getValueAt(i, 0).toString()),
                     new Integer(jTableListBelanja.getValueAt(i, 3).toString()), 
-                    new Integer(jTableListBelanja.getValueAt(i, 2).toString())));
+                    new Integer(jTableListBelanja.getValueAt(i, 2).toString()),
+                    new Integer(labelIdKasir.getText().toString())));
             
             ais.add(new ItemStruk(jTableListBelanja.getValueAt(i, 1).toString(),
                     jTableListBelanja.getValueAt(i, 3).toString(), 
@@ -888,20 +889,6 @@ public class KasirForm extends javax.swing.JFrame {
         }
             
     }//GEN-LAST:event_btnCetakStrukActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new KasirForm().setVisible(true);
-            }
-        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCariBarang;
     private javax.swing.JButton btnCetakStruk;

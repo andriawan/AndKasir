@@ -14,15 +14,22 @@ import java.util.List;
 /**
  *
  * @author andriawan
+ * 
+ * kelas yang mengkontrol Transaksi
  */
 public class TransaksiController {
     
+    // field variable untuk keperluan penerapan singleton
     public static TransaksiController tc = new TransaksiController();
     
+    // mengolah pengembalian dari objek anonim TransaksiDaoImpl agar dihandle
+    // controller
     public List<Transaksi> getAllTransakasi(){
         return new TransaksiDaoImpl().getAllTransaksi();
     }
     
+    // mengolah pengembalian dari objek anonim TransaksiDaoImpl agar dihandle
+    // controller
     public List<Transaksi> getTransakasi(int kode){
         Transaksi tr = new TransaksiDaoImpl().getTransaksi(kode);
         List<Transaksi> ls = new ArrayList<>();
@@ -30,9 +37,12 @@ public class TransaksiController {
         return ls;
     }
     
+    // mengolah pengembalian dari objek anonim TransaksiDaoImpl agar dihandle
+    // controller
     public List<DetailTransaksi> getDetailTransakasi(int kode){
         return new TransaksiDaoImpl().getDetailTransaksi(kode);
     }
+    
     
     public void insertTransaksi(Transaksi transaksi){
         new TransaksiDaoImpl().insertTransaksi(transaksi);
@@ -42,11 +52,13 @@ public class TransaksiController {
         new TransaksiDaoImpl().insertDetailTransaksi(detailTransaksi);
     }
     
+    // mengolah pengembalian dari objek anonim TransaksiDaoImpl agar dihandle
+    // controller
     public Transaksi getLastRecord(){
         return new TransaksiDaoImpl().getLastRecord();
     }
     
-    // Singleton for Saving Memory 
+    // Singleton untuk penghematan memori
     public static TransaksiController getInstanceTransaksiController(){
         
         try {

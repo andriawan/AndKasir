@@ -6,6 +6,7 @@
 package andriawan.kasir.model;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+import utilities.Formater;
 
 /**
  *
@@ -26,7 +27,7 @@ public class TableBarang extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -40,6 +41,8 @@ public class TableBarang extends AbstractTableModel {
                 return barang.get(rowIndex).getHargaFormat();
             case 3:
                 return barang.get(rowIndex).getStok();
+            case 4:
+                return Formater.setNiceIndonesianDate(barang.get(rowIndex).getDateInput());
             default:
                 return null;
                     
@@ -56,7 +59,9 @@ public class TableBarang extends AbstractTableModel {
             case 2:
                 return "Harga";
             case 3:
-                return "Stok";  
+                return "Stok";
+            case 4:
+                return "Tanggal Masuk";  
             default:
                 return null;
         }

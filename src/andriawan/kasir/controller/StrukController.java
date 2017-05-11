@@ -5,14 +5,12 @@
  */
 package andriawan.kasir.controller;
 
-import andriawan.kasir.model.ItemStruk;
 import andriawan.kasir.model.Struk;
 import java.awt.BorderLayout;
 import java.awt.HeadlessException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.swing.JFrame;
 import simple.escp.SimpleEscp;
 import simple.escp.Template;
@@ -23,35 +21,53 @@ import simple.escp.swing.PrintPreviewPane;
 /**
  *
  * @author andriawan
+ * 
+ * Class ini merupakan controller dari Model Struk. Menangani prosedur
+ * printing menggunakan printer dot matrix.
+ * 
+ * Library yang digunakan
+ * - simple-escp-0.5.3
+ * - javax.json-1.0.4
+ * - javax.json-api-1.0
+ * 
+ * 
  */
 public class StrukController {
     
+    // field variable instance digunakan untuk menampung singleton object
+    // StrukController
     private static StrukController instance = new StrukController();
-    
+   
+    // melakukan printing secara langsung jika sistem menemukan printer aktif
+    // perhatikan, jika tidak ada printer yang terdeteksi, maka akan melempar
+    // nullpointer exception
     public void printStruk(Struk struk) throws FileNotFoundException, IOException{
-        Template template = new JsonTemplate(new FileInputStream("template.json"));
-        SimpleEscp escp = new SimpleEscp();
-        escp.print(template, DataSources.from(struk));
+        
+        new SimpleEscp().print(
+                new JsonTemplate(
+                        new FileInputStream("template.json")),
+                            DataSources.from(struk));
     }
     
+    // melakukan preview printing sebelum dicetak
     public static void previewCetakStruk(Struk struk) throws IOException{
         try {
-            Template template = new JsonTemplate(new FileInputStream("./template.json"));
+            Template template = new JsonTemplate(new FileInputStream("template.json"));
             PrintPreviewPane preview;
             preview = new PrintPreviewPane(template, null, struk);
-            JFrame framePriview = new JFrame("Struk");
-            framePriview.setLayout(new BorderLayout());
-            framePriview.add(preview, BorderLayout.CENTER);
+            JFrame framePreview = new JFrame("Struk");
+            framePreview.setLayout(new BorderLayout());
+            framePreview.add(preview, BorderLayout.CENTER);
 
-            framePriview.pack();
-            framePriview.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            framePriview.setVisible(true);
-            framePriview.setLocationRelativeTo(null);
+            framePreview.pack();
+            framePreview.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            framePreview.setVisible(true);
+            framePreview.setLocationRelativeTo(null);
         } catch (HeadlessException | IOException ex) {
         }
     }
     
-    //Singleton
+    //Singleton sebagai langkah penghematan memori
     public static StrukController getInstance(){
         try {
             if(instance == null){
@@ -63,16 +79,6 @@ public class StrukController {
             System.out.println(e);
             return null;
         }
-    }
-    
-    public static void main(String[] args) throws IOException {
-//        ItemStruk is = new ItemStruk("udang", 3, new java.lang.Integer("100000"), new Integer(2000));
-//        ItemStruk is2 = new ItemStruk("udang", 3, new java.lang.Integer("100000"), new Integer(2000));
-//        ArrayList<ItemStruk> ar = new ArrayList<>();
-//        ar.add(is);
-//        ar.add(is2);
-//        Struk st = new Struk(20, 20000, 20000, 29, ar, 30, "Andriawan", "xxxx");
-//        previewCetakStruk(st);
     }
     
 }

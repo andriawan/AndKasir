@@ -34,6 +34,18 @@ public class BarangDaoImpl implements BarangDao {
     private static final String COLUMN_NAMA_BARANG = "nama_barang";
     private static final String COLUMN_HARGA = "harga";
     private static final String COLUMN_STOK = "stok";
+    private static final String COLUMN_TGL_INPUT = "tgl_input";
+    private static final String COLUMN_JUMLAH_MASUK = "jumlah_barang_masuk";
+    
+    // GET JUMLAH BARANG MASUK TOTAL IN CERTAIN DATE
+    private static final String GET_BARANG_MASUK
+            = "SELECT SUM("
+            + COLUMN_JUMLAH_MASUK
+            + ") FROM "
+            + TABLE + 
+            " WHERE "
+            + COLUMN_TGL_INPUT + 
+            " BETWEEN ? AND ?";
 
     // FIND ALL
     private static final String FIND_ALL = 
@@ -74,7 +86,9 @@ public class BarangDaoImpl implements BarangDao {
             + TABLE + "("
             + COLUMN_NAMA_BARANG + ", "
             + COLUMN_HARGA + ", "
-            + COLUMN_STOK + ") VALUES(?, ?, ?)";
+            + COLUMN_STOK + ", "
+            + COLUMN_TGL_INPUT + ", "
+            + COLUMN_JUMLAH_MASUK +") VALUES(?, ?, ?, ?, ?)";
     //UPDATE
     private static final String UPDATE = "UPDATE " + TABLE + " SET "
             + COLUMN_NAMA_BARANG + "=?, "
@@ -102,8 +116,10 @@ public class BarangDaoImpl implements BarangDao {
                 String nama_barang = result.getString(2);
                 int harga = result.getInt(3);
                 int stok = result.getInt(4);
+                long date = result.getTimestamp(5).getTime();
+                int jmlah = result.getInt(6);
 
-                barangs.add(new Barang(kode, nama_barang, Formater.setRupiahFormat(harga), stok));
+                barangs.add(new Barang(kode, nama_barang, Formater.setRupiahFormat(harga), stok, date, jmlah));
             }
 
             this.semuaBarang = barangs;
@@ -136,7 +152,9 @@ public class BarangDaoImpl implements BarangDao {
                 String nama_barang = result.getString(2);
                 int harga = result.getInt(3);
                 int stok = result.getInt(4);
-                Barang br = new Barang(kode, nama_barang, harga, stok);
+                long date = result.getTimestamp(5).getTime();
+                int jmlahBarangMasuk = result.getInt(6);
+                Barang br = new Barang(kode, nama_barang, harga, stok, date, jmlahBarangMasuk);
 
                 return br;
             } else {
@@ -168,7 +186,9 @@ public class BarangDaoImpl implements BarangDao {
                 String nama_barang = result.getString(2);
                 int harga = result.getInt(3);
                 int stok = result.getInt(4);
-                Barang brx = new Barang(kode, nama_barang, Formater.setRupiahFormat(harga), stok);
+                long date = result.getTimestamp(5).getTime();
+                int jmlahBarang = result.getInt(6);
+                Barang brx = new Barang(kode, nama_barang, Formater.setRupiahFormat(harga), stok, date, jmlahBarang);
                 barangs.add(brx);
             }
 
@@ -230,6 +250,9 @@ public class BarangDaoImpl implements BarangDao {
             preparedStatement.setString(1, barang.getNamaBarang());
             preparedStatement.setInt(2, barang.getHarga());
             preparedStatement.setInt(3, barang.getStok());
+            preparedStatement.setString(4, Formater.setStringReadySql(
+                    barang.getDateInput()));
+            preparedStatement.setInt(5, barang.getJumlahBarangMasuk());
             
             int status = preparedStatement.executeUpdate();
             
@@ -258,6 +281,33 @@ public class BarangDaoImpl implements BarangDao {
             close(preparedStatement);
         }
 
+    }
+    
+    public Barang getJumlahBarangMasuk(String tgl1, String tgl2) {
+        ResultSet result = null;
+        try {
+            con = ConnectionManager.getConnection();
+            preparedStatement = con.prepareStatement(GET_BARANG_MASUK);
+            preparedStatement.setString(1, tgl1);
+            preparedStatement.setString(2, tgl2);
+            result = preparedStatement.executeQuery();
+
+            if (result.next()) {
+                int total = result.getInt(1);
+                Barang br = new Barang();
+                br.setJumlahBarangMasuk(total);
+
+                return br;
+            } else {
+                return null;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(con);
+            close(preparedStatement);
+        }
     }
 
     private static void close(Connection con) {

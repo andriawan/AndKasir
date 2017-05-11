@@ -14,9 +14,18 @@ import java.util.Date;
 /**
  *
  * @author andriawan
+ * Kelas ini menangani Format yang sering ditemui. dibuat agar kodenya reuse ( dapat dipakai kembali )
  */
 public class Formater {
-    
+
+
+	 /**
+	 *
+	 * fungsi setRupiahFormat memudahkan untuk membuat tampilan integer menjadi Format mata uang rupiah
+	 * parameter : int kurs
+	 * return 	: string berformat rupiah (misal Rp. 100.000, 00)
+	 * modifier : public static
+	 */  
     public static String setRupiahFormat(int kurs){
         DecimalFormat kursIndonesia = (DecimalFormat) DecimalFormat.
                 getCurrencyInstance();
@@ -30,6 +39,15 @@ public class Formater {
         
         return kursIndonesia.format(kurs);
     }
+
+    /**
+	 *
+	 * fungsi setRupiahToInteger memudahkan untuk mengambil nilai integer dari string hasil format 
+	 * dengan funsi setRupiahFormat()
+	 * parameter : String rupiah
+	 * return 	: string berformat rupiah (misal Rp. 100.000, 00) akan menjadi 100000
+	 * modifier : public static
+	 */  
     
     public static int setRupiahToInteger(String rupiah){
         
@@ -39,6 +57,14 @@ public class Formater {
 
         return new Integer(replace3);
     }
+
+    /**
+	 *
+	 * fungsi setTerbilang mengubah inputan Long menjadi String terbilang 
+	 * parameter : Long angka
+	 * return 	: string berformat misal 1200 menjadi "Seribu Dua Ratus"
+	 * modifier : private static
+	 */
     
     private static String setTerbilang(Long angka) {
         
@@ -78,6 +104,14 @@ public class Formater {
         }
         return "0";
     }
+
+    /**
+	 *
+	 * fungsi setRupiahTerbilang mengolah fungsi setTerbilang menjadi lebih sempurna denga akhiran "Rupiah"
+	 * parameter : int l
+	 * return 	: string berformat misal 1200 menjadi "Seribu Dua Ratus Rupiah"
+	 * modifier : private static
+	 */
     
     public static String setRupiahTerbilang(int l){
         String d = Integer.toString(l);
@@ -85,12 +119,30 @@ public class Formater {
         return setTerbilang(s) + "Rupiah";
     }
     
+    /**
+	 *
+	 * fungsi setStringReadySql mengolah long l yang biasanya diambil dari timestamp menjadi tanggal yang siap
+	 * diolah sql sebagai tipe DATETIME
+	 * parameter : long l
+	 * return 	: string berformat yyyy-MM-dd HH:mm:ss misal 2017-10-11 10:55:20
+	 * modifier : public static
+	 */
+    
     public static String setStringReadySql(long l){
         Date dt = new java.sql.Date(l);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateF = sdf.format(dt);
         return dateF;
     }
+
+    /**
+	 *
+	 * fungsi setNiceIndonesianDate mengolah long l yang biasanya diambil dari timestamp menjadi tanggal dalam
+	 * format indonesia
+	 * parameter : long l
+	 * return 	: string berformat dd MMMM yyyy HH:mm:ss misal 11 Maret 2017 10:55:20
+	 * modifier : public static
+	 */
     
     public static String setNiceIndonesianDate(long l){
         Date dt = new java.sql.Date(l);
@@ -100,7 +152,22 @@ public class Formater {
         return dateF;
     }
     
-    public static void main(String[] args) {
+    public static String setNiceIndonesianDateShort(long l){
+        Date dt = new java.sql.Date(l);
+        SimpleDateFormat sdf = new SimpleDateFormat(
+                "dd MMMM yyyy", new java.util.Locale("id"));
+        String dateF = sdf.format(dt);
+        return dateF;
+    }
+    
+    
+    // format laporan untuk keperluan cetak dan cari laporan
+    public static String setDateForReport(long l){
+        Date dt = new java.sql.Date(l);
+        SimpleDateFormat sdf = new SimpleDateFormat(
+                "dd-MM-YYYY", new java.util.Locale("id"));
+        String dateF = sdf.format(dt);
+        return dateF;
     }
 
 }

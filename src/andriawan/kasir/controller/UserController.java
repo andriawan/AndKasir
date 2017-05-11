@@ -54,10 +54,30 @@ public class UserController {
     }
     
     public static EditorUserForm getInsertFormInstance(){
-        return insert;
+        
+        try {
+            if (insert == null) {
+                insert = new EditorUserForm();
+            }
+            return insert;
+            
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
     }
     
     public static EditorUserForm getUpdateFormInstance(){
-        return update;
+        
+        try {
+            if (update == null) {
+                update = new EditorUserForm();
+            }
+            return update;
+            
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
     }
 }

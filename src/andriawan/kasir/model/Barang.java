@@ -16,8 +16,25 @@ public class Barang {
     private String hargaFormat;
     private int harga;
     private int Stok;
-    
+    private int jumlahBarangMasuk;
+    private long dateInput;
 
+    // Default Constructor
+    public Barang() {
+    }
+    
+    // get barang
+    public Barang(int kodeBarang, String namaBarang, int harga, int Stok, long getDate, int jmlah) {
+        this.kodeBarang = kodeBarang;
+        this.namaBarang = namaBarang;
+        this.hargaFormat = hargaFormat;
+        this.harga = harga;
+        this.Stok = Stok;
+        this.dateInput = getDate;
+        this.jumlahBarangMasuk = jmlah;
+    }
+    
+    // for updating into database
     public Barang(int kodeBarang, String namaBarang, int harga, int Stok) {
         this.kodeBarang = kodeBarang;
         this.namaBarang = namaBarang;
@@ -25,21 +42,27 @@ public class Barang {
         this.Stok = Stok;
     }
     
-    public Barang(int kodeBarang, String namaBarang, String harga, int Stok) {
+    // get all
+    public Barang(int kodeBarang, String namaBarang, String harga, int Stok, long getDate, int jmlah) {
         this.kodeBarang = kodeBarang;
         this.namaBarang = namaBarang;
         this.hargaFormat = harga;
         this.Stok = Stok;
+        this.dateInput = getDate;
+        this.jumlahBarangMasuk = jmlah;
     }
     
     public Barang(int kodeBarang){
         this.kodeBarang = kodeBarang;
     }
     
-    public Barang(String namaBarang, int harga, int Stok) {
+    // for inserting into database
+    public Barang(String namaBarang, int harga, int Stok , long getDate, int jmlah) {
         this.namaBarang = namaBarang;
         this.harga = harga;
         this.Stok = Stok;
+        this.dateInput = getDate;
+        this.jumlahBarangMasuk = jmlah;
     }
 
     public int getKodeBarang() {
@@ -81,7 +104,25 @@ public class Barang {
     public void setHargaFormat(String hargaFormat) {
         this.hargaFormat = hargaFormat;
     }
+
+    public long getDateInput() {
+        return dateInput;
+    }
+
+    public void setDateInput(long dateInput) {
+        this.dateInput = dateInput;
+    }
+
+    public int getJumlahBarangMasuk() {
+        return jumlahBarangMasuk;
+    }
+
+    public void setJumlahBarangMasuk(int jumlahBarangMasuk) {
+        this.jumlahBarangMasuk = jumlahBarangMasuk;
+    }
     
+    
+
     
     
 }

@@ -105,6 +105,11 @@ public class LoginForm extends javax.swing.JFrame {
                 loginButtonActionPerformed(evt);
             }
         });
+        loginButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                loginButtonKeyPressed(evt);
+            }
+        });
 
         toolBarLogin.setBackground(new java.awt.Color(255, 255, 255));
         toolBarLogin.setRollover(true);
@@ -343,6 +348,17 @@ public class LoginForm extends javax.swing.JFrame {
             System.out.println(ex);
         }
     }//GEN-LAST:event_txtPassKeyPressed
+
+    private void loginButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_loginButtonKeyPressed
+        try {
+            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                ActionEvent et = null;
+                loginButtonActionPerformed(et);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }//GEN-LAST:event_loginButtonKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -17,20 +17,32 @@ import java.util.List;
  */
 public class BarangController {
     
+    // Field Variable EditorBarangForm (JFrame)
     private static EditorBarangForm insert = new EditorBarangForm();
+    
+    // Field Variable EditorBarangForm (JFrame)
     private static EditorBarangForm update = new EditorBarangForm();
+    
+    // Field Variable singleton
+    private static BarangController br = new BarangController();
 
     public BarangController() {
     }
     
+    // mengambil fungsi pada BarangDaoImpl untuk diolah lebih lanjut pada 
+    // view objcet (JFrame MainForm)
     public List<Barang> getAllBarang() throws SQLException{
         return new BarangDaoImpl().getAllBarang();
     }
     
+    // mengambil fungsi pada BarangDaoImpl untuk diolah lebih lanjut pada 
+    // view objcet (JFrame MainForm)
     public Barang getBarang(int kodeBarang) throws SQLException{
         return new BarangDaoImpl().getBarang(kodeBarang);
     }
     
+    // mengambil fungsi pada BarangDaoImpl untuk diolah lebih lanjut pada 
+    // view objcet (JFrame MainForm)
     public List<Barang> multiSearch(String a, String b, String c, String d) throws SQLException{
         return new BarangDaoImpl().multiSearch(a, b, c, d);
     }
@@ -64,20 +76,46 @@ public class BarangController {
         }
     }
     
+    public static BarangController getInstance(){
+        try {
+            if(br == null){
+            br = new BarangController();
+        }
+            return br;
+            
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+    }
+    
+    // mengambil fungsi pada BarangDaoImpl untuk diolah lebih lanjut pada 
+    // view objcet (JFrame MainForm)
     public void insertBarang(Barang br) throws SQLException{
         new BarangDaoImpl().insertBarang(br);
     }
     
+    // mengambil fungsi pada BarangDaoImpl untuk diolah lebih lanjut pada 
+    // view objcet (JFrame MainForm)
     public void updateBarang(Barang br) throws SQLException{
         new BarangDaoImpl().updateBarang(br);
     }
     
+    // mengambil fungsi pada BarangDaoImpl untuk diolah lebih lanjut pada 
+    // view objcet (JFrame MainForm)
     public void updateStok(Barang br, int jumlah) throws SQLException{
         new BarangDaoImpl().updateStok(br,jumlah);
     }
     
+    // mengambil fungsi pada BarangDaoImpl untuk diolah lebih lanjut pada 
+    // view objcet (JFrame MainForm)
     public void hapusBarang(int kode) throws SQLException{
         new BarangDaoImpl().deleteBarang(kode);
+    }
+    
+    // mengambil total barang masuk dalam rentang tanggal tertentu
+    public Barang getJumlahBarangMasuk(String tgl1, String tgl2) throws SQLException{
+        return new BarangDaoImpl().getJumlahBarangMasuk(tgl1, tgl2);
     }
     
     

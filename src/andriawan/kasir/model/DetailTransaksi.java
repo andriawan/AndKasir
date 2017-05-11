@@ -16,22 +16,17 @@ public class DetailTransaksi{
     int id_barang;
     int jumlah;
     int harga;
+    int id_petugas;
     
     String namaBarang;
     
-    public DetailTransaksi(int id_detail, int id_transaksi, int id_barang, int jumlah, int harga) {
-        this.id_detail = id_detail;
+    // insert
+    public DetailTransaksi(int id_transaksi, Integer id_barang, Integer jumlah, Integer harga, Integer id_petugas) {
         this.id_transaksi = id_transaksi;
         this.id_barang = id_barang;
         this.jumlah = jumlah;
         this.harga = harga;
-    }
-    
-    public DetailTransaksi(int id_transaksi, int id_barang, int jumlah, int harga) {
-        this.id_transaksi = id_transaksi;
-        this.id_barang = id_barang;
-        this.jumlah = jumlah;
-        this.harga = harga;
+        this.id_petugas = id_petugas;
     }
     
     public DetailTransaksi(int id_transaksi, int id_barang, String nama, int jumlah, int harga) {
@@ -88,5 +83,13 @@ public class DetailTransaksi{
 
     public void setNamaBarang(String namaBarang) {
         this.namaBarang = namaBarang;
+    }
+    
+    public int getId_petugas() {
+        return id_petugas;
+    }
+
+    public void setId_petugas(int id_petugas) {
+        this.id_petugas = id_petugas;
     }
 }

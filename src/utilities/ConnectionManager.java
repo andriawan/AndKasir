@@ -16,6 +16,9 @@ import java.util.Properties;
 /**
  *
  * @author andriawan
+ * 
+ * TO DO: enkrip konten dari file eksternal config.properties
+ * untuk peningkatan keamanan
  */
 public class ConnectionManager {
 
@@ -48,7 +51,10 @@ public class ConnectionManager {
         }
         return con;
     }
-
+    
+    // method ini akan melakukan pengecekan beberapa string yang didefinisikan
+    // dalam file eksternal "config.properties". String tersebut digunakan untuk
+    // membangun konfigurasi ke database driver
     private static void LoadConfigFile() {
 
         Properties config = new Properties();
