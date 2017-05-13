@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import simple.escp.SimpleEscp;
 import simple.escp.Template;
 import simple.escp.data.DataSources;
@@ -64,6 +65,11 @@ public class StrukController {
             framePreview.setVisible(true);
             framePreview.setLocationRelativeTo(null);
         } catch (HeadlessException | IOException ex) {
+        } catch (NullPointerException n){
+            JOptionPane.showMessageDialog(null, 
+                    "Kesalahan: Pastikan Printer aktif dan bekerja dengan baik", 
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
     

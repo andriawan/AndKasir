@@ -11,11 +11,8 @@ import andriawan.kasir.dao.impl.UserDaoImpl;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -209,76 +206,12 @@ public class LoginForm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    public JLabel getHeaderLogin() {
-        return headerLogin;
+    public void setTxtFieldPengguna(String txtFieldPengguna) {
+        this.txtFieldPengguna.setText(txtFieldPengguna);
     }
 
-    public void setHeaderLogin(JLabel headerLogin) {
-        this.headerLogin = headerLogin;
-    }
-
-    public JLabel getHint() {
-        return hint;
-    }
-
-    public void setHint(JLabel hint) {
-        this.hint = hint;
-    }
-
-    public JLabel getLabelPass() {
-        return labelPass;
-    }
-
-    public void setLabelPass(JLabel labelPass) {
-        this.labelPass = labelPass;
-    }
-
-    public JLabel getLabelPengguna() {
-        return labelPengguna;
-    }
-
-    public void setLabelPengguna(JLabel labelPengguna) {
-        this.labelPengguna = labelPengguna;
-    }
-
-    public JButton getLoginButton() {
-        return loginButton;
-    }
-
-    public void setLoginButton(JButton loginButton) {
-        this.loginButton = loginButton;
-    }
-
-    public JPanel getLoginPanel() {
-        return loginPanel;
-    }
-
-    public void setLoginPanel(JPanel loginPanel) {
-        this.loginPanel = loginPanel;
-    }
-
-    public JToolBar getToolBarLogin() {
-        return toolBarLogin;
-    }
-
-    public void setToolBarLogin(JToolBar toolBarLogin) {
-        this.toolBarLogin = toolBarLogin;
-    }
-
-    public JTextField getTxtFieldPengguna() {
-        return txtFieldPengguna;
-    }
-
-    public void setTxtFieldPengguna(JTextField txtFieldPengguna) {
-        this.txtFieldPengguna = txtFieldPengguna;
-    }
-
-    public JPasswordField getTxtPass() {
-        return txtPass;
-    }
-
-    public void setTxtPass(JPasswordField txtPass) {
-        this.txtPass = txtPass;
+    public void setTxtPass(String txtPass) {
+        this.txtPass.setText(txtPass);
     }
 
     private void txtFieldPenggunaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldPenggunaActionPerformed
@@ -296,7 +229,7 @@ public class LoginForm extends javax.swing.JFrame {
                     .isValidAdminUser(
                             txtFieldPengguna.getText(), 
                             new String(txtPass.getPassword()))) {
-                    new MainForm().setVisible(true);
+                    UserLoginController.getMainFormInstance().setVisible(true);
                     setVisible(false);
                 } else {
                     JOptionPane.showMessageDialog(null, "Password atau Username salah");
@@ -310,7 +243,7 @@ public class LoginForm extends javax.swing.JFrame {
                     UserController uc = new UserController();
                     ArrayList<String> as = uc.getUserLevel(txtFieldPengguna.getText(),
                             jabatan.getSelectedItem().toString());
-                    KasirForm kf = new KasirForm();
+                    KasirForm kf = UserLoginController.getKasirFormInstance();
                     kf.setVisible(true);
                     String kasir = txtFieldPengguna.getText();
                     kf.setLabelIdKasir(as.get(1));
@@ -320,7 +253,9 @@ public class LoginForm extends javax.swing.JFrame {
                     
                     setVisible(false);
                 }else{
-                    JOptionPane.showMessageDialog(null, "Password atau Username salah");
+                    JOptionPane.showMessageDialog(null, 
+                            "Password atau Username salah",
+                            "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 break;
                 
@@ -331,9 +266,13 @@ public class LoginForm extends javax.swing.JFrame {
             }
             
         } catch (NullPointerException h) {
-            JOptionPane.showMessageDialog(null, "Error: Periksa opsi jabatan apakah sudah benar");
+            JOptionPane.showMessageDialog(null, 
+                    "Error: Periksa opsi jabatan apakah sudah benar",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException sql) {
-            JOptionPane.showMessageDialog(null, "Error: Kesalahan Database");
+            JOptionPane.showMessageDialog(null, 
+                    "Error: Terjadi Kesalahan Koneksi Database",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_loginButtonActionPerformed

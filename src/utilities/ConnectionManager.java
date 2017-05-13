@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -44,6 +45,10 @@ public class ConnectionManager {
                         ConnectionManager.password);
 
             } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, 
+                        "Error: Terjadi Masalah dengan Koneksi Database. "
+                                + "Periksa apakah database service telah berjalan ",
+                        "Error",JOptionPane.ERROR_MESSAGE);
                 System.out.println("Failed to Establish Database Connection");
             }
         } catch (ClassNotFoundException e) {

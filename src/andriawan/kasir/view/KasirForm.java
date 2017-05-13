@@ -8,6 +8,7 @@ package andriawan.kasir.view;
 import andriawan.kasir.controller.BarangController;
 import andriawan.kasir.controller.StrukController;
 import andriawan.kasir.controller.TransaksiController;
+import andriawan.kasir.controller.UserLoginController;
 import andriawan.kasir.model.Barang;
 import andriawan.kasir.model.DetailTransaksi;
 import andriawan.kasir.model.ItemStruk;
@@ -143,6 +144,7 @@ public class KasirForm extends javax.swing.JFrame {
         txtTerbilang = new javax.swing.JLabel();
         jMenuBarInfoPengembang = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuLogout = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
 
@@ -566,6 +568,16 @@ public class KasirForm extends javax.swing.JFrame {
         );
 
         jMenu1.setText("File");
+
+        jMenuLogout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.ALT_MASK));
+        jMenuLogout.setText("Log Out");
+        jMenuLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuLogoutActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuLogout);
+
         jMenuBarInfoPengembang.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -897,6 +909,15 @@ public class KasirForm extends javax.swing.JFrame {
         }
             
     }//GEN-LAST:event_btnCetakStrukActionPerformed
+
+    private void jMenuLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuLogoutActionPerformed
+        setVisible(false);
+        LoginForm lf = UserLoginController.getLoginFormInstance();
+        lf.setVisible(true);
+        lf.setTxtFieldPengguna("");
+        lf.setTxtPass("");
+    }//GEN-LAST:event_jMenuLogoutActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCariBarang;
     private javax.swing.JButton btnCetakStruk;
@@ -921,6 +942,7 @@ public class KasirForm extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBarInfoPengembang;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuLogout;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

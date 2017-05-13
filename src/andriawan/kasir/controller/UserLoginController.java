@@ -6,8 +6,11 @@
 package andriawan.kasir.controller;
 
 import andriawan.kasir.dao.impl.UserDaoImpl;
+import andriawan.kasir.view.KasirForm;
 import andriawan.kasir.view.LoginForm;
+import andriawan.kasir.view.MainForm;
 import andriawan.safe.password.SafePassword;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -16,15 +19,46 @@ import java.util.ArrayList;
  */
 public class UserLoginController {
     
-    LoginForm loginForm;
-    UserDaoImpl user;
+    private static LoginForm loginForm = new LoginForm();
+    private static UserDaoImpl user = new UserDaoImpl();
+    private static MainForm main;
+    private static KasirForm kasir = new KasirForm();
+    
 
     public UserLoginController(UserDaoImpl user, LoginForm form) {
-        this.user = user;
-        this.loginForm = form;
+        UserLoginController.user = user;
+        UserLoginController.loginForm = form;
+    }
+    //Singleton
+    public static UserDaoImpl getUserInstance(){
+        if(user == null){
+            user = new UserDaoImpl();
+        }
+        return user;
     }
     
-    public void onButtonLoginClicked(){
+    //Singleton
+    public static LoginForm getLoginFormInstance(){
+        if(loginForm == null){
+            loginForm = new LoginForm();
+        }
+        return loginForm;
+    }
+    
+    //Singleton
+    public static MainForm getMainFormInstance() throws SQLException{
+        if(main == null){
+            main = new MainForm();
+        }
+        return main;
+    }
+    
+    //Singleton
+    public static KasirForm getKasirFormInstance(){
+        if(kasir == null){
+            kasir = new KasirForm();
+        }
+        return kasir;
     }
     
     public boolean isValidAdminUser(String User, String pass){
@@ -41,11 +75,7 @@ public class UserLoginController {
         String passd = array.get(3);
         String status = array.get(2);
         
-        if (User.equals(userd) && SafePassword.verifySecureBcrypt(pass, passd)) {
-            return true;
-        }else{
-            return false;
-        }
+        return User.equals(userd) && SafePassword.verifySecureBcrypt(pass, passd);
     }
     
 }

@@ -9,6 +9,7 @@ import andriawan.kasir.controller.BarangController;
 import andriawan.kasir.controller.LaporanController;
 import andriawan.kasir.controller.TransaksiController;
 import andriawan.kasir.controller.UserController;
+import andriawan.kasir.controller.UserLoginController;
 import andriawan.kasir.model.User;
 import andriawan.kasir.model.Barang;
 import andriawan.kasir.model.TableBarang;
@@ -599,7 +600,13 @@ public class MainForm extends javax.swing.JFrame{
 
         jMenu1.setText("File");
 
-        jMenuItem1.setText("jMenuItem1");
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.ALT_MASK));
+        jMenuItem1.setText("Log out");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem1);
 
         mainMenu.add(jMenu1);
@@ -974,6 +981,16 @@ public class MainForm extends javax.swing.JFrame{
             btnEditorEditBarangActionPerformed(null);
         }
     }//GEN-LAST:event_tableBarangMousePressed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        
+        setVisible(false);
+        LoginForm lf = UserLoginController.getLoginFormInstance();
+        lf.setVisible(true);
+        lf.setTxtFieldPengguna("");
+        lf.setTxtPass("");
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    
     // Custom Code
     public void getSizeScreen(){
         Dimension screenSize = getMaximumSize();
