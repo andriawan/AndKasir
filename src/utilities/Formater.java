@@ -126,6 +126,7 @@ public class Formater {
 	 * parameter : long l
 	 * return 	: string berformat yyyy-MM-dd HH:mm:ss misal 2017-10-11 10:55:20
 	 * modifier : public static
+         * @param l
 	 */
     
     public static String setStringReadySql(long l){
@@ -133,6 +134,12 @@ public class Formater {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateF = sdf.format(dt);
         return dateF;
+    }
+    
+    public static String filterOnlyNumber(String filter){
+        // Mengganti semua karakter selain numerik (0-9)
+        String replaceAll = filter.replaceAll("[^\\d]", "");
+        return replaceAll;
     }
 
     /**

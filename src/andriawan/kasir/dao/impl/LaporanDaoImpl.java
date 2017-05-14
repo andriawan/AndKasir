@@ -57,7 +57,7 @@ public class LaporanDaoImpl implements LaporanDao{
             + TABLE + 
             " WHERE "
             + COLUMN_TGL_TRANSAKSI + 
-            " BETWEEN ? AND ?";
+            " BETWEEN ? AND ? ORDER BY " + COLUMN_TGL_TRANSAKSI;
     
     private static final String GET_REPORT_PER_MONTH
             = "SELECT * "
@@ -77,9 +77,10 @@ public class LaporanDaoImpl implements LaporanDao{
             + COLUMN_TGL_TRANSAKSI + 
             ",\"%Y\") = ? ";
     
+    @Override
     public List<Laporan> getDailyReport(String tgl) {
         ResultSet result = null;
-        List<Laporan> dailyReport = new ArrayList<Laporan>();
+        List<Laporan> dailyReport = new ArrayList<>();
 
         try {
             con = ConnectionManager.getConnection();
@@ -107,7 +108,7 @@ public class LaporanDaoImpl implements LaporanDao{
         } catch (SQLException sq) {
             throw new RuntimeException(sq);
         } finally {
-            this.close(con);
+            LaporanDaoImpl.close(con);
             close(preparedStatement);
         }
     }
@@ -115,7 +116,7 @@ public class LaporanDaoImpl implements LaporanDao{
     
     public List<Laporan> getReport(String tgl, String tgl2) {
         ResultSet result = null;
-        List<Laporan> report = new ArrayList<Laporan>();
+        List<Laporan> report = new ArrayList<>();
 
         try {
             con = ConnectionManager.getConnection();
@@ -144,7 +145,7 @@ public class LaporanDaoImpl implements LaporanDao{
         } catch (SQLException sq) {
             throw new RuntimeException(sq);
         } finally {
-            this.close(con);
+            LaporanDaoImpl.close(con);
             close(preparedStatement);
         }
     }
@@ -152,7 +153,7 @@ public class LaporanDaoImpl implements LaporanDao{
     @Override
     public List<Laporan> getMonthlyReport(String tgl) {
         ResultSet result = null;
-        List<Laporan> monthlyReport = new ArrayList<Laporan>();
+        List<Laporan> monthlyReport = new ArrayList<>();
 
         try {
             con = ConnectionManager.getConnection();

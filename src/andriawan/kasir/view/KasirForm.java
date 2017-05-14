@@ -23,14 +23,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import utilities.Formater;
 
 /**
@@ -173,6 +171,7 @@ public class KasirForm extends javax.swing.JFrame {
                 jTableBarangKasirMousePressed(evt);
             }
         });
+        jTableBarangKasir.getTableHeader().setReorderingAllowed(false);
         jScrollPaneKasirBarang.setViewportView(jTableBarangKasir);
 
         btnCariBarang.setBackground(new java.awt.Color(51, 153, 255));
@@ -247,6 +246,7 @@ public class KasirForm extends javax.swing.JFrame {
                 jTableListBelanjaPropertyChange(evt);
             }
         });
+        jTableListBelanja.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(jTableListBelanja);
 
         btnCetakStruk.setBackground(new java.awt.Color(0, 102, 255));
@@ -286,9 +286,6 @@ public class KasirForm extends javax.swing.JFrame {
         txtKembalian.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtKembalian.setText("0");
         txtKembalian.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtKembalianKeyTyped(evt);
-            }
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtKembalianKeyPressed(evt);
             }
@@ -298,6 +295,7 @@ public class KasirForm extends javax.swing.JFrame {
         });
 
         labelKembalian.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        labelKembalian.setForeground(new java.awt.Color(0, 153, 51));
         labelKembalian.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         labelKembalian.setText("Rp 0");
 
@@ -618,22 +616,27 @@ public class KasirForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCariBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariBarangActionPerformed
-
+        
+        Barang barang;
+        List<Barang> brList = null; 
+        
+        BarangController bc = new BarangController();
+        String name = txtCariBarang.getText();
+        
         try {
-            BarangController bc = new BarangController();
-            String name = txtCariBarang.getText();
 
-            Barang barang;
-            List<Barang> brList = bc.multiSearch(name, name, name, name);
+            brList = bc.multiSearch(name, name, name, name);
 
-            TableBarang tb = new TableBarang(brList);
-            jTableBarangKasir.setModel(tb);
-
-            jScrollPaneKasirBarang.setViewportView(jTableBarangKasir);
-
-        } catch (SQLException | NullPointerException ex) {
-            JOptionPane.showMessageDialog(null, "Kesalahan: Data tidak ditemukan");
+        } catch (NullPointerException ex) {
+            JOptionPane.showMessageDialog(this, "Kesalahan: Data tidak ditemukan");
+        } catch (SQLException ex) {
+            Logger.getLogger(KasirForm.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        TableBarang tb = new TableBarang(brList);
+        jTableBarangKasir.setModel(tb);
+
+        jScrollPaneKasirBarang.setViewportView(jTableBarangKasir);
     }//GEN-LAST:event_btnCariBarangActionPerformed
 
     private void txtCariBarangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCariBarangFocusGained
@@ -701,14 +704,14 @@ public class KasirForm extends javax.swing.JFrame {
             }
             else{
                     labelKembalian.setText(Formater.setRupiahFormat(kembalian));
-                    labelKembalian.setForeground(Color.green);
+                    labelKembalian.setForeground(new Color(0,153,51));//Green
             }
         }
     }//GEN-LAST:event_jTableBarangKasirMousePressed
 
     private void txtKembalianKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKembalianKeyPressed
         int raw = Formater.setRupiahToInteger(txtKembalian.getText());
-        txtKembalian.setText(new Integer(raw).toString());
+        txtKembalian.setText(Integer.toString(raw));
         try {
             if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
                 int total = Formater.setRupiahToInteger(labelTotalFooter.getText());
@@ -720,22 +723,18 @@ public class KasirForm extends javax.swing.JFrame {
                     labelKembalian.setForeground(Color.red);
                 }else if(kembalian == 0){
                     labelKembalian.setText("Uang pas");
-                    labelKembalian.setForeground(Color.green);
+                    labelKembalian.setForeground(new Color(0,153,51));//Green
                 }else{
                     labelKembalian.setText(Formater.setRupiahFormat(kembalian));
-                    labelKembalian.setForeground(Color.green);
+                    labelKembalian.setForeground(new Color(0,153,51));
                 }
                 
                 
             }
-        } catch (Exception ex) {
-            System.out.println(ex);
+        } catch (NumberFormatException ex) {
+            txtKembalian.setText("");
         }
     }//GEN-LAST:event_txtKembalianKeyPressed
-
-    private void txtKembalianKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKembalianKeyTyped
-        
-    }//GEN-LAST:event_txtKembalianKeyTyped
 
     private void txtKembalianKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKembalianKeyReleased
         try {
@@ -781,10 +780,10 @@ public class KasirForm extends javax.swing.JFrame {
                 labelKembalian.setForeground(Color.red);
             } else if (kembalianx == 0) {
                 labelKembalian.setText("Uang pas");
-                labelKembalian.setForeground(Color.green);
+                labelKembalian.setForeground(new Color(0,153,51));//Green
             } else {
                 labelKembalian.setText(Formater.setRupiahFormat(kembalianx));
-                labelKembalian.setForeground(Color.green);
+                labelKembalian.setForeground(new Color(0,153,51));//Green
             }
             
             
@@ -795,38 +794,48 @@ public class KasirForm extends javax.swing.JFrame {
 
     private void jTableListBelanjaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTableListBelanjaFocusGained
         
-        int jumlah = new Integer(
-                jTableListBelanja.getValueAt(
-                        jTableListBelanja.getSelectedRow(), 3).toString());
-        int harga = new Integer(
-                jTableListBelanja.getValueAt(
-                        jTableListBelanja.getSelectedRow(), 2).toString());
-        int total = 0;
-        for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
-            total = total + new Integer(
-                    jTableListBelanja.getValueAt(i, 2).toString())
-                    * new Integer(
-                            jTableListBelanja.getValueAt(i, 3).toString());
+        try {
+            int jumlah = new Integer(
+                    jTableListBelanja.getValueAt(
+                            jTableListBelanja.getSelectedRow(), 3).toString());
+            int harga = new Integer(
+                    jTableListBelanja.getValueAt(
+                            jTableListBelanja.getSelectedRow(), 2).toString());
+            int total = 0;
+            for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
+                total = total + new Integer(
+                        jTableListBelanja.getValueAt(i, 2).toString())
+                        * new Integer(
+                                jTableListBelanja.getValueAt(i, 3).toString());
+            }
+
+            labelTotalBig.setText(Formater.setRupiahFormat(total));
+            labelTotalFooter.setText(Formater.setRupiahFormat(total));
+            txtTerbilang.setText(Formater.setRupiahTerbilang(Formater.setRupiahToInteger(labelTotalBig.getText())));
+
+            int kembalian = Formater.setRupiahToInteger(txtKembalian.getText());
+            int totalx = kembalian - total;
+
+            if (totalx < 0) {
+                labelKembalian.setText("Pembayaran Tidak Mencukupi");
+                labelKembalian.setForeground(Color.red);
+            } else if (totalx == 0) {
+                labelKembalian.setText("Uang pas");
+                labelKembalian.setForeground(new Color(0,153,51));//Green
+            } else {
+                labelKembalian.setText(Formater.setRupiahFormat(totalx));
+                labelKembalian.setForeground(new Color(0,153,51));//Green
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(rootPane, 
+                    "Kesalahan: Periksa kembali kolom jumlah pada tabel list belanja",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            jTableListBelanja.setValueAt(
+                    1,
+                    jTableListBelanja.getSelectedRow(), 
+                    jTableListBelanja.getSelectedColumn());
         }
 
-        labelTotalBig.setText(Formater.setRupiahFormat(total));
-        labelTotalFooter.setText(Formater.setRupiahFormat(total));
-        txtTerbilang.setText(Formater.setRupiahTerbilang
-            (Formater.setRupiahToInteger(labelTotalBig.getText())));
-        
-        int kembalian = Formater.setRupiahToInteger(txtKembalian.getText());
-        int totalx = kembalian - total;
-        
-        if (totalx < 0) {
-            labelKembalian.setText("Pembayaran Tidak Mencukupi");
-            labelKembalian.setForeground(Color.red);
-        } else if (totalx == 0) {
-            labelKembalian.setText("Uang pas");
-            labelKembalian.setForeground(Color.green);
-        } else {
-            labelKembalian.setText(Formater.setRupiahFormat(totalx));
-            labelKembalian.setForeground(Color.green);
-        }
     }//GEN-LAST:event_jTableListBelanjaFocusGained
 
     private void jTableListBelanjaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTableListBelanjaFocusLost
@@ -886,6 +895,7 @@ public class KasirForm extends javax.swing.JFrame {
                                 getValueAt(i, 0).toString())), new Integer(jTableListBelanja.
                                 getValueAt(i, 3).toString()));
             } catch (SQLException ex) {
+                ex.printStackTrace();
                 Logger.getLogger(KasirForm.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -905,6 +915,7 @@ public class KasirForm extends javax.swing.JFrame {
         try {
             StrukController.previewCetakStruk(struk);
         } catch (IOException ex) {
+            ex.printStackTrace();
             Logger.getLogger(KasirForm.class.getName()).log(Level.SEVERE, null, ex);
         }
             

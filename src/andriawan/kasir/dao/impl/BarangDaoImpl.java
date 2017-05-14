@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import utilities.Formater;
 
 /**
@@ -171,7 +172,7 @@ public class BarangDaoImpl implements BarangDao {
     
     public List<Barang> multiSearch(String a, String b, String c, String d) {
         ResultSet result = null;
-        List<Barang> barangs = new ArrayList<Barang>();
+        List<Barang> barangs = new ArrayList<>();
         try {
             con = ConnectionManager.getConnection();
             preparedStatement = con.prepareStatement(MULTI_SEARCH);

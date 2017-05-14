@@ -346,7 +346,7 @@ public class UserDaoImpl implements UserDao {
                 String pass = result.getString(3);
                 String statusr = result.getString(5);
                 
-                ArrayList<String> container = new ArrayList<String>();
+                ArrayList<String> container = new ArrayList<>();
                 container.add(usernamer);
                 container.add(id);
                 container.add(statusr);

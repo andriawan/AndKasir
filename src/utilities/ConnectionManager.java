@@ -5,6 +5,7 @@
  */
 package utilities;
 
+import andriawan.kasir.controller.UserLoginController;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,7 +46,7 @@ public class ConnectionManager {
                         ConnectionManager.password);
 
             } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, 
+                JOptionPane.showMessageDialog(UserLoginController.getLoginFormInstance(), 
                         "Error: Terjadi Masalah dengan Koneksi Database. "
                                 + "Periksa apakah database service telah berjalan ",
                         "Error",JOptionPane.ERROR_MESSAGE);

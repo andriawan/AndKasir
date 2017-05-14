@@ -23,18 +23,19 @@ public class AndKasirApp {
      * Memanggil User Login Controller, Menampilkan View LoginForm 
      * Mengadopsi Paradigma MVC
      *
+     * @param args
      */
     public static void main(String[] args) {
         
         try{
-            UserDaoImpl user = UserLoginController.getUserInstance();
             LoginForm loginForm = UserLoginController.getLoginFormInstance();
+            UserDaoImpl user = UserLoginController.getUserInstance();
             UserLoginController userLoginController
                     = new UserLoginController(user, loginForm);   
         }catch(ExceptionInInitializerError e){
             JOptionPane.showMessageDialog(null
                     ,"Kesalahan: File Konfigurasi tidak dapat ditemukan. Silahkan Baca README"
-                    ,"Eroor", JOptionPane.ERROR_MESSAGE);
+                    ,"Error", JOptionPane.ERROR_MESSAGE);
             System.exit(0);
         }
     }

@@ -23,7 +23,7 @@
             <Property name="intercellSpacing" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[10, 5]"/>
             </Property>
-            <Property name="rowHeight" type="int" value="30"/>
+            <Property name="rowHeight" type="int" value="30" postCode="tableBarang.getTableHeader().setReorderingAllowed(false);"/>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
@@ -59,6 +59,9 @@
           <Events>
             <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tabelUserMousePressed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="tabelUser.getTableHeader().setReorderingAllowed(false);"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
@@ -272,6 +275,9 @@
             </Property>
             <Property name="rowHeight" type="int" value="30"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTableResultBarang.getTableHeader().setReorderingAllowed(false);"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
@@ -725,7 +731,7 @@
                 <Property name="intercellSpacing" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[10, 5]"/>
                 </Property>
-                <Property name="opaque" type="boolean" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Property name="opaque" type="boolean" editor="org.netbeans.modules.form.RADConnectionPropertyEditor" postCode="tabelTransaksi.getTableHeader().setReorderingAllowed(false);">
                   <Connection code="true" type="code"/>
                 </Property>
                 <Property name="rowHeight" type="int" value="30"/>

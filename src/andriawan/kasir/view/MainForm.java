@@ -153,6 +153,7 @@ public class MainForm extends javax.swing.JFrame{
         tableBarang.setDragEnabled(false);
         tableBarang.setIntercellSpacing(new java.awt.Dimension(10, 5));
         tableBarang.setRowHeight(30);
+        tableBarang.getTableHeader().setReorderingAllowed(false);
         tableBarang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 tableBarangMousePressed(evt);
@@ -173,6 +174,7 @@ public class MainForm extends javax.swing.JFrame{
         ));
         tabelUser.setIntercellSpacing(new java.awt.Dimension(10, 5));
         tabelUser.setRowHeight(30);
+        tabelUser.getTableHeader().setReorderingAllowed(false);
         tabelUser.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 tabelUserMousePressed(evt);
@@ -345,6 +347,7 @@ public class MainForm extends javax.swing.JFrame{
         jTableResultBarang.setIntercellSpacing(new java.awt.Dimension(10, 5));
         jTableResultBarang.setRowHeight(30);
         jScrollPaneResultBarang.setViewportView(jTableResultBarang);
+        jTableResultBarang.getTableHeader().setReorderingAllowed(false);
 
         panelCRUDBarangButton.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Editor Barang", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
@@ -575,6 +578,7 @@ public class MainForm extends javax.swing.JFrame{
         ));
         tabelTransaksi.setIntercellSpacing(new java.awt.Dimension(10, 5));
         tabelTransaksi.setOpaque(true);
+        tabelTransaksi.getTableHeader().setReorderingAllowed(false);
         tabelTransaksi.setRowHeight(30);
         tabelTransaksi.getTableHeader().setReorderingAllowed(false);
         tabelTransaksi.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -807,6 +811,7 @@ public class MainForm extends javax.swing.JFrame{
                         setTxtFieldStok(String.valueOf(br.getStok()));
                 BarangController.getUpdateFormInstance().
                         setTxtFieldIdBarang(String.valueOf(s));
+                
             } catch (SQLException ex) {
                 Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -997,6 +1002,10 @@ public class MainForm extends javax.swing.JFrame{
         this.screenHeight = screenSize.height;
         this.screenWidth = screenSize.width;
         
+    }
+    
+    public void reloadTableBarang(ActionEvent evt){
+        btnCekBarangActionPerformed(evt);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCariBarang;

@@ -6,6 +6,7 @@
 package andriawan.kasir.view;
 
 import andriawan.kasir.controller.BarangController;
+import andriawan.kasir.controller.UserLoginController;
 import andriawan.kasir.model.Barang;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -38,7 +39,7 @@ public class EditorBarangForm extends javax.swing.JFrame {
     }
     
     public void setTxtFieldStok(String set){
-        this.txtFieldstok.setText(set);
+        this.txtFieldStok.setText(set);
     }
 
     /**
@@ -51,7 +52,7 @@ public class EditorBarangForm extends javax.swing.JFrame {
     private void initComponents() {
 
         panelTambahBarangFrame = new javax.swing.JPanel();
-        txtFieldstok = new javax.swing.JTextField();
+        txtFieldStok = new javax.swing.JTextField();
         labelStok = new javax.swing.JLabel();
         btnBatalTambahBarang = new javax.swing.JButton();
         btnTambahBarangFrame = new javax.swing.JButton();
@@ -69,7 +70,12 @@ public class EditorBarangForm extends javax.swing.JFrame {
         panelTambahBarangFrame.setBackground(new java.awt.Color(255, 255, 255));
         panelTambahBarangFrame.setForeground(new java.awt.Color(255, 255, 255));
 
-        txtFieldstok.setMargin(new java.awt.Insets(0, 5, 0, 0));
+        txtFieldStok.setMargin(new java.awt.Insets(0, 5, 0, 0));
+        txtFieldStok.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFieldStokKeyReleased(evt);
+            }
+        });
 
         labelStok.setText("Stok");
 
@@ -129,7 +135,7 @@ public class EditorBarangForm extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addGroup(panelTambahBarangFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(labelNamaBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtFieldstok, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtFieldStok, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtFieldHarga, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtFieldNamaBarang, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelTambahBarangFrameLayout.createSequentialGroup()
@@ -167,7 +173,7 @@ public class EditorBarangForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelStok)
                 .addGap(12, 12, 12)
-                .addComponent(txtFieldstok, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtFieldStok, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(txtIdBarang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -214,12 +220,13 @@ public class EditorBarangForm extends javax.swing.JFrame {
         int id = Integer.parseInt(txtIdBarang.getText());
         String nmBarang = txtFieldNamaBarang.getText();
         int harga = Formater.setRupiahToInteger(txtFieldHarga.getText());
-        int total = Integer.parseInt(txtFieldstok.getText());
+        int total = Integer.parseInt(txtFieldStok.getText());
         
         try {
             bc.updateBarang(new Barang(id, nmBarang, harga, total));
             JOptionPane.showMessageDialog(null, "Barang berhasil diupdate");
             this.setVisible(false);
+            UserLoginController.getMainFormInstance().reloadTableBarang(evt);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Terjadi kesalahan: periksa inputan anda");
         } catch(NumberFormatException b){
@@ -231,7 +238,7 @@ public class EditorBarangForm extends javax.swing.JFrame {
         BarangController bc = new BarangController();
         String nmBarang = txtFieldNamaBarang.getText();
         int harga = Formater.setRupiahToInteger(txtFieldHarga.getText());
-        int total = Integer.parseInt(txtFieldstok.getText());
+        int total = Integer.parseInt(txtFieldStok.getText());
         try {
             bc.insertBarang(new Barang(nmBarang, harga, total, System.currentTimeMillis(), total));
             JOptionPane.showMessageDialog(null, "Barang berhasil ditambahkan");
@@ -243,7 +250,7 @@ public class EditorBarangForm extends javax.swing.JFrame {
         
         txtFieldNamaBarang.setText("");
         txtFieldHarga.setText("");
-        txtFieldstok.setText("");
+        txtFieldStok.setText("");
     }//GEN-LAST:event_btnTambahBarangFrameActionPerformed
 
     private void txtFieldHargaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldHargaKeyReleased
@@ -253,6 +260,11 @@ public class EditorBarangForm extends javax.swing.JFrame {
             txtFieldHarga.setText("");
         }
     }//GEN-LAST:event_txtFieldHargaKeyReleased
+
+    private void txtFieldStokKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldStokKeyReleased
+
+        txtFieldStok.setText(Formater.filterOnlyNumber(txtFieldStok.getText()));
+    }//GEN-LAST:event_txtFieldStokKeyReleased
 
     public void setVisibilityBtnUpdate(){
         btnUpdateBarangFrame.setVisible(true);
@@ -276,7 +288,7 @@ public class EditorBarangForm extends javax.swing.JFrame {
     private javax.swing.JPanel panelTambahBarangFrame;
     private javax.swing.JTextField txtFieldHarga;
     private javax.swing.JTextField txtFieldNamaBarang;
-    private javax.swing.JTextField txtFieldstok;
+    private javax.swing.JTextField txtFieldStok;
     private javax.swing.JTextField txtIdBarang;
     // End of variables declaration//GEN-END:variables
 }
