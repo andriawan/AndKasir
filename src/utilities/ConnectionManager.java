@@ -50,6 +50,7 @@ public class ConnectionManager {
                                 + "Periksa apakah database service telah berjalan ",
                         "Error",JOptionPane.ERROR_MESSAGE);
                 System.out.println("Failed to Establish Database Connection");
+                System.exit(0);
             }
         } catch (ClassNotFoundException e) {
             System.out.println("Driver not found");

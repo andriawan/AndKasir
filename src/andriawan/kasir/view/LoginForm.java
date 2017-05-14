@@ -12,13 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-import javax.swing.JToolBar;
 import utilities.Formater;
 
 /**
@@ -232,7 +226,7 @@ public class LoginForm extends javax.swing.JFrame {
                     UserLoginController.getMainFormInstance().setVisible(true);
                     setVisible(false);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Password atau Username salah");
+                    JOptionPane.showMessageDialog(this, "Password atau Username salah");
                 }
                 break;
             case 1:
@@ -253,7 +247,7 @@ public class LoginForm extends javax.swing.JFrame {
                     
                     setVisible(false);
                 }else{
-                    JOptionPane.showMessageDialog(null, 
+                    JOptionPane.showMessageDialog(this, 
                             "Password atau Username salah",
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -266,11 +260,11 @@ public class LoginForm extends javax.swing.JFrame {
             }
             
         } catch (NullPointerException h) {
-            JOptionPane.showMessageDialog(null, 
+            JOptionPane.showMessageDialog(this, 
                     "Error: Periksa opsi jabatan apakah sudah benar",
                     "Error", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException sql) {
-            JOptionPane.showMessageDialog(null, 
+            JOptionPane.showMessageDialog(this, 
                     "Error: Terjadi Kesalahan Koneksi Database",
                     "Error", JOptionPane.ERROR_MESSAGE);
         }

@@ -8,6 +8,7 @@ package andriawan.kasir.app;
 import andriawan.kasir.controller.UserLoginController;
 import andriawan.kasir.dao.impl.UserDaoImpl;
 import andriawan.kasir.view.LoginForm;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -24,11 +25,18 @@ public class AndKasirApp {
      *
      */
     public static void main(String[] args) {
-
-        UserDaoImpl user = UserLoginController.getUserInstance();
-        LoginForm loginForm = UserLoginController.getLoginFormInstance();
-        UserLoginController userLoginController
-                = new UserLoginController(user, loginForm);
+        
+        try{
+            UserDaoImpl user = UserLoginController.getUserInstance();
+            LoginForm loginForm = UserLoginController.getLoginFormInstance();
+            UserLoginController userLoginController
+                    = new UserLoginController(user, loginForm);   
+        }catch(ExceptionInInitializerError e){
+            JOptionPane.showMessageDialog(null
+                    ,"Kesalahan: File Konfigurasi tidak dapat ditemukan. Silahkan Baca README"
+                    ,"Eroor", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+        }
     }
 
 }
