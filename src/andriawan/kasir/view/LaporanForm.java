@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import utilities.Formater;
 
 /**
@@ -26,6 +27,18 @@ public class LaporanForm extends javax.swing.JFrame {
      */
     public LaporanForm() {
         initComponents();
+        
+        // SET ICON RESOURCE
+        ImageIcon iconBtnCariLaporan = new ImageIcon(
+                new ImageIcon("resources/search.png").getImage().
+        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnLihatLaporan.setIcon(iconBtnCariLaporan);
+        
+        // SET ICON RESOURCE
+        ImageIcon iconCetakPdf = new ImageIcon(
+                new ImageIcon("resources/print.png").getImage().
+        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnCetakPdf.setIcon(iconCetakPdf);
     }
 
     /**
@@ -115,37 +128,37 @@ public class LaporanForm extends javax.swing.JFrame {
 
         dateChooserCombo1.setCurrentView(new datechooser.view.appearance.AppearancesList("Light",
             new datechooser.view.appearance.ViewAppearance("custom",
-                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 11),
                     new java.awt.Color(51, 51, 51),
                     new java.awt.Color(0, 0, 255),
                     false,
                     true,
                     new datechooser.view.appearance.swing.ButtonPainter()),
-                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 11),
                     new java.awt.Color(51, 51, 51),
                     new java.awt.Color(0, 0, 255),
                     true,
                     true,
                     new datechooser.view.appearance.swing.ButtonPainter()),
-                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 11),
                     new java.awt.Color(0, 0, 255),
                     new java.awt.Color(0, 0, 255),
                     false,
                     true,
                     new datechooser.view.appearance.swing.ButtonPainter()),
-                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 11),
                     new java.awt.Color(128, 128, 128),
                     new java.awt.Color(0, 0, 255),
                     false,
                     true,
                     new datechooser.view.appearance.swing.LabelPainter()),
-                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 11),
                     new java.awt.Color(51, 51, 51),
                     new java.awt.Color(0, 0, 255),
                     false,
                     true,
                     new datechooser.view.appearance.swing.LabelPainter()),
-                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 11),
                     new java.awt.Color(51, 51, 51),
                     new java.awt.Color(255, 0, 0),
                     false,
@@ -159,37 +172,37 @@ public class LaporanForm extends javax.swing.JFrame {
 
     dateChooserCombo2.setCurrentView(new datechooser.view.appearance.AppearancesList("Light",
         new datechooser.view.appearance.ViewAppearance("custom",
-            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 11),
                 new java.awt.Color(255, 255, 255),
                 new java.awt.Color(0, 0, 255),
                 false,
                 true,
                 new datechooser.view.appearance.swing.ButtonPainter()),
-            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 11),
                 new java.awt.Color(51, 51, 51),
                 new java.awt.Color(0, 0, 255),
                 true,
                 true,
                 new datechooser.view.appearance.swing.ButtonPainter()),
-            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 11),
                 new java.awt.Color(0, 0, 255),
                 new java.awt.Color(0, 0, 255),
                 false,
                 true,
                 new datechooser.view.appearance.swing.ButtonPainter()),
-            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 11),
                 new java.awt.Color(128, 128, 128),
                 new java.awt.Color(0, 0, 255),
                 false,
                 true,
                 new datechooser.view.appearance.swing.LabelPainter()),
-            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 11),
                 new java.awt.Color(51, 51, 51),
                 new java.awt.Color(0, 0, 255),
                 false,
                 true,
                 new datechooser.view.appearance.swing.LabelPainter()),
-            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 11),
                 new java.awt.Color(51, 51, 51),
                 new java.awt.Color(255, 0, 0),
                 false,
@@ -206,7 +219,6 @@ jLabel1.setText("Dari Tanggal");
 jLabel2.setText("Hingga");
 
 txtTglRange.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-txtTglRange.setText("jLabel6");
 
 javax.swing.GroupLayout panelLaporanLayout = new javax.swing.GroupLayout(panelLaporan);
 panelLaporan.setLayout(panelLaporanLayout);
@@ -227,7 +239,7 @@ panelLaporanLayout.setHorizontalGroup(
             .addGroup(panelLaporanLayout.createSequentialGroup()
                 .addComponent(btnLihatLaporan)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnCetakPdf))
+                .addComponent(btnCetakPdf, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jLabel1)
             .addComponent(jLabel2)
             .addComponent(txtBarangMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -270,7 +282,7 @@ panelLaporanLayout.setHorizontalGroup(
             .addComponent(jLabel4)
             .addGap(18, 18, 18)
             .addComponent(txtBarangKeluar)
-            .addContainerGap(155, Short.MAX_VALUE))
+            .addContainerGap(171, Short.MAX_VALUE))
         .addGroup(panelLaporanLayout.createSequentialGroup()
             .addContainerGap()
             .addComponent(jScrollPane1))

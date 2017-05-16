@@ -83,11 +83,11 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="btnCariBarang" max="32767" attributes="0"/>
                       <Component id="txtCariBarang" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -147,10 +147,10 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="btnCariTransaksi" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtCariTransaksi" alignment="0" min="-2" pref="31" max="-2" attributes="0"/>
+                      <Component id="btnCariTransaksi" max="32767" attributes="0"/>
+                      <Component id="txtCariTransaksi" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -174,6 +174,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCariTransaksiActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="ImageIcon iconBtnCariTransaksi = new ImageIcon(new ImageIcon(&quot;resources/search.png&quot;).getImage().&#xa;getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));&#xa;btnCariTransaksi.setIcon(iconBtnCariTransaksi);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JTextField" name="txtCariTransaksi">
           <Properties>
@@ -211,9 +214,9 @@
                   <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="btnCariUser" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtCariUser" alignment="0" min="-2" pref="31" max="-2" attributes="0"/>
+                      <Component id="txtCariUser" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -237,6 +240,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCariUserActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="ImageIcon iconBtnCariUser = new ImageIcon(new ImageIcon(&quot;resources/search.png&quot;).getImage().&#xa;getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));&#xa;btnCariUser.setIcon(iconBtnCariUser);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JTextField" name="txtCariUser">
           <Properties>
@@ -333,6 +339,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditorTambahBarangActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="ImageIcon iconbtnEditorTambahBarang = new ImageIcon(new ImageIcon(&quot;resources/insert.png&quot;).getImage().&#xa;getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));&#xa;btnCariBarang.setIcon(iconbtnEditorTambahBarang);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="btnEditorHapusBarang">
           <Properties>
@@ -348,6 +357,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditorHapusBarangActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="ImageIcon iconbtnEditorHapusBarang = new ImageIcon(new ImageIcon(&quot;resources/delete.png&quot;).getImage().&#xa;getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));&#xa;btnCariBarang.setIcon(iconbtnEditorHapusBarang);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="btnEditorEditBarang">
           <Properties>
@@ -363,6 +375,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditorEditBarangActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="ImageIcon iconbtnEditorEditBarang = new ImageIcon(new ImageIcon(&quot;resources/edit.png&quot;).getImage().&#xa;getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));&#xa;btnCariBarang.setIcon(iconbtnEditorEditBarang);"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
@@ -379,13 +394,13 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="btnEditUser" max="32767" attributes="0"/>
-                      <Component id="btnTambahUser" alignment="0" pref="363" max="32767" attributes="0"/>
+                      <Component id="btnTambahUser" alignment="0" pref="241" max="32767" attributes="0"/>
                       <Component id="btnHapusUser" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -511,11 +526,11 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="panelHeader" pref="381" max="32767" attributes="0"/>
+                  <Component id="panelHeader" pref="370" max="32767" attributes="0"/>
                   <Component id="panelTabel" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="panelButtonAction" min="-2" pref="206" max="-2" attributes="0"/>
+              <Component id="panelButtonAction" min="-2" pref="217" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -555,7 +570,7 @@
                           <Component id="btnCekLaporan" alignment="0" max="32767" attributes="0"/>
                           <Component id="btnCekBarang" alignment="1" max="32767" attributes="0"/>
                           <Component id="btnInfoUser" alignment="1" max="32767" attributes="0"/>
-                          <Component id="btnCekTransaksi" alignment="0" pref="182" max="32767" attributes="0"/>
+                          <Component id="btnCekTransaksi" alignment="0" pref="193" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -592,6 +607,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCekTransaksiActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="ImageIcon iconBtnTransaksi = new ImageIcon(new ImageIcon(&quot;resources/check.png&quot;).getImage().&#xa;getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));&#xa;btnCekTransaksi.setIcon(iconBtnTransaksi);"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JButton" name="btnCekLaporan">
               <Properties>
@@ -607,6 +625,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCekLaporanActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="ImageIcon iconBtnCekLaporan = new ImageIcon(new ImageIcon(&quot;resources/check.png&quot;).getImage().&#xa;getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));&#xa;btnCekLaporan.setIcon(iconBtnCekLaporan);"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JButton" name="btnCekBarang">
               <Properties>
@@ -622,6 +643,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCekBarangActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="ImageIcon iconBtnCekBarang = new ImageIcon(new ImageIcon(&quot;resources/check.png&quot;).getImage().&#xa;getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));&#xa;btnCekBarang.setIcon(iconBtnCekBarang);"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JButton" name="btnInfoUser">
               <Properties>
@@ -637,6 +661,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnInfoUserActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="ImageIcon iconBtnInfoUser = new ImageIcon(new ImageIcon(&quot;resources/check.png&quot;).getImage().&#xa;getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));&#xa;btnInfoUser.setIcon(iconBtnInfoUser);"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>

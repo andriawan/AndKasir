@@ -74,13 +74,11 @@
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="activatePassField" pref="0" max="32767" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="btnUpdateUser" alignment="1" min="-2" pref="90" max="-2" attributes="0"/>
-                              <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="btnTambahUser" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="btnBatalUser" alignment="0" min="-2" pref="90" max="-2" attributes="0"/>
-                              </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="btnUpdateUser" max="32767" attributes="0"/>
+                              <Component id="btnTambahUser" alignment="0" pref="106" max="32767" attributes="0"/>
+                              <Component id="btnBatalUser" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">

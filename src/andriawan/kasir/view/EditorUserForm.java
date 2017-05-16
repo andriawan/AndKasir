@@ -7,6 +7,7 @@ package andriawan.kasir.view;
 
 import andriawan.kasir.controller.UserController;
 import andriawan.kasir.model.User;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,6 +23,22 @@ public class EditorUserForm extends javax.swing.JFrame {
         initComponents();
         txtIdUser.setVisible(false);
         txtPassword.setEnabled(false);
+        
+        // SET ICON RESOURCE
+        ImageIcon iconBtnUpdateUser = new ImageIcon(
+                new ImageIcon("resources/insert.png").getImage().
+        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnUpdateUser.setIcon(iconBtnUpdateUser);
+        
+        ImageIcon iconBtnTambahUser = new ImageIcon(
+                new ImageIcon("resources/check.png").getImage().
+        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnTambahUser.setIcon(iconBtnTambahUser);
+        
+        ImageIcon iconBatal = new ImageIcon(
+                new ImageIcon("resources/delete.png").getImage().
+        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnBatalUser.setIcon(iconBatal);
     }
     
     public void setEnablePassField(Boolean bl){
@@ -164,12 +181,11 @@ public class EditorUserForm extends javax.swing.JFrame {
                         .addGap(174, 174, 174))
                     .addGroup(panelTambahBarangFrameLayout.createSequentialGroup()
                         .addComponent(activatePassField, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addGroup(panelTambahBarangFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnUpdateUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(panelTambahBarangFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btnTambahUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnBatalUser, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelTambahBarangFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnUpdateUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnTambahUser, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                            .addComponent(btnBatalUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelTambahBarangFrameLayout.createSequentialGroup()
                         .addComponent(txtIdUser, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))

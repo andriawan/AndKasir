@@ -9,6 +9,7 @@ import andriawan.kasir.controller.BarangController;
 import andriawan.kasir.controller.UserLoginController;
 import andriawan.kasir.model.Barang;
 import java.sql.SQLException;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import utilities.Formater;
 
@@ -24,6 +25,23 @@ public class EditorBarangForm extends javax.swing.JFrame {
     public EditorBarangForm() {
         initComponents();
         txtIdBarang.setVisible(false);
+        
+        // SET ICON RESOURCE
+        ImageIcon iconBtnUpdateBarang = new ImageIcon(
+                new ImageIcon("resources/insert.png").getImage().
+        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnUpdateBarangFrame.setIcon(iconBtnUpdateBarang);
+        
+        ImageIcon iconBtnTambahBarang = new ImageIcon(
+                new ImageIcon("resources/check.png").getImage().
+        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnTambahBarangFrame.setIcon(iconBtnTambahBarang);
+        
+        ImageIcon iconBatal = new ImageIcon(
+                new ImageIcon("resources/delete.png").getImage().
+        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnBatalTambahBarang.setIcon(iconBatal);
+        
     }
     
     public void setTxtFieldIdBarang(String set){
@@ -145,16 +163,15 @@ public class EditorBarangForm extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelTambahBarangFrameLayout.createSequentialGroup()
                         .addComponent(labelHarga, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
                         .addGap(174, 174, 174))
-                    .addGroup(panelTambahBarangFrameLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(panelTambahBarangFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnUpdateBarangFrame, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(panelTambahBarangFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btnTambahBarangFrame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnBatalTambahBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelTambahBarangFrameLayout.createSequentialGroup()
                         .addComponent(txtIdBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(panelTambahBarangFrameLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(panelTambahBarangFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnUpdateBarangFrame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnTambahBarangFrame, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+                            .addComponent(btnBatalTambahBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(22, 22, 22))
         );
         panelTambahBarangFrameLayout.setVerticalGroup(

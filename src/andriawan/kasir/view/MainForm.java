@@ -27,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import utilities.Formater;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -66,7 +67,46 @@ public class MainForm extends javax.swing.JFrame{
             }
         });
         
-        tableBarang.setDragEnabled(false);
+        // SET ICON RESOURCE
+        ImageIcon iconBtnCariBarang = new ImageIcon(
+                new ImageIcon("resources/search.png").getImage().
+        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnCariBarang.setIcon(iconBtnCariBarang);
+        
+        // CRUD BARANG
+        ImageIcon iconBtnEditorTambahBarang = new ImageIcon(
+                new ImageIcon("resources/insert.png").getImage().
+        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnEditorTambahBarang.setIcon(iconBtnEditorTambahBarang);
+        
+        ImageIcon iconBtnEditorHapusBarang = new ImageIcon(
+                new ImageIcon("resources/delete.png").getImage().
+        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnEditorHapusBarang.setIcon(iconBtnEditorHapusBarang);
+        
+        ImageIcon iconBtnEditorEditBarang = new ImageIcon(
+                new ImageIcon("resources/edit.png").getImage().
+        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnEditorEditBarang.setIcon(iconBtnEditorEditBarang);
+        
+        // CRUD USER
+        ImageIcon iconBtnEditorTambahUser = new ImageIcon(
+                new ImageIcon("resources/insert.png").getImage().
+        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnTambahUser.setIcon(iconBtnEditorTambahUser);
+        
+        ImageIcon iconBtnEditorHapusUser = new ImageIcon(
+                new ImageIcon("resources/delete.png").getImage().
+        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnHapusUser.setIcon(iconBtnEditorHapusUser);
+        
+        ImageIcon iconBtnEditorEditUser = new ImageIcon(
+                new ImageIcon("resources/edit.png").getImage().
+        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnEditUser.setIcon(iconBtnEditorEditUser);
+        
+        
+        // END OF SET ICON RESOURCE
         
         btnCekTransaksiActionPerformed(null);
         panelSearchTransaksi.setVisible(true);
@@ -228,10 +268,10 @@ public class MainForm extends javax.swing.JFrame{
             panelSearchBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSearchBarangLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addGroup(panelSearchBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(panelSearchBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCariBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtCariBarang))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         btnCariTransaksi.setBackground(new java.awt.Color(51, 153, 255));
@@ -281,10 +321,14 @@ public class MainForm extends javax.swing.JFrame{
             .addGroup(panelSearchTransaksiLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addGroup(panelSearchTransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCariTransaksi)
-                    .addComponent(txtCariTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnCariTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtCariTransaksi))
+                .addContainerGap())
         );
+
+        ImageIcon iconBtnCariTransaksi = new ImageIcon(new ImageIcon("resources/search.png").getImage().
+            getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnCariTransaksi.setIcon(iconBtnCariTransaksi);
 
         btnCariUser.setBackground(new java.awt.Color(51, 153, 255));
         btnCariUser.setForeground(new java.awt.Color(255, 255, 255));
@@ -329,9 +373,13 @@ public class MainForm extends javax.swing.JFrame{
                 .addGap(0, 0, 0)
                 .addGroup(panelSearchUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCariUser)
-                    .addComponent(txtCariUser, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtCariUser))
+                .addContainerGap())
         );
+
+        ImageIcon iconBtnCariUser = new ImageIcon(new ImageIcon("resources/search.png").getImage().
+            getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnCariUser.setIcon(iconBtnCariUser);
 
         jTableResultBarang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -355,6 +403,9 @@ public class MainForm extends javax.swing.JFrame{
         btnEditorTambahBarang.setForeground(new java.awt.Color(255, 255, 255));
         btnEditorTambahBarang.setText("Tambah Barang");
         btnEditorTambahBarang.setBorderPainted(false);
+        ImageIcon iconbtnEditorTambahBarang = new ImageIcon(new ImageIcon("resources/insert.png").getImage().
+            getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnCariBarang.setIcon(iconbtnEditorTambahBarang);
         btnEditorTambahBarang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditorTambahBarangActionPerformed(evt);
@@ -365,6 +416,9 @@ public class MainForm extends javax.swing.JFrame{
         btnEditorHapusBarang.setForeground(new java.awt.Color(255, 255, 255));
         btnEditorHapusBarang.setText("Hapus Barang");
         btnEditorHapusBarang.setBorderPainted(false);
+        ImageIcon iconbtnEditorHapusBarang = new ImageIcon(new ImageIcon("resources/delete.png").getImage().
+            getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnCariBarang.setIcon(iconbtnEditorHapusBarang);
         btnEditorHapusBarang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditorHapusBarangActionPerformed(evt);
@@ -375,6 +429,9 @@ public class MainForm extends javax.swing.JFrame{
         btnEditorEditBarang.setForeground(new java.awt.Color(255, 255, 255));
         btnEditorEditBarang.setText("Edit Barang");
         btnEditorEditBarang.setBorderPainted(false);
+        ImageIcon iconbtnEditorEditBarang = new ImageIcon(new ImageIcon("resources/edit.png").getImage().
+            getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnCariBarang.setIcon(iconbtnEditorEditBarang);
         btnEditorEditBarang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditorEditBarangActionPerformed(evt);
@@ -445,7 +502,7 @@ public class MainForm extends javax.swing.JFrame{
                 .addContainerGap()
                 .addGroup(panelCRUDUserButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnEditUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnTambahUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
+                    .addComponent(btnTambahUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
                     .addComponent(btnHapusUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -517,7 +574,7 @@ public class MainForm extends javax.swing.JFrame{
                     .addComponent(btnCekLaporan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCekBarang, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnInfoUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCekTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE))
+                    .addComponent(btnCekTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelMainButtonLayout.setVerticalGroup(
@@ -533,6 +590,19 @@ public class MainForm extends javax.swing.JFrame{
                 .addComponent(btnInfoUser, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        ImageIcon iconBtnTransaksi = new ImageIcon(new ImageIcon("resources/check.png").getImage().
+            getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnCekTransaksi.setIcon(iconBtnTransaksi);
+        ImageIcon iconBtnCekLaporan = new ImageIcon(new ImageIcon("resources/check.png").getImage().
+            getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnCekLaporan.setIcon(iconBtnCekLaporan);
+        ImageIcon iconBtnCekBarang = new ImageIcon(new ImageIcon("resources/check.png").getImage().
+            getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnCekBarang.setIcon(iconBtnCekBarang);
+        ImageIcon iconBtnInfoUser = new ImageIcon(new ImageIcon("resources/check.png").getImage().
+            getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnInfoUser.setIcon(iconBtnInfoUser);
 
         panelButtonAction.add(panelMainButton);
 
@@ -627,10 +697,10 @@ public class MainForm extends javax.swing.JFrame{
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelHeader, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE)
+                    .addComponent(panelHeader, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
                     .addComponent(panelTabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelButtonAction, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelButtonAction, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -788,7 +858,7 @@ public class MainForm extends javax.swing.JFrame{
                 setLabelHeader("Edit Pengguna");
             
         }else {
-            JOptionPane.showMessageDialog(null, "Pilih barang yang akan di edit pada tabel terlebih dahulu");
+            JOptionPane.showMessageDialog(null, "Pilih Pengguna yang akan di edit pada tabel terlebih dahulu");
         }
     }//GEN-LAST:event_btnEditUserActionPerformed
 
@@ -844,7 +914,7 @@ public class MainForm extends javax.swing.JFrame{
             String nama = tableBarang.getValueAt(tableBarang.getSelectedRow(), 1).toString();
             String harga = tableBarang.getValueAt(tableBarang.getSelectedRow(), 2).toString();
             String stok = tableBarang.getValueAt(tableBarang.getSelectedRow(), 3).toString();
-            String message = "Apakah anda yakin akan menghapus barang\n\n " 
+            String message = "Apakah anda yakin akan menghapus barang\n\n" 
                     + nama + " dengan harga \n"
                     + harga + " dan jumlah stok "
                     + stok + " ?";
@@ -887,10 +957,10 @@ public class MainForm extends javax.swing.JFrame{
             String nama = tabelUser.getValueAt(tabelUser.getSelectedRow(), 3).toString();
             String jabatan = tabelUser.getValueAt(tabelUser.getSelectedRow(), 4).toString();
             
-            String message = "<html>Apakah anda yakin akan menghapus pengguna dengan \n\n username " 
+            String message = "Apakah anda yakin akan menghapus pengguna dengan\n\nusername " 
                     + username + "\nNama  "
                     + nama + "\ndan jabatan "
-                    + jabatan + " ?</html>";
+                    + jabatan + " ?";
             
             try {
                 int action = JOptionPane.showConfirmDialog(

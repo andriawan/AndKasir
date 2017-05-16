@@ -10,8 +10,11 @@ import andriawan.kasir.controller.UserLoginController;
 import andriawan.kasir.dao.impl.UserDaoImpl;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import utilities.Formater;
 
@@ -24,7 +27,8 @@ public class LoginForm extends javax.swing.JFrame {
     /**
      * Creates new form Log
      */
-    public LoginForm() {
+    public LoginForm(){
+        
         initComponents();
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
@@ -53,7 +57,7 @@ public class LoginForm extends javax.swing.JFrame {
         hint = new javax.swing.JLabel();
         jabatan = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        jPanel1 = new utilities.MyGradientPanel();
         headerLogin = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -86,7 +90,7 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
-        loginButton.setBackground(new java.awt.Color(102, 153, 255));
+        loginButton.setBackground(new java.awt.Color(51, 153, 255));
         loginButton.setForeground(new java.awt.Color(255, 255, 255));
         loginButton.setText("Masuk");
         loginButton.setBorder(null);
@@ -114,7 +118,7 @@ public class LoginForm extends javax.swing.JFrame {
 
         jLabel1.setText("Jabatan");
 
-        jPanel1.setBackground(new java.awt.Color(51, 153, 255));
+        jPanel1.setBackground(new java.awt.Color(85, 225, 248));
 
         headerLogin.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         headerLogin.setForeground(new java.awt.Color(255, 255, 255));
@@ -143,8 +147,12 @@ public class LoginForm extends javax.swing.JFrame {
         loginPanelLayout.setHorizontalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(toolBarLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
-            .addGroup(loginPanelLayout.createSequentialGroup()
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(loginPanelLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(loginPanelLayout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,12 +161,8 @@ public class LoginForm extends javax.swing.JFrame {
                             .addComponent(txtPass)
                             .addComponent(labelPass, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtFieldPengguna, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jabatan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(loginPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jabatan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(25, 25, 25))
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         loginPanelLayout.setVerticalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -182,6 +186,9 @@ public class LoginForm extends javax.swing.JFrame {
                 .addComponent(toolBarLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
+        ImageIcon icon = new ImageIcon(new ImageIcon("resources/check.png").getImage().
+            getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH));
+        loginButton.setIcon(icon);
         toolBarLogin.getAccessibleContext().setAccessibleName("toolbarLogin");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -291,8 +298,7 @@ public class LoginForm extends javax.swing.JFrame {
             System.out.println(ex);
         }
     }//GEN-LAST:event_loginButtonKeyPressed
-
-
+   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel headerLogin;
     private javax.swing.JLabel hint;

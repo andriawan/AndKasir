@@ -26,6 +26,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -42,6 +43,34 @@ public class KasirForm extends javax.swing.JFrame {
      */
     public KasirForm() {
         initComponents();
+        
+        // SET ICON RESOURCE
+        ImageIcon iconBtnCariBarang = new ImageIcon(
+                new ImageIcon("resources/search.png").getImage().
+        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnCariBarang.setIcon(iconBtnCariBarang);
+        
+        
+        ImageIcon iconBtnCetakStruk = new ImageIcon(
+                new ImageIcon("resources/print.png").getImage().
+        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnCetakStruk.setIcon(iconBtnCetakStruk);
+        
+        
+        ImageIcon iconHapusList = new ImageIcon(
+                new ImageIcon("resources/delete.png").getImage().
+        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnHapusListBelanja.setIcon(iconHapusList);
+        
+        ImageIcon iconHapusItem = new ImageIcon(
+                new ImageIcon("resources/delete.png").getImage().
+        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnHapusItemBelanja.setIcon(iconHapusItem);
+        
+        ImageIcon iconLabelListBelanja = new ImageIcon(
+                new ImageIcon("resources/chart.png").getImage().
+        getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
+        jLabelListBelanja.setIcon(iconLabelListBelanja);
         
     }
 
@@ -106,7 +135,7 @@ public class KasirForm extends javax.swing.JFrame {
         panelSearchBarang = new javax.swing.JPanel();
         btnCariBarang = new javax.swing.JButton();
         txtCariBarang = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
+        jLabelListBelanja = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableListBelanja = new javax.swing.JTable();
         btnCetakStruk = new javax.swing.JButton();
@@ -164,6 +193,7 @@ public class KasirForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 
+        jTableBarangKasir.setForeground(new java.awt.Color(4, 0, 0));
         jTableBarangKasir.setIntercellSpacing(new java.awt.Dimension(10, 5));
         jTableBarangKasir.setRowHeight(25);
         jTableBarangKasir.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -174,7 +204,7 @@ public class KasirForm extends javax.swing.JFrame {
         jTableBarangKasir.getTableHeader().setReorderingAllowed(false);
         jScrollPaneKasirBarang.setViewportView(jTableBarangKasir);
 
-        btnCariBarang.setBackground(new java.awt.Color(51, 153, 255));
+        btnCariBarang.setBackground(new java.awt.Color(0, 102, 255));
         btnCariBarang.setForeground(new java.awt.Color(255, 255, 255));
         btnCariBarang.setText("Cari Barang");
         btnCariBarang.setBorderPainted(false);
@@ -186,6 +216,7 @@ public class KasirForm extends javax.swing.JFrame {
             }
         });
 
+        txtCariBarang.setForeground(new java.awt.Color(4, 0, 0));
         txtCariBarang.setText("Masukan kode barang atau nama barang");
         txtCariBarang.setToolTipText("");
         txtCariBarang.setMargin(new java.awt.Insets(0, 5, 0, 0));
@@ -211,10 +242,10 @@ public class KasirForm extends javax.swing.JFrame {
             panelSearchBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSearchBarangLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(txtCariBarang)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnCariBarang)
-                .addGap(0, 0, 0))
+                .addComponent(txtCariBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCariBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         panelSearchBarangLayout.setVerticalGroup(
             panelSearchBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,9 +257,10 @@ public class KasirForm extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel12.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel12.setText("List Belanja");
+        jLabelListBelanja.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabelListBelanja.setForeground(new java.awt.Color(4, 0, 0));
+        jLabelListBelanja.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabelListBelanja.setText("List Belanja");
 
         jTableListBelanja.setModel(new TableListBelanja());
         jTableListBelanja.setIntercellSpacing(new java.awt.Dimension(10, 5));
@@ -259,7 +291,7 @@ public class KasirForm extends javax.swing.JFrame {
             }
         });
 
-        btnHapusItemBelanja.setBackground(new java.awt.Color(0, 102, 255));
+        btnHapusItemBelanja.setBackground(new java.awt.Color(255, 0, 27));
         btnHapusItemBelanja.setForeground(new java.awt.Color(255, 255, 255));
         btnHapusItemBelanja.setText("Hapus Item");
         btnHapusItemBelanja.setBorderPainted(false);
@@ -270,19 +302,24 @@ public class KasirForm extends javax.swing.JFrame {
         });
 
         jLabel13.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(4, 0, 0));
         jLabel13.setText("Total");
 
         jLabel14.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(4, 0, 0));
         jLabel14.setText("Bayar");
 
         jLabel15.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(4, 0, 0));
         jLabel15.setText("Kembalian");
 
         labelTotalFooter.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        labelTotalFooter.setForeground(new java.awt.Color(4, 0, 0));
         labelTotalFooter.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         labelTotalFooter.setText("Rp 0");
 
         txtKembalian.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        txtKembalian.setForeground(new java.awt.Color(4, 0, 0));
         txtKembalian.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtKembalian.setText("0");
         txtKembalian.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -299,7 +336,7 @@ public class KasirForm extends javax.swing.JFrame {
         labelKembalian.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         labelKembalian.setText("Rp 0");
 
-        btnHapusListBelanja.setBackground(new java.awt.Color(0, 102, 255));
+        btnHapusListBelanja.setBackground(new java.awt.Color(255, 102, 51));
         btnHapusListBelanja.setForeground(new java.awt.Color(255, 255, 255));
         btnHapusListBelanja.setText("Hapus List");
         btnHapusListBelanja.setBorderPainted(false);
@@ -316,7 +353,7 @@ public class KasirForm extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(panelSearchBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPaneKasirBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 597, Short.MAX_VALUE))
+                    .addComponent(jScrollPaneKasirBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 633, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -332,13 +369,13 @@ public class KasirForm extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(btnCetakStruk, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
                                     .addComponent(btnHapusItemBelanja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnHapusListBelanja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabelListBelanja, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())))
         );
         jPanel3Layout.setVerticalGroup(
@@ -347,7 +384,7 @@ public class KasirForm extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(panelSearchBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabelListBelanja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPaneKasirBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
@@ -936,7 +973,6 @@ public class KasirForm extends javax.swing.JFrame {
     private javax.swing.JButton btnHapusListBelanja;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -949,6 +985,7 @@ public class KasirForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelListBelanja;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBarInfoPengembang;

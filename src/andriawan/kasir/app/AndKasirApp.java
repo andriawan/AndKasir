@@ -33,6 +33,7 @@ public class AndKasirApp {
             UserLoginController userLoginController
                     = new UserLoginController(user, loginForm);   
         }catch(ExceptionInInitializerError e){
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null
                     ,"Kesalahan: File Konfigurasi tidak dapat ditemukan. Silahkan Baca README"
                     ,"Error", JOptionPane.ERROR_MESSAGE);
