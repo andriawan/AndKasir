@@ -178,6 +178,8 @@ public class MainForm extends javax.swing.JFrame{
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        infoAplikasi = new javax.swing.JMenuItem();
 
         tableBarang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -519,6 +521,7 @@ public class MainForm extends javax.swing.JFrame{
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Dashboard");
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 
@@ -685,7 +688,19 @@ public class MainForm extends javax.swing.JFrame{
 
         mainMenu.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("Info");
+
+        jMenuItem2.setText("Info Pengembang");
+        jMenu2.add(jMenuItem2);
+
+        infoAplikasi.setText("Info Aplikasi");
+        infoAplikasi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                infoAplikasiActionPerformed(evt);
+            }
+        });
+        jMenu2.add(infoAplikasi);
+
         mainMenu.add(jMenu2);
 
         setJMenuBar(mainMenu);
@@ -1065,6 +1080,11 @@ public class MainForm extends javax.swing.JFrame{
         lf.setTxtFieldPengguna("");
         lf.setTxtPass("");
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void infoAplikasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_infoAplikasiActionPerformed
+        AboutForm af = AboutForm.getInstance();
+        af.setVisible(true);
+    }//GEN-LAST:event_infoAplikasiActionPerformed
     
     // Custom Code
     public void getSizeScreen(){
@@ -1092,9 +1112,11 @@ public class MainForm extends javax.swing.JFrame{
     private javax.swing.JButton btnInfoUser;
     private javax.swing.JButton btnTambahUser;
     private javax.swing.JLabel date;
+    private javax.swing.JMenuItem infoAplikasi;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollBarang;
     private javax.swing.JScrollPane jScrollPaneResultBarang;
     private javax.swing.JScrollPane jScrollTabelTransaksi;

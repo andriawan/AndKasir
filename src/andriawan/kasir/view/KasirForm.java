@@ -43,34 +43,9 @@ public class KasirForm extends javax.swing.JFrame {
      */
     public KasirForm() {
         initComponents();
-        
-        // SET ICON RESOURCE
-        ImageIcon iconBtnCariBarang = new ImageIcon(
-                new ImageIcon("resources/search.png").getImage().
-        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
-        btnCariBarang.setIcon(iconBtnCariBarang);
+        setUpIcon();
         
         
-        ImageIcon iconBtnCetakStruk = new ImageIcon(
-                new ImageIcon("resources/print.png").getImage().
-        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
-        btnCetakStruk.setIcon(iconBtnCetakStruk);
-        
-        
-        ImageIcon iconHapusList = new ImageIcon(
-                new ImageIcon("resources/delete.png").getImage().
-        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
-        btnHapusListBelanja.setIcon(iconHapusList);
-        
-        ImageIcon iconHapusItem = new ImageIcon(
-                new ImageIcon("resources/delete.png").getImage().
-        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
-        btnHapusItemBelanja.setIcon(iconHapusItem);
-        
-        ImageIcon iconLabelListBelanja = new ImageIcon(
-                new ImageIcon("resources/chart.png").getImage().
-        getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
-        jLabelListBelanja.setIcon(iconLabelListBelanja);
         
     }
 
@@ -149,7 +124,7 @@ public class KasirForm extends javax.swing.JFrame {
         btnHapusListBelanja = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jLabelBanner = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -174,6 +149,7 @@ public class KasirForm extends javax.swing.JFrame {
         jMenuLogout = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        infoAplikasi = new javax.swing.JMenuItem();
 
         tableBarang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -191,6 +167,7 @@ public class KasirForm extends javax.swing.JFrame {
         jScrollBarang.setViewportView(tableBarang);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("AndKasir versi 1");
         setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 
         jTableBarangKasir.setForeground(new java.awt.Color(4, 0, 0));
@@ -417,9 +394,9 @@ public class KasirForm extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 255));
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("AndKasir Desktop Versi 1");
+        jLabelBanner.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabelBanner.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelBanner.setText(" AndKasir Desktop Versi 1");
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Waktu Login");
@@ -471,7 +448,7 @@ public class KasirForm extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel1)
+                .addComponent(jLabelBanner)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -510,7 +487,7 @@ public class KasirForm extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(jLabelBanner)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -625,6 +602,15 @@ public class KasirForm extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem1);
+
+        infoAplikasi.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_MASK));
+        infoAplikasi.setText("Info Aplikasi");
+        infoAplikasi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                infoAplikasiActionPerformed(evt);
+            }
+        });
+        jMenu2.add(infoAplikasi);
 
         jMenuBarInfoPengembang.add(jMenu2);
 
@@ -966,12 +952,51 @@ public class KasirForm extends javax.swing.JFrame {
         lf.setTxtPass("");
     }//GEN-LAST:event_jMenuLogoutActionPerformed
 
+    private void infoAplikasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_infoAplikasiActionPerformed
+        AboutForm af = AboutForm.getInstance();
+        af.setVisible(true);
+    }//GEN-LAST:event_infoAplikasiActionPerformed
+
+    private void setUpIcon(){
+        // SET ICON RESOURCE
+        ImageIcon iconBtnCariBarang = new ImageIcon(
+                new ImageIcon("resources/search.png").getImage().
+        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnCariBarang.setIcon(iconBtnCariBarang);
+        
+        
+        ImageIcon iconBtnCetakStruk = new ImageIcon(
+                new ImageIcon("resources/print.png").getImage().
+        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnCetakStruk.setIcon(iconBtnCetakStruk);
+        
+        
+        ImageIcon iconHapusList = new ImageIcon(
+                new ImageIcon("resources/delete.png").getImage().
+        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnHapusListBelanja.setIcon(iconHapusList);
+        
+        ImageIcon iconHapusItem = new ImageIcon(
+                new ImageIcon("resources/delete.png").getImage().
+        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+        btnHapusItemBelanja.setIcon(iconHapusItem);
+        
+        ImageIcon iconLabelListBelanja = new ImageIcon(
+                new ImageIcon("resources/chart.png").getImage().
+        getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
+        jLabelListBelanja.setIcon(iconLabelListBelanja);
+        
+        ImageIcon af = new ImageIcon(
+                new ImageIcon("resources/AndKasir.png").getImage().
+        getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
+        jLabelBanner.setIcon(af);
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCariBarang;
     private javax.swing.JButton btnCetakStruk;
     private javax.swing.JButton btnHapusItemBelanja;
     private javax.swing.JButton btnHapusListBelanja;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenuItem infoAplikasi;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -985,6 +1010,7 @@ public class KasirForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelBanner;
     private javax.swing.JLabel jLabelListBelanja;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;

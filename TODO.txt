@@ -1,0 +1,4 @@
+for Next Version 1.1.0:
+- implementing JasperReport for Reporting
+- Activating Sync Database Online
+- Optimizing Query

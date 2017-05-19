@@ -103,6 +103,7 @@ public class EditorUserForm extends javax.swing.JFrame {
         activatePassField = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Editor User");
         setUndecorated(true);
 
         panelTambahBarangFrame.setBackground(new java.awt.Color(255, 255, 255));

@@ -49,6 +49,7 @@ public class InfoDetailTransaksiForm extends javax.swing.JFrame {
         labelTgl = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Detaul Transaksi");
         setUndecorated(true);
 
         tableDetailTransaksi.setModel(new javax.swing.table.DefaultTableModel(
@@ -64,7 +65,6 @@ public class InfoDetailTransaksiForm extends javax.swing.JFrame {
         ));
         tableDetailTransaksi.setIntercellSpacing(new java.awt.Dimension(5, 5));
         tableDetailTransaksi.setRowHeight(25);
-        tableDetailTransaksi.setRowMargin(5);
         jScrollPane1.setViewportView(tableDetailTransaksi);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N

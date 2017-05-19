@@ -83,6 +83,7 @@ public class EditorBarangForm extends javax.swing.JFrame {
         txtIdBarang = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Editor Barang");
         setUndecorated(true);
 
         panelTambahBarangFrame.setBackground(new java.awt.Color(255, 255, 255));
