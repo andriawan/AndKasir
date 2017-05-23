@@ -13,7 +13,21 @@ Versi Development Release Aplikasi AndKasir v0.1 dapat anda unduh [di sini](http
 Screenshot:
 
 ## Panel Login 
-![alt text](https://github.com/andriawan/AndKasir/blob/development/screenshot/login.png "Panel Login")
+![login](https://github.com/andriawan/AndKasir/blob/development/screenshot/login.png "Panel Login")
+
+## Panel Admin
+![admin](https://github.com/andriawan/AndKasir/blob/development/screenshot/panel-admin.png "Panel Admin")
+
+## Panel Cetak Laporan ke PDF 
+![laporan](https://github.com/andriawan/AndKasir/blob/development/screenshot/Laporan-pdf.png "Laporan")
+
+## Panel Kasir
+![kasir](https://github.com/andriawan/AndKasir/blob/development/screenshot/panel-kasir.png "Panel Kasir")
+
+## Tentang Aplikasi
+![tentang](https://github.com/andriawan/AndKasir/blob/development/screenshot/about.png "Tentang Aplikasi")
+
+
 
 Sebelum mencoba Versi Development Pastikan
 
@@ -26,3 +40,8 @@ Sebelum mencoba Versi Development Pastikan
 Kontribusi:
 - Anda bisa melakukan kontrbusi dengan cara fork repository ini, Kemudian buat branch baru. buat improvisasi, kemudian lakukan pull request
 - direkomendasikan untuk menggunakan IDE Netbeans untuk kemudahan pengembangan GUI
+
+TODO list:
+- Dokumentasi secara lengkap 
+- Release Stabil
+- Lisensi ( Belum begitu paham. Mohon jika Anda berpengalaman dalam hal lisensi untuk melakukan pengecekan)
