@@ -10,10 +10,8 @@ import andriawan.kasir.controller.UserLoginController;
 import andriawan.kasir.dao.impl.UserDaoImpl;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import utilities.Formater;
@@ -245,6 +243,7 @@ public class LoginForm extends javax.swing.JFrame {
                             jabatan.getSelectedItem().toString());
                     KasirForm kf = UserLoginController.getKasirFormInstance();
                     kf.setVisible(true);
+                    kf.clearRecentKasirComponents();
                     String kasir = txtFieldPengguna.getText();
                     kf.setLabelIdKasir(as.get(1));
                     kf.setTxtPetugasKasir(kasir);

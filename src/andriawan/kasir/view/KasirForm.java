@@ -30,6 +30,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import utilities.Devices;
 import utilities.Formater;
 
 /**
@@ -44,9 +45,7 @@ public class KasirForm extends javax.swing.JFrame {
     public KasirForm() {
         initComponents();
         setUpIcon();
-        
-        
-        
+
     }
 
     public JLabel getTxtPetugasKasir() {
@@ -85,13 +84,20 @@ public class KasirForm extends javax.swing.JFrame {
         return labelIdKasir;
     }
 
+    public void clearRecentKasirComponents() {
+        jScrollPaneKasirBarang.setViewport(null);
+        DefaultTableModel listBelanja = (DefaultTableModel) jTableListBelanja.getModel();
+        listBelanja.setRowCount(0);
+        txtTerbilang.setText("");
+        txtKembalian.setText("");
+        labelTotalBig.setText("");
+        labelTotalFooter.setText("");
+        labelKembalian.setText("");
+    }
+
     public void setLabelIdKasir(String s) {
         this.labelIdKasir.setText(s);
     }
-    
-    
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -639,13 +645,13 @@ public class KasirForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCariBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariBarangActionPerformed
-        
+
         Barang barang;
-        List<Barang> brList = null; 
-        
+        List<Barang> brList = null;
+
         BarangController bc = new BarangController();
         String name = txtCariBarang.getText();
-        
+
         try {
 
             brList = bc.multiSearch(name, name, name, name);
@@ -655,7 +661,7 @@ public class KasirForm extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(KasirForm.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         TableBarang tb = new TableBarang(brList);
         jTableBarangKasir.setModel(tb);
 
@@ -682,8 +688,8 @@ public class KasirForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCariBarangKeyPressed
 
     private void jTableBarangKasirMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableBarangKasirMousePressed
-        
-        if(evt.getClickCount() == 2){
+
+        if (evt.getClickCount() == 2) {
             String id = jTableBarangKasir.getValueAt(
                     jTableBarangKasir.getSelectedRow(), 0).toString();
             String namaBarang = jTableBarangKasir.getValueAt(
@@ -692,42 +698,43 @@ public class KasirForm extends javax.swing.JFrame {
                     jTableBarangKasir.getSelectedRow(), 2).toString();
             int stok = new Integer(jTableBarangKasir.getValueAt(
                     jTableBarangKasir.getSelectedRow(), 3).toString()) - 1;
-            
+
             int harga = Formater.setRupiahToInteger(hargaRp);
             int totalDefault = 1;
             ArrayList ar = new ArrayList();
-            ar.add(id); ar.add(namaBarang); ar.add(harga); ar.add(totalDefault);
+            ar.add(id);
+            ar.add(namaBarang);
+            ar.add(harga);
+            ar.add(totalDefault);
             DefaultTableModel listBelanja = (DefaultTableModel) jTableListBelanja.getModel();
             listBelanja.addRow(ar.toArray());
             jTableListBelanja.isCellEditable(jTableBarangKasir.getSelectedRow(), 3);
             int total = 0;
-            
+
             for (int i = 0; i < listBelanja.getRowCount(); i++) {
-                
+
                 total = total + new Integer(
-                    jTableListBelanja.getValueAt(i, 2).toString())
-                    * new Integer(
-                            jTableListBelanja.getValueAt(i, 3).toString());
+                        jTableListBelanja.getValueAt(i, 2).toString())
+                        * new Integer(
+                                jTableListBelanja.getValueAt(i, 3).toString());
             }
-            
+
             labelTotalBig.setText(Formater.setRupiahFormat(total));
             labelTotalFooter.setText(Formater.setRupiahFormat(total));
-            txtTerbilang.setText(Formater.setRupiahTerbilang
-            (Formater.setRupiahToInteger(labelTotalBig.getText())));
-            
+            txtTerbilang.setText(Formater.setRupiahTerbilang(Formater.setRupiahToInteger(labelTotalBig.getText())));
+
             int kembalian = Formater.setRupiahToInteger(
-                    txtKembalian.getText()) -
-                    Formater.setRupiahToInteger(labelTotalFooter.getText());
-            
-            if (kembalian < 0){
-                    labelKembalian.setText("Pembayaran Tidak Mencukupi");
-                    labelKembalian.setForeground(Color.red);
-            } else if(txtKembalian.equals("0") || txtKembalian.equals("Rp. 0,00")){
-                    labelKembalian.setText("");
-            }
-            else{
-                    labelKembalian.setText(Formater.setRupiahFormat(kembalian));
-                    labelKembalian.setForeground(new Color(0,153,51));//Green
+                    txtKembalian.getText())
+                    - Formater.setRupiahToInteger(labelTotalFooter.getText());
+
+            if (kembalian < 0) {
+                labelKembalian.setText("Pembayaran Tidak Mencukupi");
+                labelKembalian.setForeground(Color.red);
+            } else if (txtKembalian.equals("0") || txtKembalian.equals("Rp. 0,00")) {
+                labelKembalian.setText("");
+            } else {
+                labelKembalian.setText(Formater.setRupiahFormat(kembalian));
+                labelKembalian.setForeground(new Color(0, 153, 51));//Green
             }
         }
     }//GEN-LAST:event_jTableBarangKasirMousePressed
@@ -739,20 +746,19 @@ public class KasirForm extends javax.swing.JFrame {
             if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
                 int total = Formater.setRupiahToInteger(labelTotalFooter.getText());
                 int bayar = new Integer(txtKembalian.getText());
-                
+
                 int kembalian = bayar - total;
-                if (kembalian < 0){
+                if (kembalian < 0) {
                     labelKembalian.setText("Pembayaran Tidak Mencukupi");
                     labelKembalian.setForeground(Color.red);
-                }else if(kembalian == 0){
+                } else if (kembalian == 0) {
                     labelKembalian.setText("Uang pas");
-                    labelKembalian.setForeground(new Color(0,153,51));//Green
-                }else{
+                    labelKembalian.setForeground(new Color(0, 153, 51));//Green
+                } else {
                     labelKembalian.setText(Formater.setRupiahFormat(kembalian));
-                    labelKembalian.setForeground(new Color(0,153,51));
+                    labelKembalian.setForeground(new Color(0, 153, 51));
                 }
-                
-                
+
             }
         } catch (NumberFormatException ex) {
             txtKembalian.setText("");
@@ -761,7 +767,7 @@ public class KasirForm extends javax.swing.JFrame {
 
     private void txtKembalianKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKembalianKeyReleased
         try {
-            txtKembalian.setText(Formater.setRupiahFormat(Formater.setRupiahToInteger(txtKembalian.getText())));            
+            txtKembalian.setText(Formater.setRupiahFormat(Formater.setRupiahToInteger(txtKembalian.getText())));
         } catch (Exception e) {
             txtKembalian.setText("");
         }
@@ -778,47 +784,46 @@ public class KasirForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHapusListBelanjaActionPerformed
 
     private void btnHapusItemBelanjaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusItemBelanjaActionPerformed
-        if (jTableListBelanja.getSelectedRow()>=0){
+        if (jTableListBelanja.getSelectedRow() >= 0) {
             DefaultTableModel listBelanja = (DefaultTableModel) jTableListBelanja.getModel();
             listBelanja.removeRow(jTableListBelanja.getSelectedRow());
             int total = 0;
             for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
-                
+
                 total = total + new Integer(
-                    jTableListBelanja.getValueAt(i, 2).toString())
-                    * new Integer(
-                            jTableListBelanja.getValueAt(i, 3).toString());
+                        jTableListBelanja.getValueAt(i, 2).toString())
+                        * new Integer(
+                                jTableListBelanja.getValueAt(i, 3).toString());
             }
             int kembalian = Formater.setRupiahToInteger(txtKembalian.getText());
-            
+
             int kembalianx = kembalian - total;
-            
+
             labelTotalBig.setText(Formater.setRupiahFormat(total));
-            labelTotalFooter.setText(Formater.setRupiahFormat(total)); 
+            labelTotalFooter.setText(Formater.setRupiahFormat(total));
             txtTerbilang.setText(Formater.setRupiahTerbilang(
                     Formater.setRupiahToInteger(labelTotalBig.getText())));
-            
+
             if (kembalianx < 0) {
                 labelKembalian.setText("Pembayaran Tidak Mencukupi");
                 labelKembalian.setForeground(Color.red);
             } else if (kembalianx == 0) {
                 labelKembalian.setText("Uang pas");
-                labelKembalian.setForeground(new Color(0,153,51));//Green
+                labelKembalian.setForeground(new Color(0, 153, 51));//Green
             } else {
                 labelKembalian.setText(Formater.setRupiahFormat(kembalianx));
-                labelKembalian.setForeground(new Color(0,153,51));//Green
+                labelKembalian.setForeground(new Color(0, 153, 51));//Green
             }
-            
-            
+
         } else {
             JOptionPane.showMessageDialog(null, "Silahkan pilih barang yang akan dihapus dari list");
         }
     }//GEN-LAST:event_btnHapusItemBelanjaActionPerformed
 
     private void jTableListBelanjaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTableListBelanjaFocusGained
-        
+
         try {
-            
+
             int jumlah = new Integer(
                     jTableListBelanja.getValueAt(
                             jTableListBelanja.getSelectedRow(), 3).toString());
@@ -845,18 +850,18 @@ public class KasirForm extends javax.swing.JFrame {
                 labelKembalian.setForeground(Color.red);
             } else if (totalx == 0) {
                 labelKembalian.setText("Uang pas");
-                labelKembalian.setForeground(new Color(0,153,51));//Green
+                labelKembalian.setForeground(new Color(0, 153, 51));//Green
             } else {
                 labelKembalian.setText(Formater.setRupiahFormat(totalx));
-                labelKembalian.setForeground(new Color(0,153,51));//Green
+                labelKembalian.setForeground(new Color(0, 153, 51));//Green
             }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(rootPane, 
+            JOptionPane.showMessageDialog(rootPane,
                     "Kesalahan: Periksa kembali kolom jumlah pada tabel list belanja",
                     "Error", JOptionPane.ERROR_MESSAGE);
             jTableListBelanja.setValueAt(
                     1,
-                    jTableListBelanja.getSelectedRow(), 
+                    jTableListBelanja.getSelectedRow(),
                     jTableListBelanja.getSelectedColumn());
         }
 
@@ -878,77 +883,85 @@ public class KasirForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void btnCetakStrukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakStrukActionPerformed
-        
-        int harga = 0;
-        int jumlah = 0;
-        int totalHargaStruk = 0;
-        TransaksiController tc = new TransaksiController();
 
-        if (jTableListBelanja.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(rootPane, "Silahkan tambahkan barang ke"
-                    + " List belanja terlebih dahulu", "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
-                jumlah = jumlah + new Integer(
-                        jTableListBelanja.getValueAt(i, 3).toString());
-                harga = harga + new Integer(
-                        jTableListBelanja.getValueAt(i, 2).toString());
-                totalHargaStruk = totalHargaStruk + new Integer(
-                        jTableListBelanja.getValueAt(i, 2).toString())
-                        * new Integer(
-                                jTableListBelanja.getValueAt(i, 3).toString());
-            }
-            tc.insertTransaksi(new Transaksi(jumlah, totalHargaStruk, Calendar.getInstance().
-                    getTimeInMillis(), new Integer(labelIdKasir.getText().toString())));
-            Transaksi tr = tc.getLastRecord();
-            ArrayList<ItemStruk> ais = new ArrayList<>();
-            BarangController bc = new BarangController();
-            for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
-                tc.insertTransaksiDetail(new DetailTransaksi(tr.getIdTransaksi(),
-                        new Integer(jTableListBelanja.getValueAt(i, 0).toString()),
-                        new Integer(jTableListBelanja.getValueAt(i, 3).toString()),
-                        new Integer(jTableListBelanja.getValueAt(i, 2).toString()),
-                        new Integer(labelIdKasir.getText().toString())));
+        if (Devices.isPrinterAvailable()) {
 
-                ais.add(new ItemStruk(jTableListBelanja.getValueAt(i, 1).toString(),
-                        jTableListBelanja.getValueAt(i, 3).toString(),
-                        jTableListBelanja.getValueAt(i, 2).toString(),
-                        String.valueOf(
-                                new Integer(jTableListBelanja.getValueAt(i, 2).toString())
-                                * new Integer(jTableListBelanja.getValueAt(i, 3).toString()))));
+            int harga = 0;
+            int jumlah = 0;
+            int totalHargaStruk = 0;
+            TransaksiController tc = new TransaksiController();
 
+            if (jTableListBelanja.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(rootPane, "Silahkan tambahkan barang ke"
+                        + " List belanja terlebih dahulu", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
+                    jumlah = jumlah + new Integer(
+                            jTableListBelanja.getValueAt(i, 3).toString());
+                    harga = harga + new Integer(
+                            jTableListBelanja.getValueAt(i, 2).toString());
+                    totalHargaStruk = totalHargaStruk + new Integer(
+                            jTableListBelanja.getValueAt(i, 2).toString())
+                            * new Integer(
+                                    jTableListBelanja.getValueAt(i, 3).toString());
+                }
+                tc.insertTransaksi(new Transaksi(jumlah, totalHargaStruk, Calendar.getInstance().
+                        getTimeInMillis(), new Integer(labelIdKasir.getText().toString())));
+                Transaksi tr = tc.getLastRecord();
+                ArrayList<ItemStruk> ais = new ArrayList<>();
+                BarangController bc = new BarangController();
+                for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
+                    tc.insertTransaksiDetail(new DetailTransaksi(tr.getIdTransaksi(),
+                            new Integer(jTableListBelanja.getValueAt(i, 0).toString()),
+                            new Integer(jTableListBelanja.getValueAt(i, 3).toString()),
+                            new Integer(jTableListBelanja.getValueAt(i, 2).toString()),
+                            new Integer(labelIdKasir.getText().toString())));
+
+                    ais.add(new ItemStruk(jTableListBelanja.getValueAt(i, 1).toString(),
+                            jTableListBelanja.getValueAt(i, 3).toString(),
+                            jTableListBelanja.getValueAt(i, 2).toString(),
+                            String.valueOf(
+                                    new Integer(jTableListBelanja.getValueAt(i, 2).toString())
+                                    * new Integer(jTableListBelanja.getValueAt(i, 3).toString()))));
+
+                    try {
+                        bc.updateStok(
+                                new Barang(new Integer(jTableListBelanja.
+                                        getValueAt(i, 0).toString())),
+                                new Integer(jTableListBelanja.
+                                        getValueAt(i, 3).toString()));
+                    } catch (SQLException ex) {
+                        Logger.getLogger(KasirForm.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+                //Cetak Struk
+                String idTransaksi = String.valueOf(tr.getIdTransaksi());
+                String idPetugas = labelIdKasir.getText();
+                String totalHarga = labelTotalFooter.getText();
+                String totalBayar = txtKembalian.getText();
+                String totalKembalian = labelKembalian.getText();
+                String tanggal = Formater.setNiceIndonesianDate(System.currentTimeMillis());
+                String namaPetugas = txtPetugasKasir.getText();
+
+                Struk struk = new Struk(idTransaksi, totalHarga,
+                        totalBayar, totalKembalian, ais, namaPetugas, tanggal);
                 try {
-                    bc.updateStok(
-                            new Barang(new Integer(jTableListBelanja.
-                                    getValueAt(i, 0).toString())), new Integer(jTableListBelanja.
-                                    getValueAt(i, 3).toString()));
-                } catch (SQLException ex) {
+                    StrukController.previewCetakStruk(struk);
+                } catch (IOException ex) {
                     Logger.getLogger(KasirForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
-            //Cetak Struk
-            String idTransaksi = String.valueOf(tr.getIdTransaksi());
-            String idPetugas = labelIdKasir.getText();
-            String totalHarga = labelTotalFooter.getText();
-            String totalBayar = txtKembalian.getText();
-            String totalKembalian = labelKembalian.getText();
-            String tanggal = Formater.setNiceIndonesianDate(System.currentTimeMillis());
-            String namaPetugas = txtPetugasKasir.getText();
-
-            Struk struk = new Struk(idTransaksi, totalHarga,
-                    totalBayar, totalKembalian, ais, namaPetugas, tanggal);
-            try {
-                StrukController.previewCetakStruk(struk);
-            } catch (IOException ex) {
-                Logger.getLogger(KasirForm.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Pastikan printer sudah dalam"
+                    + " keadaan on", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_btnCetakStrukActionPerformed
 
     private void jMenuLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuLogoutActionPerformed
-        setVisible(false);
+        dispose();
         LoginForm lf = UserLoginController.getLoginFormInstance();
         lf.setVisible(true);
         lf.setTxtFieldPengguna("");
@@ -960,38 +973,36 @@ public class KasirForm extends javax.swing.JFrame {
         af.setVisible(true);
     }//GEN-LAST:event_infoAplikasiActionPerformed
 
-    private void setUpIcon(){
+    private void setUpIcon() {
         // SET ICON RESOURCE
         ImageIcon iconBtnCariBarang = new ImageIcon(
                 new ImageIcon("resources/search.png").getImage().
-        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+                        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
         btnCariBarang.setIcon(iconBtnCariBarang);
-        
-        
+
         ImageIcon iconBtnCetakStruk = new ImageIcon(
                 new ImageIcon("resources/print.png").getImage().
-        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+                        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
         btnCetakStruk.setIcon(iconBtnCetakStruk);
-        
-        
+
         ImageIcon iconHapusList = new ImageIcon(
                 new ImageIcon("resources/delete.png").getImage().
-        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+                        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
         btnHapusListBelanja.setIcon(iconHapusList);
-        
+
         ImageIcon iconHapusItem = new ImageIcon(
                 new ImageIcon("resources/delete.png").getImage().
-        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+                        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
         btnHapusItemBelanja.setIcon(iconHapusItem);
-        
+
         ImageIcon iconLabelListBelanja = new ImageIcon(
                 new ImageIcon("resources/chart.png").getImage().
-        getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
+                        getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
         jLabelListBelanja.setIcon(iconLabelListBelanja);
-        
+
         ImageIcon af = new ImageIcon(
                 new ImageIcon("resources/AndKasir.png").getImage().
-        getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
+                        getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
         jLabelBanner.setIcon(af);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
