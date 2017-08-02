@@ -6,6 +6,12 @@
 package utilities;
 
 import andriawan.kasir.controller.UserLoginController;
+import it.sauronsoftware.ftp4j.FTPAbortedException;
+import it.sauronsoftware.ftp4j.FTPClient;
+import it.sauronsoftware.ftp4j.FTPDataTransferException;
+import it.sauronsoftware.ftp4j.FTPDataTransferListener;
+import it.sauronsoftware.ftp4j.FTPException;
+import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,6 +22,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -27,12 +35,22 @@ import javax.swing.JOptionPane;
  */
 public class ConnectionManager {
 
+    // handle db
     private static String url;
     private static String database;
     private static String username;
     private static String password;
     private static String driver;
+    // handle path
     private static String customPath;
+    // handle ftp
+    private static String ftpHost;
+    private static String ftpPort;
+    private static String ftpUser;
+    private static String ftpPass;
+    private static String ftpPath;
+    
+    
 
     private static Connection con;
 
@@ -74,21 +92,18 @@ public class ConnectionManager {
         try {
             is = new FileInputStream("config.properties");
             config.load(is);
-
-            String tmpUrl;
-            tmpUrl = config.getProperty("mysql_url");
-            String user = config.getProperty("username");
-            String pass = config.getProperty("password");
-            String drv = config.getProperty("mysql_driver");
-            String db = config.getProperty("database");
-            String mysqldumpCustomPath = config.getProperty("mysqldump_custom_path");
-
-            ConnectionManager.url = tmpUrl;
-            ConnectionManager.password = pass;
-            ConnectionManager.username = user;
-            ConnectionManager.driver = drv;
-            ConnectionManager.database = db;
-            ConnectionManager.customPath = mysqldumpCustomPath;
+            
+            ConnectionManager.url = config.getProperty("mysql_url");
+            ConnectionManager.password = config.getProperty("password");
+            ConnectionManager.username = config.getProperty("username");
+            ConnectionManager.driver = config.getProperty("mysql_driver");
+            ConnectionManager.database = config.getProperty("database");
+            ConnectionManager.customPath = config.getProperty("mysqldump_custom_path");
+            ConnectionManager.ftpHost = config.getProperty("ftp_host");
+            ConnectionManager.ftpPass = config.getProperty("ftp_pass");
+            ConnectionManager.ftpPort = config.getProperty("ftp_port");
+            ConnectionManager.ftpUser = config.getProperty("ftp_user");
+            ConnectionManager.ftpPath = config.getProperty("ftp_folder_path");
 
             is.close();
         } catch (IOException e) {
@@ -110,13 +125,13 @@ public class ConnectionManager {
             /*NOTE: Creating Database Constraints*/
             LoadConfigFile();
             
-            String fileName = "windy_collections_db_" 
+            final String fileName = "windy_collections_db_" 
                     + utilities.Formater.getTimeStamp() + ".sql";
             String dbName = ConnectionManager.database;
             String dbUser = ConnectionManager.username;
             String dbPass = ConnectionManager.password;
             String executeCmd;
-            String savePath;
+            final String savePath;
             String folderPath;
             
             // excute when OS env is Linux-based
@@ -156,6 +171,57 @@ public class ConnectionManager {
             /*NOTE: Executing the command here*/
             Process runtimeProcess = Runtime.getRuntime().exec(executeCmd);
             int processComplete = runtimeProcess.waitFor();
+            
+            // TODO: backup via FTP
+            final FTPClient client = new FTPClient();
+            // setting host
+            client.connect(ftpHost,new Integer(ftpPort));
+            // setting user
+            client.login(ftpUser, ftpPass);
+            client.upload(new File(savePath), new FTPDataTransferListener() {
+                @Override
+                public void started() {
+                    JOptionPane.showMessageDialog(null, 
+                            "Memulai backup...",
+                            "Backup", JOptionPane.INFORMATION_MESSAGE);
+                }
+
+                @Override
+                public void transferred(int i) {
+                    JOptionPane.showMessageDialog(null, 
+                            "Loading...",
+                            "Loading", JOptionPane.INFORMATION_MESSAGE);
+                }
+
+                @Override
+                public void completed() {
+                    try {
+                        client.rename(fileName, ftpPath + "/" + fileName);
+                    } catch (IllegalStateException | IOException | FTPIllegalReplyException | FTPException ex) {
+                        Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    JOptionPane.showMessageDialog(null, 
+                            "Berhasil terbackup",
+                            "Berhasil", JOptionPane.INFORMATION_MESSAGE);
+                }
+
+                @Override
+                public void aborted() {
+                    JOptionPane.showMessageDialog(null, 
+                            "Dibatalkan",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+                @Override
+                public void failed() {
+                    JOptionPane.showMessageDialog(null, 
+                            "Terjadi kesalahan",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            });
+            
+            // close connection
+            client.disconnect(true);
 
             /*NOTE: processComplete=0 if correctly executed, will contain other values if not*/
             if (processComplete == 0) {
@@ -165,7 +231,12 @@ public class ConnectionManager {
             }
 
         } catch (URISyntaxException | IOException | InterruptedException te) {
-            JOptionPane.showMessageDialog(null, "Error at Backuprestore" + te.getMessage());
+            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, te);
+            JOptionPane.showMessageDialog(null, "Prosedur backup standart gagal. "
+                    + "Periksa koneksi internet anda. Gagal menghubungi alamat " + te.getMessage(),
+                    "Error",JOptionPane.ERROR_MESSAGE);
+        } catch (IllegalStateException | FTPIllegalReplyException | FTPException | FTPDataTransferException | FTPAbortedException ex) {
+            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
