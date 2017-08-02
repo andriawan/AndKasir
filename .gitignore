@@ -1,8 +1,6 @@
 dist/
 build/
 template.json~
-*.properties
-*.json
 
 # Compiled class file
 *.class
