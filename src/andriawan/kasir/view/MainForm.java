@@ -1109,7 +1109,6 @@ public class MainForm extends javax.swing.JFrame{
         Dimension screenSize = getMaximumSize();
         this.screenHeight = screenSize.height;
         this.screenWidth = screenSize.width;
-        
     }
     
     public void reloadTableBarang(ActionEvent evt){
