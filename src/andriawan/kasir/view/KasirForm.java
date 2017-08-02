@@ -30,7 +30,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import utilities.Devices;
 import utilities.Formater;
 
 /**
@@ -768,8 +767,26 @@ public class KasirForm extends javax.swing.JFrame {
     private void txtKembalianKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKembalianKeyReleased
         try {
             txtKembalian.setText(Formater.setRupiahFormat(Formater.setRupiahToInteger(txtKembalian.getText())));
+            int total = Formater.setRupiahToInteger(labelTotalFooter.getText());
+            int bayar = Formater.setRupiahToInteger(txtKembalian.getText());
+            int kembalian = bayar - total;
+            labelKembalian.setText(Formater.setRupiahFormat(kembalian));
+
+            if (kembalian < 0) {
+                labelKembalian.setText("Pembayaran Tidak Mencukupi");
+                labelKembalian.setForeground(Color.red);
+            } else if (txtKembalian.equals("0") || txtKembalian.equals("Rp. 0,00")) {
+                labelKembalian.setText("");
+            } else if (kembalian == 0) {
+                labelKembalian.setText("Uang pas");
+                labelKembalian.setForeground(new Color(0, 153, 51));//Green
+            } else {
+                labelKembalian.setText(Formater.setRupiahFormat(kembalian));
+                labelKembalian.setForeground(new Color(0, 153, 51));//Green
+            }
         } catch (Exception e) {
             txtKembalian.setText("");
+            labelKembalian.setText("");
         }
     }//GEN-LAST:event_txtKembalianKeyReleased
 
@@ -883,84 +900,113 @@ public class KasirForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void btnCetakStrukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakStrukActionPerformed
+        
+        // mencegah aktif tombol cetak jika tidak ada pembayaran
+        if("".equals(labelKembalian.getText()) || "0".equals(labelKembalian.getText())){
+            JOptionPane.showMessageDialog(rootPane, "Pembayaran tidak mencukupi atau kembalian belum dihitung", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        } else if("".equals(txtKembalian.getText()) || "0".equals(txtKembalian.getText())) {
+            JOptionPane.showMessageDialog(rootPane, "Pembayaran tidak mencukupi atau kembalian belum dihitung", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        } else if(!"".equals(txtKembalian.getText())){
+            int total = Formater.setRupiahToInteger(labelTotalFooter.getText());
+            int bayar = Formater.setRupiahToInteger(txtKembalian.getText());
+            if (bayar < total) {
+                JOptionPane.showMessageDialog(rootPane, "Pembayaran tidak mencukupi atau kembalian belum dihitung", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            }else {
 
-        if (Devices.isPrinterAvailable()) {
+                if (utilities.Devices.isPrinterAvailable()) {
 
-            int harga = 0;
-            int jumlah = 0;
-            int totalHargaStruk = 0;
-            TransaksiController tc = new TransaksiController();
+                    int harga = 0;
+                    int jumlah = 0;
+                    int totalHargaStruk = 0;
+                    TransaksiController tc = new TransaksiController();
 
-            if (jTableListBelanja.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(rootPane, "Silahkan tambahkan barang ke"
-                        + " List belanja terlebih dahulu", "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
-                    jumlah = jumlah + new Integer(
-                            jTableListBelanja.getValueAt(i, 3).toString());
-                    harga = harga + new Integer(
-                            jTableListBelanja.getValueAt(i, 2).toString());
-                    totalHargaStruk = totalHargaStruk + new Integer(
-                            jTableListBelanja.getValueAt(i, 2).toString())
-                            * new Integer(
+                    if (jTableListBelanja.getRowCount() == 0) {
+                        JOptionPane.showMessageDialog(rootPane, "Silahkan tambahkan barang ke"
+                                + " List belanja terlebih dahulu", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
+                            jumlah = jumlah + new Integer(
                                     jTableListBelanja.getValueAt(i, 3).toString());
-                }
-                tc.insertTransaksi(new Transaksi(jumlah, totalHargaStruk, Calendar.getInstance().
-                        getTimeInMillis(), new Integer(labelIdKasir.getText().toString())));
-                Transaksi tr = tc.getLastRecord();
-                ArrayList<ItemStruk> ais = new ArrayList<>();
-                BarangController bc = new BarangController();
-                for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
-                    tc.insertTransaksiDetail(new DetailTransaksi(tr.getIdTransaksi(),
-                            new Integer(jTableListBelanja.getValueAt(i, 0).toString()),
-                            new Integer(jTableListBelanja.getValueAt(i, 3).toString()),
-                            new Integer(jTableListBelanja.getValueAt(i, 2).toString()),
-                            new Integer(labelIdKasir.getText().toString())));
+                            harga = harga + new Integer(
+                                    jTableListBelanja.getValueAt(i, 2).toString());
+                            totalHargaStruk = totalHargaStruk + new Integer(
+                                    jTableListBelanja.getValueAt(i, 2).toString())
+                                    * new Integer(
+                                            jTableListBelanja.getValueAt(i, 3).toString());
+                        }
+                        tc.insertTransaksi(new Transaksi(jumlah, totalHargaStruk, Calendar.getInstance().
+                                getTimeInMillis(), new Integer(labelIdKasir.getText().toString())));
+                        Transaksi tr = tc.getLastRecord();
+                        ArrayList<ItemStruk> ais = new ArrayList<>();
+                        BarangController bc = new BarangController();
+                        for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
+                            tc.insertTransaksiDetail(new DetailTransaksi(tr.getIdTransaksi(),
+                                    new Integer(jTableListBelanja.getValueAt(i, 0).toString()),
+                                    new Integer(jTableListBelanja.getValueAt(i, 3).toString()),
+                                    new Integer(jTableListBelanja.getValueAt(i, 2).toString()),
+                                    new Integer(labelIdKasir.getText().toString())));
 
-                    ais.add(new ItemStruk(jTableListBelanja.getValueAt(i, 1).toString(),
-                            jTableListBelanja.getValueAt(i, 3).toString(),
-                            jTableListBelanja.getValueAt(i, 2).toString(),
-                            String.valueOf(
-                                    new Integer(jTableListBelanja.getValueAt(i, 2).toString())
-                                    * new Integer(jTableListBelanja.getValueAt(i, 3).toString()))));
+                            ais.add(new ItemStruk(jTableListBelanja.getValueAt(i, 1).toString(),
+                                    jTableListBelanja.getValueAt(i, 3).toString(),
+                                    jTableListBelanja.getValueAt(i, 2).toString(),
+                                    String.valueOf(
+                                            new Integer(jTableListBelanja.getValueAt(i, 2).toString())
+                                            * new Integer(jTableListBelanja.getValueAt(i, 3).toString()))));
 
-                    try {
-                        bc.updateStok(
-                                new Barang(new Integer(jTableListBelanja.
-                                        getValueAt(i, 0).toString())),
-                                new Integer(jTableListBelanja.
-                                        getValueAt(i, 3).toString()));
-                    } catch (SQLException ex) {
-                        Logger.getLogger(KasirForm.class.getName()).log(Level.SEVERE, null, ex);
+                            try {
+                                bc.updateStok(
+                                        new Barang(new Integer(jTableListBelanja.
+                                                getValueAt(i, 0).toString())),
+                                        new Integer(jTableListBelanja.
+                                                getValueAt(i, 3).toString()));
+                            } catch (SQLException ex) {
+                                Logger.getLogger(KasirForm.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+
+                        txtTotalPemasukan.setText(utilities.Formater.setRupiahFormat(new Integer(
+                                utilities.Formater.setRupiahToInteger(txtTotalPemasukan.getText())
+                                + utilities.Formater.setRupiahToInteger(labelTotalFooter.getText())))
+                        );
+
+                        txtTotalPemasukanHariIni.setText(utilities.Formater.setRupiahFormat(new Integer(
+                                utilities.Formater.setRupiahToInteger(txtTotalPemasukanHariIni.getText())
+                                + utilities.Formater.setRupiahToInteger(labelTotalFooter.getText())))
+                        );
+
+                        //Cetak Struk
+                        String idTransaksi = String.valueOf(tr.getIdTransaksi());
+                        String idPetugas = labelIdKasir.getText();
+                        String totalHarga = labelTotalFooter.getText();
+                        String totalBayar = txtKembalian.getText();
+                        String totalKembalian = labelKembalian.getText();
+                        String tanggal = Formater.setNiceIndonesianDate(System.currentTimeMillis());
+                        String namaPetugas = txtPetugasKasir.getText();
+
+                        Struk struk = new Struk(idTransaksi, totalHarga,
+                                totalBayar, totalKembalian, ais, namaPetugas, tanggal);
+                        try {
+                            StrukController.previewCetakStruk(struk);
+                        } catch (IOException ex) {
+                            Logger.getLogger(KasirForm.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
+
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Pastikan printer sudah dalam"
+                            + " keadaan on", "Error", JOptionPane.ERROR_MESSAGE);
                 }
 
-                //Cetak Struk
-                String idTransaksi = String.valueOf(tr.getIdTransaksi());
-                String idPetugas = labelIdKasir.getText();
-                String totalHarga = labelTotalFooter.getText();
-                String totalBayar = txtKembalian.getText();
-                String totalKembalian = labelKembalian.getText();
-                String tanggal = Formater.setNiceIndonesianDate(System.currentTimeMillis());
-                String namaPetugas = txtPetugasKasir.getText();
-
-                Struk struk = new Struk(idTransaksi, totalHarga,
-                        totalBayar, totalKembalian, ais, namaPetugas, tanggal);
-                try {
-                    StrukController.previewCetakStruk(struk);
-                } catch (IOException ex) {
-                    Logger.getLogger(KasirForm.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
-
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "Pastikan printer sudah dalam"
-                    + " keadaan on", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_btnCetakStrukActionPerformed
 
     private void jMenuLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuLogoutActionPerformed
+        txtTotalPemasukan.setText("Rp. 0,00");
         dispose();
         LoginForm lf = UserLoginController.getLoginFormInstance();
         lf.setVisible(true);
