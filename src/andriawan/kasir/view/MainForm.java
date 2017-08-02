@@ -167,6 +167,7 @@ public class MainForm extends javax.swing.JFrame{
         btnCekLaporan = new javax.swing.JButton();
         btnCekBarang = new javax.swing.JButton();
         btnInfoUser = new javax.swing.JButton();
+        buttonBackupDb = new javax.swing.JButton();
         panelHeader = new javax.swing.JPanel();
         panelTextHeader = new javax.swing.JPanel();
         txtHeader = new javax.swing.JLabel();
@@ -567,6 +568,16 @@ public class MainForm extends javax.swing.JFrame{
             }
         });
 
+        buttonBackupDb.setBackground(new java.awt.Color(51, 153, 255));
+        buttonBackupDb.setForeground(new java.awt.Color(255, 255, 255));
+        buttonBackupDb.setText("Backup Database");
+        buttonBackupDb.setBorderPainted(false);
+        buttonBackupDb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonBackupDbActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelMainButtonLayout = new javax.swing.GroupLayout(panelMainButton);
         panelMainButton.setLayout(panelMainButtonLayout);
         panelMainButtonLayout.setHorizontalGroup(
@@ -576,22 +587,25 @@ public class MainForm extends javax.swing.JFrame{
                 .addGroup(panelMainButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCekLaporan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCekBarang, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnInfoUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCekTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))
+                    .addComponent(btnInfoUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCekTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonBackupDb, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelMainButtonLayout.setVerticalGroup(
             panelMainButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMainButtonLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
+                .addContainerGap()
                 .addComponent(btnCekTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnCekLaporan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnCekBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnInfoUser, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(btnInfoUser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(buttonBackupDb, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         ImageIcon iconBtnTransaksi = new ImageIcon(new ImageIcon("resources/check.png").getImage().
@@ -1085,6 +1099,10 @@ public class MainForm extends javax.swing.JFrame{
         AboutForm af = AboutForm.getInstance();
         af.setVisible(true);
     }//GEN-LAST:event_infoAplikasiActionPerformed
+
+    private void buttonBackupDbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBackupDbActionPerformed
+        utilities.ConnectionManager.backupDB();
+    }//GEN-LAST:event_buttonBackupDbActionPerformed
     
     // Custom Code
     public void getSizeScreen(){
@@ -1111,6 +1129,7 @@ public class MainForm extends javax.swing.JFrame{
     private javax.swing.JButton btnHapusUser;
     private javax.swing.JButton btnInfoUser;
     private javax.swing.JButton btnTambahUser;
+    private javax.swing.JButton buttonBackupDb;
     private javax.swing.JLabel date;
     private javax.swing.JMenuItem infoAplikasi;
     private javax.swing.JMenu jMenu1;
