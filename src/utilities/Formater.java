@@ -176,5 +176,9 @@ public class Formater {
         String dateF = sdf.format(dt);
         return dateF;
     }
+    
+    public static String getTimeStamp(){
+        return Long.toString(System.currentTimeMillis());
+    }
 
 }
