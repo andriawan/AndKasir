@@ -80,7 +80,7 @@ public class BarangDaoImpl implements BarangDao {
             "SELECT * FROM " 
             + TABLE + 
             " WHERE " 
-            + COLUMN_NAMA_BARANG + "=?";
+            + COLUMN_NAMA_BARANG + " like ?";
     //INSERT
     private static final String INSERT = 
             "INSERT INTO " 
@@ -89,7 +89,7 @@ public class BarangDaoImpl implements BarangDao {
             + COLUMN_HARGA + ", "
             + COLUMN_STOK + ", "
             + COLUMN_TGL_INPUT + ", "
-            + COLUMN_JUMLAH_MASUK +") VALUES(?, ?, ?, ?, ?)";
+            + COLUMN_JUMLAH_MASUK + ") VALUES(?, ?, ?, ?, ?)";
     //UPDATE
     private static final String UPDATE = "UPDATE " + TABLE + " SET "
             + COLUMN_NAMA_BARANG + "=?, "
@@ -155,7 +155,7 @@ public class BarangDaoImpl implements BarangDao {
                 int stok = result.getInt(4);
                 long date = result.getTimestamp(5).getTime();
                 int jmlahBarangMasuk = result.getInt(6);
-                Barang br = new Barang(kode, nama_barang, harga, stok, date, jmlahBarangMasuk);
+                Barang br = new Barang(kode, nama_barang, Formater.setRupiahFormat(harga), stok, date, jmlahBarangMasuk);
 
                 return br;
             } else {
@@ -169,6 +169,38 @@ public class BarangDaoImpl implements BarangDao {
             close(preparedStatement);
         }
     }
+    
+    public Barang getBarangByName(String name) {
+        ResultSet result = null;
+        try {
+            con = ConnectionManager.getConnection();
+            preparedStatement = con.prepareStatement(FIND_BY_NAME);
+            preparedStatement.setString(1, "%" + name + "%");
+            result = preparedStatement.executeQuery();
+
+            if (result.next()) {
+                int kode = result.getInt(1);
+                String nama_barang = result.getString(2);
+                int harga = result.getInt(3);
+                int stok = result.getInt(4);
+                long date = result.getTimestamp(5).getTime();
+                int jmlahBarangMasuk = result.getInt(6);
+                Barang br = new Barang(kode, nama_barang, Formater.setRupiahFormat(harga), stok, date, jmlahBarangMasuk);
+
+                return br;
+            } else {
+                return null;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(con);
+            close(preparedStatement);
+        }
+    }
+    
+    
     
     public List<Barang> multiSearch(String a, String b, String c, String d) {
         ResultSet result = null;

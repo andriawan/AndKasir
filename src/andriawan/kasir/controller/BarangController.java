@@ -36,13 +36,19 @@ public class BarangController {
     }
     
     // mengambil fungsi pada BarangDaoImpl untuk diolah lebih lanjut pada 
-    // view objcet (JFrame MainForm)
+    // view object (JFrame MainForm)
     public Barang getBarang(int kodeBarang) throws SQLException{
         return new BarangDaoImpl().getBarang(kodeBarang);
     }
     
     // mengambil fungsi pada BarangDaoImpl untuk diolah lebih lanjut pada 
-    // view objcet (JFrame MainForm)
+    // view object (JFrame MainForm)
+    public Barang getBarangByName(String name) throws SQLException{
+        return new BarangDaoImpl().getBarangByName(name);
+    }
+    
+    // mengambil fungsi pada BarangDaoImpl untuk diolah lebih lanjut pada 
+    // view object (JFrame MainForm)
     public List<Barang> multiSearch(String a, String b, String c, String d) throws SQLException{
         return new BarangDaoImpl().multiSearch(a, b, c, d);
     }

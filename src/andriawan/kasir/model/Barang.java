@@ -27,7 +27,6 @@ public class Barang {
     public Barang(int kodeBarang, String namaBarang, int harga, int Stok, long getDate, int jmlah) {
         this.kodeBarang = kodeBarang;
         this.namaBarang = namaBarang;
-        this.hargaFormat = hargaFormat;
         this.harga = harga;
         this.Stok = Stok;
         this.dateInput = getDate;
