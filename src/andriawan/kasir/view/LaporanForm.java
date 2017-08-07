@@ -332,10 +332,10 @@ panelLaporanLayout.setHorizontalGroup(
         BarangController bc = BarangController.getInstance();
         
         try {
-            Barang br = bc.getJumlahBarangMasuk(Formater.setStringReadySql(
-                    dateChooserCombo1.getSelectedDate().getTimeInMillis()),
-                    Formater.setStringReadySql(
-                            dateChooserCombo2.getSelectedDate().getTimeInMillis()));
+            Barang br = bc.getJumlahBarangMasuk(Formater.setDateComboSql1(
+                    dateChooserCombo1.getSelectedDate().getTime()),
+                    Formater.setDateComboSql2(
+                            dateChooserCombo2.getSelectedDate().getTime()));
             
             txtBarangMasuk.setText(String.valueOf(
                     br.getJumlahBarangMasuk()));
@@ -345,10 +345,10 @@ panelLaporanLayout.setHorizontalGroup(
         }
         
         TabelLaporan tl = new TabelLaporan(
-                lc.getReport(Formater.setStringReadySql(
-                        dateChooserCombo1.getSelectedDate().getTimeInMillis()),
-                        Formater.setStringReadySql(
-                                dateChooserCombo2.getSelectedDate().getTimeInMillis())));
+                lc.getReport(Formater.setDateComboSql1(
+                    dateChooserCombo1.getSelectedDate().getTime()),
+                    Formater.setDateComboSql2(
+                            dateChooserCombo2.getSelectedDate().getTime())));
         
         tabelLaporan.setModel(tl);
         jScrollPane1.setViewportView(tabelLaporan);
