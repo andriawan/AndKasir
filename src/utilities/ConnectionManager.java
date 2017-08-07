@@ -18,6 +18,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.CodeSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -165,10 +167,15 @@ public class ConnectionManager {
 
                 /*NOTE: Creating Path Constraints for backup saving*/
                 /*NOTE: Here the backup is saved in a folder called backup with the name backup.sql*/
-                savePath = "\"" + jarDir + "\\backup\\" + fileName + "\"";
+                savePath = jarDir + "\\backup\\" + fileName ;
+                
+                if (dbPass == null){
+                    dbPass = "";
+                }
 
                 /*NOTE: Used to create a cmd command*/
-                executeCmd = ConnectionManager.customPath + " -u" + dbUser + " -p" + dbPass + " --database " + dbName + " -r " + savePath;
+                executeCmd = Paths.get(ConnectionManager.customPath)  + " -u "
+                        + dbUser + " " + dbName + " -r " + "\"" + savePath + "\"";
             }
 
             /*NOTE: Executing the command here*/
@@ -260,6 +267,8 @@ public class ConnectionManager {
             if (processComplete == 0) {
                 System.out.println("database berhasil disimpan di   " + savePath);
             } else {
+                System.out.println(savePath);
+                System.out.println(executeCmd);
                 System.out.println("Backup Failure");
             }
 
