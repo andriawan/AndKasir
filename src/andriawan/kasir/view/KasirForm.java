@@ -44,6 +44,7 @@ public class KasirForm extends javax.swing.JFrame {
     public KasirForm() {
         initComponents();
         setUpIcon();
+        jCheckKodeBarang.setSelected(true);
 
     }
 
@@ -115,6 +116,8 @@ public class KasirForm extends javax.swing.JFrame {
         panelSearchBarang = new javax.swing.JPanel();
         btnCariBarang = new javax.swing.JButton();
         txtCariBarang = new javax.swing.JTextField();
+        jCheckKodeBarang = new javax.swing.JCheckBox();
+        jCheckNamaBarang = new javax.swing.JCheckBox();
         jLabelListBelanja = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableListBelanja = new javax.swing.JTable();
@@ -218,15 +221,26 @@ public class KasirForm extends javax.swing.JFrame {
             }
         });
 
+        jCheckKodeBarang.setText("Kode Barang");
+
+        jCheckNamaBarang.setText("Nama Barang");
+
         javax.swing.GroupLayout panelSearchBarangLayout = new javax.swing.GroupLayout(panelSearchBarang);
         panelSearchBarang.setLayout(panelSearchBarangLayout);
         panelSearchBarangLayout.setHorizontalGroup(
             panelSearchBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSearchBarangLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(txtCariBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCariBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelSearchBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelSearchBarangLayout.createSequentialGroup()
+                        .addComponent(jCheckKodeBarang)
+                        .addGap(18, 18, 18)
+                        .addComponent(jCheckNamaBarang)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(panelSearchBarangLayout.createSequentialGroup()
+                        .addComponent(txtCariBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCariBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         panelSearchBarangLayout.setVerticalGroup(
@@ -236,6 +250,10 @@ public class KasirForm extends javax.swing.JFrame {
                 .addGroup(panelSearchBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnCariBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtCariBarang))
+                .addGap(8, 8, 8)
+                .addGroup(panelSearchBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jCheckKodeBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckNamaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -369,7 +387,7 @@ public class KasirForm extends javax.swing.JFrame {
                     .addComponent(jLabelListBelanja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPaneKasirBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneKasirBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -645,26 +663,61 @@ public class KasirForm extends javax.swing.JFrame {
 
     private void btnCariBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariBarangActionPerformed
 
-        Barang barang;
+        Barang barang = null;
         List<Barang> brList = null;
 
         BarangController bc = new BarangController();
         String name = txtCariBarang.getText();
 
         try {
-
-            brList = bc.multiSearch(name, name, name, name);
+            
+            if(jCheckKodeBarang.isSelected()){
+                barang = bc.getBarang(new Integer(name));
+                brList = new ArrayList<>();
+                brList.add(barang);
+                
+                if (barang == null){
+                    jScrollPaneKasirBarang.setViewportView(null);
+                    JOptionPane.showMessageDialog(this, "Kesalahan: Data tidak ditemukan");
+                }
+                
+            }else if(jCheckNamaBarang.isSelected() && jCheckKodeBarang.isSelected() == false){
+                
+                barang = bc.getBarangByName(name);
+                brList = new ArrayList<>();
+                brList.add(barang);
+                
+                if (barang == null){
+                    jScrollPaneKasirBarang.setViewportView(null);
+                    JOptionPane.showMessageDialog(this, "Kesalahan: Data tidak ditemukan");
+                }
+                
+            }else{
+                brList = bc.multiSearch(name, name, name, name);                
+                
+                if (brList == null) {
+                    
+                }
+            }
+            
+            TableBarang tb = new TableBarang(brList);
+            
+            if (tb.getRowCount() <= 0){
+                jScrollPaneKasirBarang.setViewportView(null);
+                JOptionPane.showMessageDialog(this, "Kesalahan: Data tidak ditemukan");
+            }
+            
+            jTableBarangKasir.setModel(tb);
+            
+            jScrollPaneKasirBarang.setViewportView(jTableBarangKasir);
 
         } catch (NullPointerException ex) {
             JOptionPane.showMessageDialog(this, "Kesalahan: Data tidak ditemukan");
         } catch (SQLException ex) {
             Logger.getLogger(KasirForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NumberFormatException c) {
+            JOptionPane.showMessageDialog(this, "Kesalahan: Masukan hanya angka");            
         }
-
-        TableBarang tb = new TableBarang(brList);
-        jTableBarangKasir.setModel(tb);
-
-        jScrollPaneKasirBarang.setViewportView(jTableBarangKasir);
     }//GEN-LAST:event_btnCariBarangActionPerformed
 
     private void txtCariBarangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCariBarangFocusGained
@@ -1057,6 +1110,8 @@ public class KasirForm extends javax.swing.JFrame {
     private javax.swing.JButton btnHapusItemBelanja;
     private javax.swing.JButton btnHapusListBelanja;
     private javax.swing.JMenuItem infoAplikasi;
+    private javax.swing.JCheckBox jCheckKodeBarang;
+    private javax.swing.JCheckBox jCheckNamaBarang;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
