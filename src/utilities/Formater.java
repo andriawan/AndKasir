@@ -136,6 +136,18 @@ public class Formater {
         return dateF;
     }
     
+    public static String setDateComboSql1(Date d){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd 00:01:00");
+        String dateF = sdf.format(d);
+        return dateF;
+    }
+    
+    public static String setDateComboSql2(Date d){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd 23:59:00");
+        String dateF = sdf.format(d);
+        return dateF;
+    }
+    
     public static String filterOnlyNumber(String filter){
         // Mengganti semua karakter selain numerik (0-9)
         String replaceAll = filter.replaceAll("[^\\d]", "");

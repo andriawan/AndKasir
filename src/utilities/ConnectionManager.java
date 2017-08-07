@@ -18,7 +18,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.CodeSource;
 import java.sql.Connection;
@@ -27,7 +26,6 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import static utilities.SwingProgressBar.MIN;
 
@@ -265,17 +263,17 @@ public class ConnectionManager {
             
             
             if (processComplete == 0) {
-                System.out.println("database berhasil disimpan di   " + savePath);
+                System.out.println("Database berhasil disimpan di " + savePath);
             } else {
                 System.out.println(savePath);
                 System.out.println(executeCmd);
-                System.out.println("Backup Failure");
+                System.out.println("Gagal membackup database");
             }
 
         } catch (URISyntaxException | IOException | InterruptedException te) {
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, te);
             JOptionPane.showMessageDialog(null, "Prosedur backup standart gagal. "
-                    + "Periksa koneksi internet anda. Gagal menghubungi alamat " + te.getMessage(),
+                    + "Periksa koneksi internet anda. Kode error : " + te.getMessage(),
                     "Error",JOptionPane.ERROR_MESSAGE);
         } catch (IllegalStateException ex) {
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
