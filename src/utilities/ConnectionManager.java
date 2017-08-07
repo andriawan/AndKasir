@@ -24,7 +24,9 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import static utilities.SwingProgressBar.MIN;
 
 /**
  *
@@ -130,7 +132,7 @@ public class ConnectionManager {
             String dbName = ConnectionManager.database;
             String dbUser = ConnectionManager.username;
             String dbPass = ConnectionManager.password;
-            String executeCmd;
+            final String executeCmd;
             final String savePath;
             String folderPath;
             
@@ -172,58 +174,88 @@ public class ConnectionManager {
             Process runtimeProcess = Runtime.getRuntime().exec(executeCmd);
             int processComplete = runtimeProcess.waitFor();
             
-            // TODO: backup via FTP
-            final FTPClient client = new FTPClient();
-            // setting host
-            client.connect(ftpHost,new Integer(ftpPort));
-            // setting user
-            client.login(ftpUser, ftpPass);
-            client.upload(new File(savePath), new FTPDataTransferListener() {
+            Thread t = new Thread(new Runnable() {
                 @Override
-                public void started() {
-                    JOptionPane.showMessageDialog(null, 
-                            "Memulai backup...",
-                            "Backup", JOptionPane.INFORMATION_MESSAGE);
-                }
-
-                @Override
-                public void transferred(int i) {
-                    JOptionPane.showMessageDialog(null, 
-                            "Loading...",
-                            "Loading", JOptionPane.INFORMATION_MESSAGE);
-                }
-
-                @Override
-                public void completed() {
+                public void run() {
+                    // TODO: backup via FTP
+                    final FTPClient client = new FTPClient();
                     try {
-                        client.rename(fileName, ftpPath + "/" + fileName);
-                    } catch (IllegalStateException | IOException | FTPIllegalReplyException | FTPException ex) {
+                        // setting host
+                        client.connect(ftpHost, new Integer(ftpPort));
+                        // setting user
+                        client.login(ftpUser, ftpPass);
+                        client.upload(new File(savePath), new FTPDataTransferListener() {
+                        @Override
+                        public void started() {
+                        }
+
+                        @Override
+                        public void transferred(final int i) {
+
+                            final SwingProgressBar it = new SwingProgressBar();
+                            final JFrame fr = new JFrame("progress");
+                            fr.setContentPane(it);
+                            fr.pack();
+                            fr.setVisible(true);
+                            for (int w = MIN; w <= i; w++) {
+                                final int percent = w;
+                                java.awt.EventQueue.invokeLater(new Runnable() {
+                                    
+                                    @Override
+                                    public void run() {
+                                        it.updateBar(percent);
+                                    }
+                                });
+                                
+                                if (percent == i) {
+                                    fr.setVisible(false);
+                                    return;
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void completed() {
+                            try {
+                                client.rename(fileName, ftpPath + "/" + fileName);
+                            } catch (IllegalStateException | IOException | FTPIllegalReplyException | FTPException ex) {
+                                Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            JOptionPane.showMessageDialog(null,
+                                    "Berhasil terbackup",
+                                    "Berhasil", JOptionPane.INFORMATION_MESSAGE);
+                        }
+
+                        @Override
+                        public void aborted() {
+                            JOptionPane.showMessageDialog(null,
+                                    "Dibatalkan",
+                                    "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+
+                        @Override
+                        public void failed() {
+                            JOptionPane.showMessageDialog(null,
+                                    "Terjadi kesalahan",
+                                    "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    });
+
+                    // close connection
+                    client.disconnect(true);
+                    }catch (IllegalStateException | IOException | FTPIllegalReplyException | FTPException | FTPDataTransferException | FTPAbortedException ex) {
                         Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(null, "Prosedur backup standart gagal. "
+                    + "Periksa koneksi internet anda. Gagal menghubungi alamat " + ex.getMessage(),
+                    "Error",JOptionPane.ERROR_MESSAGE);
                     }
-                    JOptionPane.showMessageDialog(null, 
-                            "Berhasil terbackup",
-                            "Berhasil", JOptionPane.INFORMATION_MESSAGE);
-                }
 
-                @Override
-                public void aborted() {
-                    JOptionPane.showMessageDialog(null, 
-                            "Dibatalkan",
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                }
-
-                @Override
-                public void failed() {
-                    JOptionPane.showMessageDialog(null, 
-                            "Terjadi kesalahan",
-                            "Error", JOptionPane.ERROR_MESSAGE);
+                    /*NOTE: processComplete=0 if correctly executed, will contain other values if not*/
                 }
             });
+            t.start();
             
-            // close connection
-            client.disconnect(true);
-
-            /*NOTE: processComplete=0 if correctly executed, will contain other values if not*/
+            
             if (processComplete == 0) {
                 System.out.println("database berhasil disimpan di   " + savePath);
             } else {
@@ -235,7 +267,7 @@ public class ConnectionManager {
             JOptionPane.showMessageDialog(null, "Prosedur backup standart gagal. "
                     + "Periksa koneksi internet anda. Gagal menghubungi alamat " + te.getMessage(),
                     "Error",JOptionPane.ERROR_MESSAGE);
-        } catch (IllegalStateException | FTPIllegalReplyException | FTPException | FTPDataTransferException | FTPAbortedException ex) {
+        } catch (IllegalStateException ex) {
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
