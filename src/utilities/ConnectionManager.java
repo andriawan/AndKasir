@@ -6,6 +6,7 @@
 package utilities;
 
 import andriawan.kasir.controller.UserLoginController;
+import andriawan.kasir.view.ProgressBar;
 import it.sauronsoftware.ftp4j.FTPAbortedException;
 import it.sauronsoftware.ftp4j.FTPClient;
 import it.sauronsoftware.ftp4j.FTPDataTransferException;
@@ -191,24 +192,24 @@ public class ConnectionManager {
 
                         @Override
                         public void transferred(final int i) {
+                            
+                            final ProgressBar pbr = ProgressBar.getInstance();
+                            pbr.setVisible(true);
+                            pbr.initProgressBar(i);
 
-                            final SwingProgressBar it = new SwingProgressBar();
-                            final JFrame fr = new JFrame("progress");
-                            fr.setContentPane(it);
-                            fr.pack();
-                            fr.setVisible(true);
                             for (int w = MIN; w <= i; w++) {
                                 final int percent = w;
                                 java.awt.EventQueue.invokeLater(new Runnable() {
                                     
                                     @Override
                                     public void run() {
-                                        it.updateBar(percent);
+                                        pbr.updateValue(percent);
+                                        //it.updateBar(percent);
                                     }
                                 });
                                 
                                 if (percent == i) {
-                                    fr.setVisible(false);
+                                    pbr.dispose();
                                     return;
                                 }
                             }
