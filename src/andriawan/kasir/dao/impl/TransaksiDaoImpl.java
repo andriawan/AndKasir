@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Formatter;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -80,7 +81,14 @@ public class TransaksiDaoImpl implements TransaksiDao {
     // FIND ALL
     private static final String FIND_ALL
             = "SELECT * FROM "
-            + TABLE;
+            + TABLE + " WHERE "
+            + COLUMN_TGL_TRANSAKSI + " BETWEEN '"
+            + Formater.setStringReadySql(
+                    System.currentTimeMillis()- TimeUnit.DAYS.toMillis(1))
+            + "' AND '"
+            + Formater.setStringReadySql(
+                    System.currentTimeMillis())
+            + "'";
     // Delete
     private static final String DELETE
             = "DELETE FROM "
@@ -126,7 +134,7 @@ public class TransaksiDaoImpl implements TransaksiDao {
 
     public TransaksiDaoImpl() {
         ResultSet result = null;
-        List<Transaksi> semuaTransaksi = new ArrayList<Transaksi>();
+        List<Transaksi> semuaTransaksi = new ArrayList<>();
 
         try {
             con = ConnectionManager.getConnection();

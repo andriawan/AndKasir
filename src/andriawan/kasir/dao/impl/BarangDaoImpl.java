@@ -78,6 +78,7 @@ public class BarangDaoImpl implements BarangDao {
             + TABLE + 
             " WHERE " 
             + COLUMN_ID_BARANG + " like ? OR "
+            + COLUMN_KODE_BARANG + " like ? OR "
             + COLUMN_NAMA_BARANG + " like ? OR "
             + COLUMN_HARGA + " like ? OR "
             + COLUMN_STOK + " like ?";
@@ -216,7 +217,8 @@ public class BarangDaoImpl implements BarangDao {
         }
     }
     
-    public Barang getBarangByKode(String name) {
+    public List<Barang> getBarangByKode(String name) {
+        List<Barang> barangs = new ArrayList<>();
         ResultSet result = null;
         try {
             con = ConnectionManager.getConnection();
@@ -224,7 +226,7 @@ public class BarangDaoImpl implements BarangDao {
             preparedStatement.setString(1, name);
             result = preparedStatement.executeQuery();
 
-            if (result.next()) {
+            while (result.next()) {
                 int idBarang = result.getInt(1);
                 String kodeBarang = result.getString(2);
                 String nama_barang = result.getString(3);
@@ -232,12 +234,9 @@ public class BarangDaoImpl implements BarangDao {
                 int stok = result.getInt(5);
                 long date = result.getTimestamp(6).getTime();
                 int jmlahBarangMasuk = result.getInt(7);
-                Barang br = new Barang(idBarang, kodeBarang, nama_barang, 
-                        Formater.setRupiahFormat(harga), stok, date, jmlahBarangMasuk);
-
-                return br;
-            } else {
-                return null;
+                
+                barangs.add(new Barang(idBarang, kodeBarang, nama_barang, 
+                        Formater.setRupiahFormat(harga), stok, date, jmlahBarangMasuk));
             }
 
         } catch (SQLException e) {
@@ -246,11 +245,13 @@ public class BarangDaoImpl implements BarangDao {
             close(con);
             close(preparedStatement);
         }
+        
+        return barangs;
     }
     
     
     
-    public List<Barang> multiSearch(String a, String b, String c, String d) {
+    public List<Barang> multiSearch(String a, String b, String c, String d, String e) {
         ResultSet result = null;
         List<Barang> barangs = new ArrayList<>();
         try {
@@ -260,6 +261,7 @@ public class BarangDaoImpl implements BarangDao {
             preparedStatement.setString(2, "%" + b + "%");
             preparedStatement.setString(3, "%" + c + "%");
             preparedStatement.setString(4, "%" + d + "%");
+            preparedStatement.setString(5, "%" + d + "%");
             result = preparedStatement.executeQuery();
 
             while (result.next()) {
@@ -275,8 +277,8 @@ public class BarangDaoImpl implements BarangDao {
                 barangs.add(brx);
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException es) {
+            throw new RuntimeException(es);
         } finally {
             close(con);
             close(preparedStatement);

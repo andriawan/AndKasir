@@ -626,7 +626,7 @@ public class MainForm extends javax.swing.JFrame{
         panelHeader.setLayout(new javax.swing.BoxLayout(panelHeader, javax.swing.BoxLayout.Y_AXIS));
 
         txtHeader.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        txtHeader.setText("Informasi Transaksi");
+        txtHeader.setText("Informasi Transaksi Hari Ini");
 
         date.setText("Informasi Waktu Login : " + Formater.setNiceIndonesianDate(System.currentTimeMillis()));
 
@@ -726,7 +726,7 @@ public class MainForm extends javax.swing.JFrame{
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelHeader, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
+                    .addComponent(panelHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelTabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelButtonAction, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -839,7 +839,7 @@ public class MainForm extends javax.swing.JFrame{
             String name = txtCariBarang.getText();
             
             Barang barang;
-            List<Barang> brList = bc.multiSearch(name, name, name, name);
+            List<Barang> brList = bc.multiSearch(name, name, name, name, name);
             
             TableBarang tb = new TableBarang(brList);
             tableBarang.setModel(tb);
@@ -1026,7 +1026,7 @@ public class MainForm extends javax.swing.JFrame{
         TransaksiController tc = TransaksiController.getInstanceTransaksiController();
         TableTransaksi tt = new TableTransaksi(
                 tc.getTransakasi(
-                        new Integer(txtCariTransaksi.getText().toString())));
+                        new Integer(txtCariTransaksi.getText())));
         tabelTransaksi.setModel(tt);
         jScrollTabelTransaksi.setViewportView(tabelTransaksi);
     }//GEN-LAST:event_btnCariTransaksiActionPerformed

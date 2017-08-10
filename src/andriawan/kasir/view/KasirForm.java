@@ -30,6 +30,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import utilities.ConnectionManager;
 import utilities.Formater;
 
 /**
@@ -672,14 +673,7 @@ public class KasirForm extends javax.swing.JFrame {
         try {
             
             if(jCheckKodeBarang.isSelected()){
-                barang = bc.getBarang(new Integer(name));
-                brList = new ArrayList<>();
-                brList.add(barang);
-                
-                if (barang == null){
-                    jScrollPaneKasirBarang.setViewportView(null);
-                    JOptionPane.showMessageDialog(this, "Kesalahan: Data tidak ditemukan");
-                }
+                brList = bc.getBarangByKode(name);
                 
             }else if(jCheckNamaBarang.isSelected() && jCheckKodeBarang.isSelected() == false){
                 
@@ -693,7 +687,7 @@ public class KasirForm extends javax.swing.JFrame {
                 }
                 
             }else{
-                brList = bc.multiSearch(name, name, name, name);                
+                brList = bc.multiSearch(name, name, name, name, name);                
                 
                 if (brList == null) {
                     
@@ -744,18 +738,18 @@ public class KasirForm extends javax.swing.JFrame {
         if (evt.getClickCount() == 2) {
             String id = jTableBarangKasir.getValueAt(
                     jTableBarangKasir.getSelectedRow(), 0).toString();
-            String namaBarang = jTableBarangKasir.getValueAt(
-                    jTableBarangKasir.getSelectedRow(), 1).toString();
-            String hargaRp = jTableBarangKasir.getValueAt(
+            String Barang = jTableBarangKasir.getValueAt(
                     jTableBarangKasir.getSelectedRow(), 2).toString();
+            String hargaRp = jTableBarangKasir.getValueAt(
+                    jTableBarangKasir.getSelectedRow(), 3).toString();
             int stok = new Integer(jTableBarangKasir.getValueAt(
-                    jTableBarangKasir.getSelectedRow(), 3).toString()) - 1;
+                    jTableBarangKasir.getSelectedRow(), 4).toString()) - 1;
 
             int harga = Formater.setRupiahToInteger(hargaRp);
             int totalDefault = 1;
             ArrayList ar = new ArrayList();
             ar.add(id);
-            ar.add(namaBarang);
+            ar.add(Barang);
             ar.add(harga);
             ar.add(totalDefault);
             DefaultTableModel listBelanja = (DefaultTableModel) jTableListBelanja.getModel();
@@ -892,15 +886,17 @@ public class KasirForm extends javax.swing.JFrame {
 
     private void jTableListBelanjaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTableListBelanjaFocusGained
 
+        int jumlah, harga, total = 0, kembalian = 0;
+        
         try {
 
-            int jumlah = new Integer(
+            jumlah = new Integer(
                     jTableListBelanja.getValueAt(
                             jTableListBelanja.getSelectedRow(), 3).toString());
-            int harga = new Integer(
+            harga = new Integer(
                     jTableListBelanja.getValueAt(
                             jTableListBelanja.getSelectedRow(), 2).toString());
-            int total = 0;
+            total = 0;
             for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
                 total = total + new Integer(
                         jTableListBelanja.getValueAt(i, 2).toString())
@@ -908,24 +904,9 @@ public class KasirForm extends javax.swing.JFrame {
                                 jTableListBelanja.getValueAt(i, 3).toString());
             }
 
-            labelTotalBig.setText(Formater.setRupiahFormat(total));
-            labelTotalFooter.setText(Formater.setRupiahFormat(total));
-            txtTerbilang.setText(Formater.setRupiahTerbilang(Formater.setRupiahToInteger(labelTotalBig.getText())));
-
-            int kembalian = Formater.setRupiahToInteger(txtKembalian.getText());
-            int totalx = kembalian - total;
-
-            if (totalx < 0) {
-                labelKembalian.setText("Pembayaran Tidak Mencukupi");
-                labelKembalian.setForeground(Color.red);
-            } else if (totalx == 0) {
-                labelKembalian.setText("Uang pas");
-                labelKembalian.setForeground(new Color(0, 153, 51));//Green
-            } else {
-                labelKembalian.setText(Formater.setRupiahFormat(totalx));
-                labelKembalian.setForeground(new Color(0, 153, 51));//Green
-            }
+            
         } catch (NumberFormatException e) {
+            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, e);
             JOptionPane.showMessageDialog(rootPane,
                     "Kesalahan: Periksa kembali kolom jumlah pada tabel list belanja",
                     "Error", JOptionPane.ERROR_MESSAGE);
@@ -933,6 +914,28 @@ public class KasirForm extends javax.swing.JFrame {
                     1,
                     jTableListBelanja.getSelectedRow(),
                     jTableListBelanja.getSelectedColumn());
+        }
+        
+        labelTotalBig.setText(Formater.setRupiahFormat(total));
+        labelTotalFooter.setText(Formater.setRupiahFormat(total));
+        txtTerbilang.setText(Formater.setRupiahTerbilang(Formater.setRupiahToInteger(labelTotalBig.getText())));
+
+        if (txtKembalian.getText().equals("")) {
+            kembalian = 0;
+        }
+
+        kembalian = Formater.setRupiahToInteger(txtKembalian.getText());
+        int totalx = kembalian - total;
+
+        if (totalx < 0) {
+            labelKembalian.setText("Pembayaran Tidak Mencukupi");
+            labelKembalian.setForeground(Color.red);
+        } else if (totalx == 0) {
+            labelKembalian.setText("Uang pas");
+            labelKembalian.setForeground(new Color(0, 153, 51));//Green
+        } else {
+            labelKembalian.setText(Formater.setRupiahFormat(totalx));
+            labelKembalian.setForeground(new Color(0, 153, 51));//Green
         }
 
     }//GEN-LAST:event_jTableListBelanjaFocusGained
@@ -991,16 +994,19 @@ public class KasirForm extends javax.swing.JFrame {
                                             jTableListBelanja.getValueAt(i, 3).toString());
                         }
                         tc.insertTransaksi(new Transaksi(jumlah, totalHargaStruk, Calendar.getInstance().
-                                getTimeInMillis(), new Integer(labelIdKasir.getText().toString())));
+                                getTimeInMillis(), new Integer(labelIdKasir.getText())));
                         Transaksi tr = tc.getLastRecord();
+                        
                         ArrayList<ItemStruk> ais = new ArrayList<>();
+                        
                         BarangController bc = new BarangController();
+                        
                         for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
                             tc.insertTransaksiDetail(new DetailTransaksi(tr.getIdTransaksi(),
                                     new Integer(jTableListBelanja.getValueAt(i, 0).toString()),
                                     new Integer(jTableListBelanja.getValueAt(i, 3).toString()),
                                     new Integer(jTableListBelanja.getValueAt(i, 2).toString()),
-                                    new Integer(labelIdKasir.getText().toString())));
+                                    new Integer(labelIdKasir.getText())));
 
                             ais.add(new ItemStruk(jTableListBelanja.getValueAt(i, 1).toString(),
                                     jTableListBelanja.getValueAt(i, 3).toString(),
@@ -1020,14 +1026,14 @@ public class KasirForm extends javax.swing.JFrame {
                             }
                         }
 
-                        txtTotalPemasukan.setText(utilities.Formater.setRupiahFormat(new Integer(
+                        txtTotalPemasukan.setText(utilities.Formater.setRupiahFormat(
                                 utilities.Formater.setRupiahToInteger(txtTotalPemasukan.getText())
-                                + utilities.Formater.setRupiahToInteger(labelTotalFooter.getText())))
+                                + utilities.Formater.setRupiahToInteger(labelTotalFooter.getText()))
                         );
 
-                        txtTotalPemasukanHariIni.setText(utilities.Formater.setRupiahFormat(new Integer(
+                        txtTotalPemasukanHariIni.setText(utilities.Formater.setRupiahFormat(
                                 utilities.Formater.setRupiahToInteger(txtTotalPemasukanHariIni.getText())
-                                + utilities.Formater.setRupiahToInteger(labelTotalFooter.getText())))
+                                + utilities.Formater.setRupiahToInteger(labelTotalFooter.getText()))
                         );
 
                         //Cetak Struk
