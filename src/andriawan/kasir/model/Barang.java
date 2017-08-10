@@ -45,6 +45,15 @@ public class Barang {
         this.dateInput = getDate;
     }
     
+    // for updating into database alternative
+    public Barang(int idBarang, String kodeBarang, String namaBarang, int harga, int Stok) {
+        this.idBarang = idBarang;
+        this.kodeBarang = kodeBarang;
+        this.namaBarang = namaBarang;
+        this.harga = harga;
+        this.Stok = Stok;
+    }
+    
     // get all
     public Barang(int idBarang, String kodeBarang, String namaBarang, String harga, int Stok, long getDate, int jmlah) {
         this.idBarang = idBarang;

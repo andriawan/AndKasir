@@ -51,7 +51,10 @@ public class BarangDaoImpl implements BarangDao {
     // FIND ALL
     private static final String FIND_ALL = 
             "SELECT * FROM " 
-            + TABLE;
+            + TABLE 
+            + " ORDER BY "
+            + COLUMN_TGL_INPUT 
+            + " DESC LIMIT 50";
     // Delete
     private static final String DELETE = 
             "DELETE FROM " 
@@ -106,6 +109,15 @@ public class BarangDaoImpl implements BarangDao {
             + COLUMN_HARGA + "=?, "
             + COLUMN_STOK + "=?, "
             + COLUMN_TGL_INPUT + "=? "
+            + "WHERE "
+            + COLUMN_ID_BARANG + "=?";
+    
+    //UPDATE WITHOUT DATE
+    private static final String UPDATE2 = "UPDATE " + TABLE + " SET "
+            + COLUMN_NAMA_BARANG + "=?, "
+            + COLUMN_KODE_BARANG + "=?, "
+            + COLUMN_HARGA + "=?, "
+            + COLUMN_STOK + "=? "
             + "WHERE "
             + COLUMN_ID_BARANG + "=?";
     
@@ -299,6 +311,27 @@ public class BarangDaoImpl implements BarangDao {
             preparedStatement.setString(5, Formater.setStringReadySql(
                     barang.getDateInput()));
             preparedStatement.setInt(6, barang.getIdBarang());
+            
+            int status = preparedStatement.executeUpdate();
+            
+            } catch (SQLException ex) {
+            Logger.getLogger(BarangDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            close(con);
+            close(preparedStatement);
+        }
+
+    }
+    
+    public void updateBarangNoDate(Barang barang) {
+        try {
+            con = ConnectionManager.getConnection();
+            preparedStatement = con.prepareStatement(UPDATE2);
+            preparedStatement.setString(1, barang.getNamaBarang());
+            preparedStatement.setString(2, barang.getKodeBarang().toUpperCase());
+            preparedStatement.setInt(3, barang.getHarga());
+            preparedStatement.setInt(4, barang.getStok());
+            preparedStatement.setInt(5, barang.getIdBarang());
             
             int status = preparedStatement.executeUpdate();
             

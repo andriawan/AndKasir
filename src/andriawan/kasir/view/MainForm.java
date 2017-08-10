@@ -839,7 +839,7 @@ public class MainForm extends javax.swing.JFrame{
             String name = txtCariBarang.getText();
             
             Barang barang;
-            List<Barang> brList = bc.multiSearch(name, name, name, name, name);
+            List<Barang> brList = bc.getBarangByKode(name);
             
             TableBarang tb = new TableBarang(brList);
             tableBarang.setModel(tb);
@@ -1011,10 +1011,11 @@ public class MainForm extends javax.swing.JFrame{
                         JOptionPane.INFORMATION_MESSAGE);
                 if(action == JOptionPane.YES_OPTION){
                     uc.deleteUser(new Integer(id));
+                    UserLoginController.getMainFormInstance().reloadUserLive(evt);
                 }
                 
-            } catch (RuntimeException f){
-                f.printStackTrace();
+            } catch (RuntimeException | SQLException f){
+                Logger.getLogger(EditorUserForm.class.getName()).log(Level.SEVERE, null, f);
             }            
         }else{
             JOptionPane.showMessageDialog(
@@ -1123,8 +1124,14 @@ public class MainForm extends javax.swing.JFrame{
         this.screenWidth = screenSize.width;
     }
     
+    // public method
     public void reloadTableBarang(ActionEvent evt){
         btnCekBarangActionPerformed(evt);
+    }
+    
+    // public method
+    public void reloadUserLive(ActionEvent evt){
+        btnCariUserActionPerformed(evt);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCariBarang;

@@ -115,6 +115,12 @@ public class BarangController {
     }
     
     // mengambil fungsi pada BarangDaoImpl untuk diolah lebih lanjut pada 
+    // view objcet (JFrame MainForm) tanpa date
+    public void updateBarangNoDate(Barang br) throws SQLException{
+        new BarangDaoImpl().updateBarangNoDate(br);
+    }
+    
+    // mengambil fungsi pada BarangDaoImpl untuk diolah lebih lanjut pada 
     // view objcet (JFrame MainForm)
     public void updateStok(Barang br, int jumlah) throws SQLException{
         new BarangDaoImpl().updateStok(br,jumlah);

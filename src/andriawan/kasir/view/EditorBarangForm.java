@@ -8,6 +8,8 @@ package andriawan.kasir.view;
 import andriawan.kasir.controller.BarangController;
 import andriawan.kasir.controller.UserLoginController;
 import andriawan.kasir.model.Barang;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -132,6 +134,11 @@ public class EditorBarangForm extends javax.swing.JFrame {
         btnTambahBarangFrame.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTambahBarangFrameActionPerformed(evt);
+            }
+        });
+        btnTambahBarangFrame.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnTambahBarangFrameKeyPressed(evt);
             }
         });
 
@@ -291,8 +298,17 @@ public class EditorBarangForm extends javax.swing.JFrame {
         int total = Integer.parseInt(txtFieldStok.getText());
         
         try {
-            bc.updateBarang(new Barang(id, kodeBarang, nmBarang, 
-                    harga, total, date));
+            
+            if (dateTglMasuk.isEnabled()) {
+                
+                bc.updateBarang(new Barang(id, kodeBarang, nmBarang, 
+                    harga, total, date));                
+            }else{
+                
+                bc.updateBarangNoDate(new Barang(id, kodeBarang, nmBarang, 
+                    harga, total));                
+            }
+            
             JOptionPane.showMessageDialog(null, "Barang berhasil diupdate");
             this.setVisible(false);
             UserLoginController.getMainFormInstance().reloadTableBarang(evt);
@@ -315,6 +331,7 @@ public class EditorBarangForm extends javax.swing.JFrame {
             bc.insertBarang(new Barang(nmBarang, kodeBarang, 
                     harga, total, date, total));
             JOptionPane.showMessageDialog(null, "Barang berhasil ditambahkan");
+            UserLoginController.getMainFormInstance().reloadTableBarang(evt);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Terjadi kesalahan: periksa inputan anda");
         } catch(NumberFormatException b){
@@ -324,6 +341,7 @@ public class EditorBarangForm extends javax.swing.JFrame {
         txtFieldNamaBarang.setText("");
         txtFieldHarga.setText("");
         txtFieldStok.setText("");
+        txtFieldKodeBarang.setText("");
     }//GEN-LAST:event_btnTambahBarangFrameActionPerformed
 
     private void txtFieldHargaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldHargaKeyReleased
@@ -351,6 +369,17 @@ public class EditorBarangForm extends javax.swing.JFrame {
             dateTglMasuk.setEnabled(false);
         }
     }//GEN-LAST:event_jCheckTanggalActionPerformed
+
+    private void btnTambahBarangFrameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnTambahBarangFrameKeyPressed
+        try {
+            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                ActionEvent et = null;
+                btnTambahBarangFrameActionPerformed(et);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }//GEN-LAST:event_btnTambahBarangFrameKeyPressed
 
     public void setVisibilityBtnUpdate(){
         btnUpdateBarangFrame.setVisible(true);

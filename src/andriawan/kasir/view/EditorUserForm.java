@@ -6,7 +6,11 @@
 package andriawan.kasir.view;
 
 import andriawan.kasir.controller.UserController;
+import andriawan.kasir.controller.UserLoginController;
 import andriawan.kasir.model.User;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -272,6 +276,12 @@ public class EditorUserForm extends javax.swing.JFrame {
         uc.insertUser(new User(nama, password, namaL, status));
         JOptionPane.showMessageDialog(null, "Pengguna berhasil ditambahkan");
         
+        try {
+            UserLoginController.getMainFormInstance().reloadUserLive(evt);
+        } catch (SQLException ex) {
+            Logger.getLogger(EditorUserForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         txtFieldNama.setText("");
         txtFieldNamaUsername.setText("");
         txtPassword.setText("");
@@ -292,6 +302,12 @@ public class EditorUserForm extends javax.swing.JFrame {
         }
         
         JOptionPane.showMessageDialog(null, "Pengguna berhasil diupdate");
+        
+        try {
+            UserLoginController.getMainFormInstance().reloadUserLive(evt);
+        } catch (SQLException ex) {
+            Logger.getLogger(EditorUserForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         txtFieldNama.setText("");
         txtFieldNamaUsername.setText("");
