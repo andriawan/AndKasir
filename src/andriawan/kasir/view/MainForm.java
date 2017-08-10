@@ -882,7 +882,7 @@ public class MainForm extends javax.swing.JFrame{
             UserController.getUpdateFormInstance().
                     setTxtNama(usr.getNama());
             UserController.getUpdateFormInstance().
-                    setTxtId(new Integer(usr.getId()).toString());
+                    setTxtId(Integer.toString(usr.getId()));
             UserController.getUpdateFormInstance().
                 setLabelHeader("Edit Pengguna");
             
@@ -898,16 +898,28 @@ public class MainForm extends javax.swing.JFrame{
             s = tableBarang.getValueAt(tableBarang.getSelectedRow(), 0).toString();
             try {
                 Barang br = bc.getBarang(new Integer(s));
+                
                 BarangController.getUpdateFormInstance().
                         setVisible(true);
+                
+                BarangController.getUpdateFormInstance().
+                        setDisableCheck();
+                
                 BarangController.getUpdateFormInstance().
                         setVisibilityBtnUpdate();
+                
+                BarangController.getUpdateFormInstance().
+                        setTxtFieldKodeBarang(br.getKodeBarang());
+                
                 BarangController.getUpdateFormInstance().
                         setTxtFieldNamaBarang(br.getNamaBarang());
+                
                 BarangController.getUpdateFormInstance().
-                        setTxtFieldHarga(Formater.setRupiahFormat(br.getHarga()));
+                        setTxtFieldHarga(br.getHargaFormat());
+                
                 BarangController.getUpdateFormInstance().
                         setTxtFieldStok(String.valueOf(br.getStok()));
+                
                 BarangController.getUpdateFormInstance().
                         setTxtFieldIdBarang(String.valueOf(s));
                 
