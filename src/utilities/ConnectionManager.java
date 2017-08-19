@@ -227,23 +227,28 @@ public class ConnectionManager {
                             } catch (IllegalStateException | IOException | FTPIllegalReplyException | FTPException ex) {
                                 Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
                             }
-                            JOptionPane.showMessageDialog(null,
-                                    "Berhasil terbackup",
-                                    "Berhasil", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(
+                                null,
+                                "Berhasil terbackup",
+                                "Berhasil", JOptionPane.INFORMATION_MESSAGE
+                            );
                         }
 
                         @Override
                         public void aborted() {
                             JOptionPane.showMessageDialog(null,
-                                    "Dibatalkan",
-                                    "Error", JOptionPane.ERROR_MESSAGE);
+                                "Dibatalkan",
+                                "Error", JOptionPane.ERROR_MESSAGE
+                            );
                         }
 
                         @Override
                         public void failed() {
-                            JOptionPane.showMessageDialog(null,
-                                    "Terjadi kesalahan",
-                                    "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(
+                                null,
+                                "Terjadi kesalahan",
+                                "Error", JOptionPane.ERROR_MESSAGE
+                            );
                         }
                     });
 
@@ -251,9 +256,13 @@ public class ConnectionManager {
                     client.disconnect(true);
                     }catch (IllegalStateException | IOException | FTPIllegalReplyException | FTPException | FTPDataTransferException | FTPAbortedException ex) {
                         Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
-                        JOptionPane.showMessageDialog(null, "Prosedur backup standart gagal. "
+                        JOptionPane.showMessageDialog(
+                                null, 
+                                "Prosedur backup standart gagal. "
                     + "Periksa koneksi internet anda. Gagal menghubungi alamat " + ex.getMessage(),
-                    "Error",JOptionPane.ERROR_MESSAGE);
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE
+                        );
                     }
 
                     /*NOTE: processComplete=0 if correctly executed, will contain other values if not*/
@@ -265,8 +274,8 @@ public class ConnectionManager {
             if (processComplete == 0) {
                 System.out.println("Database berhasil disimpan di " + savePath);
             } else {
-                System.out.println(savePath);
-                System.out.println(executeCmd);
+                //System.out.println(savePath);
+                //System.out.println(executeCmd);
                 System.out.println("Gagal membackup database");
             }
 
@@ -278,7 +287,5 @@ public class ConnectionManager {
         } catch (IllegalStateException ex) {
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
-
 }

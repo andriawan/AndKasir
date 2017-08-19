@@ -8,7 +8,6 @@ package utilities;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -16,16 +15,17 @@ import java.util.Date;
  * @author andriawan
  * Kelas ini menangani Format yang sering ditemui. dibuat agar kodenya reuse ( dapat dipakai kembali )
  */
+
 public class Formater {
 
 
-	 /**
-	 *
-	 * fungsi setRupiahFormat memudahkan untuk membuat tampilan integer menjadi Format mata uang rupiah
-	 * parameter : int kurs
-	 * return 	: string berformat rupiah (misal Rp. 100.000, 00)
-	 * modifier : public static
-	 */  
+   /**
+        *
+        * fungsi setRupiahFormat memudahkan untuk membuat tampilan integer menjadi
+        * Format mata uang rupiah parameter : int kurs return : string berformat
+        * rupiah (misal Rp. 100.000, 00) modifier : public static
+        */
+    
     public static String setRupiahFormat(int kurs){
         DecimalFormat kursIndonesia = (DecimalFormat) DecimalFormat.
                 getCurrencyInstance();
@@ -40,14 +40,13 @@ public class Formater {
         return kursIndonesia.format(kurs);
     }
 
-    /**
-	 *
-	 * fungsi setRupiahToInteger memudahkan untuk mengambil nilai integer dari string hasil format 
-	 * dengan funsi setRupiahFormat()
-	 * parameter : String rupiah
-	 * return 	: string berformat rupiah (misal Rp. 100.000, 00) akan menjadi 100000
-	 * modifier : public static
-	 */  
+   /**
+        *
+        * fungsi setRupiahToInteger memudahkan untuk mengambil nilai integer dari
+        * string hasil format dengan funsi setRupiahFormat() parameter : String
+        * rupiah return : string berformat rupiah (misal Rp. 100.000, 00) akan
+        * menjadi 100000 modifier : public static
+        */
     
     public static int setRupiahToInteger(String rupiah){
         
@@ -58,13 +57,12 @@ public class Formater {
         return new Integer(replace3);
     }
 
-    /**
-	 *
-	 * fungsi setTerbilang mengubah inputan Long menjadi String terbilang 
-	 * parameter : Long angka
-	 * return 	: string berformat misal 1200 menjadi "Seribu Dua Ratus"
-	 * modifier : private static
-	 */
+   /**
+        *
+        * fungsi setTerbilang mengubah inputan Long menjadi String terbilang
+        * parameter : Long angka return : string berformat misal 1200 menjadi
+        * "Seribu Dua Ratus" modifier : private static
+        */
     
     private static String setTerbilang(Long angka) {
         
@@ -105,13 +103,13 @@ public class Formater {
         return "0";
     }
 
-    /**
-	 *
-	 * fungsi setRupiahTerbilang mengolah fungsi setTerbilang menjadi lebih sempurna denga akhiran "Rupiah"
-	 * parameter : int l
-	 * return 	: string berformat misal 1200 menjadi "Seribu Dua Ratus Rupiah"
-	 * modifier : private static
-	 */
+   /**
+          *
+         * fungsi setRupiahTerbilang mengolah fungsi setTerbilang menjadi lebih sempurna denga akhiran "Rupiah"
+         * parameter : int l
+         * return 	: string berformat misal 1200 menjadi "Seribu Dua Ratus Rupiah"
+         * modifier : private static
+         */
     
     public static String setRupiahTerbilang(int l){
         String d = Integer.toString(l);
@@ -126,7 +124,6 @@ public class Formater {
 	 * parameter : long l
 	 * return 	: string berformat yyyy-MM-dd HH:mm:ss misal 2017-10-11 10:55:20
 	 * modifier : public static
-         * @param l
 	 */
     
     public static String setStringReadySql(long l){

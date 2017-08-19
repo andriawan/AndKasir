@@ -102,6 +102,7 @@ public class BarangDaoImpl implements BarangDao {
             + COLUMN_STOK + ", "
             + COLUMN_TGL_INPUT + ", "
             + COLUMN_JUMLAH_MASUK + ") VALUES(?, ?, ?, ?, ?, ?)";
+    
     //UPDATE
     private static final String UPDATE = "UPDATE " + TABLE + " SET "
             + COLUMN_NAMA_BARANG + "=?, "
@@ -121,6 +122,7 @@ public class BarangDaoImpl implements BarangDao {
             + "WHERE "
             + COLUMN_ID_BARANG + "=?";
     
+    // UPDATE STOK    
     private static final String UPDATE_STOK = "UPDATE " + TABLE + " SET "
             + COLUMN_STOK + "=stok-? "
             + "WHERE "

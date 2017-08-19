@@ -38,6 +38,8 @@ import utilities.Formater;
  * @author andriawan
  */
 public class KasirForm extends javax.swing.JFrame {
+    
+    private TableBarang tb;
 
     /**
      * Creates new form KasirForm
@@ -180,6 +182,14 @@ public class KasirForm extends javax.swing.JFrame {
         setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 
         jTableBarangKasir.setForeground(new java.awt.Color(4, 0, 0));
+        jTableBarangKasir.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
         jTableBarangKasir.setIntercellSpacing(new java.awt.Dimension(10, 5));
         jTableBarangKasir.setRowHeight(25);
         jTableBarangKasir.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -694,7 +704,7 @@ public class KasirForm extends javax.swing.JFrame {
                 }
             }
             
-            TableBarang tb = new TableBarang(brList);
+            tb = new TableBarang(brList);
             
             if (tb.getRowCount() <= 0){
                 jScrollPaneKasirBarang.setViewportView(null);
@@ -736,14 +746,28 @@ public class KasirForm extends javax.swing.JFrame {
     private void jTableBarangKasirMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableBarangKasirMousePressed
 
         if (evt.getClickCount() == 2) {
+            
             String id = jTableBarangKasir.getValueAt(
                     jTableBarangKasir.getSelectedRow(), 0).toString();
             String Barang = jTableBarangKasir.getValueAt(
                     jTableBarangKasir.getSelectedRow(), 2).toString();
             String hargaRp = jTableBarangKasir.getValueAt(
                     jTableBarangKasir.getSelectedRow(), 3).toString();
-            int stok = new Integer(jTableBarangKasir.getValueAt(
-                    jTableBarangKasir.getSelectedRow(), 4).toString()) - 1;
+            int stok;
+            stok = new Integer(jTableBarangKasir.getValueAt(
+                    jTableBarangKasir.getSelectedRow(), 4).toString());
+            
+            int val = stok - 1;
+            jTableBarangKasir.setValueAt(val, 
+                    jTableBarangKasir.getSelectedRow(), 4);
+            
+            // pengecekan jika barang kosong
+            if(stok <= 0){
+                JOptionPane.showMessageDialog(rootPane, "Barang sedang kosong"
+                        + " silahkan edit menu admin untuk melanjutkan "
+                        + "transaksi");
+                return;
+            }
 
             int harga = Formater.setRupiahToInteger(hargaRp);
             int totalDefault = 1;

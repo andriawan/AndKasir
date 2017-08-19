@@ -16,8 +16,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Formatter;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -74,7 +72,7 @@ public class TransaksiDaoImpl implements TransaksiDao {
             + "INNER JOIN "
             + "barang "
             + "ON "
-            + "barang.kode_barang=detail_transaksi.id_barang "
+            + "barang.id_barang=detail_transaksi.id_barang "
             + "WHERE "
             + "detail_transaksi.id_transaksi=?";
 
