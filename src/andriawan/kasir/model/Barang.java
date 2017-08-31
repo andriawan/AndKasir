@@ -46,12 +46,13 @@ public class Barang {
     }
     
     // for updating into database alternative
-    public Barang(int idBarang, String kodeBarang, String namaBarang, int harga, int Stok) {
+    public Barang(int idBarang, String kodeBarang, String namaBarang, int harga, int Stok, int jumlah) {
         this.idBarang = idBarang;
         this.kodeBarang = kodeBarang;
         this.namaBarang = namaBarang;
         this.harga = harga;
         this.Stok = Stok;
+        this.jumlahBarangMasuk = jumlah;
     }
     
     // get all

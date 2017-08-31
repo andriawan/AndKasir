@@ -11,6 +11,8 @@ import andriawan.kasir.model.Barang;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import utilities.Formater;
@@ -288,25 +290,40 @@ public class EditorBarangForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBatalTambahBarangActionPerformed
 
     private void btnUpdateBarangFrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateBarangFrameActionPerformed
-        BarangController bc = new BarangController();
+        BarangController bc = BarangController.getInstance();
+        
+        andriawan.kasir.model.Barang br = null;
+        int totalAwal = 0;
+        int jumlahAwal = 0;
         
         int id = Integer.parseInt(txtIdBarang.getText());
+        
+        try {
+            br = bc.getBarang(id);
+            totalAwal = br.getStok();
+            jumlahAwal = br.getJumlahBarangMasuk();
+        } catch (SQLException ex) {
+            Logger.getLogger(EditorBarangForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
         String nmBarang = txtFieldNamaBarang.getText();
         String kodeBarang = txtFieldKodeBarang.getText();
         int harga = Formater.setRupiahToInteger(txtFieldHarga.getText());
         long date = dateTglMasuk.getSelectedDate().getTimeInMillis();
         int total = Integer.parseInt(txtFieldStok.getText());
         
+        int totalAkhir = totalAwal + (total - totalAwal);
+        int jumlahAkhir = jumlahAwal + (total - totalAwal);
+        
         try {
             
             if (dateTglMasuk.isEnabled()) {
                 
                 bc.updateBarang(new Barang(id, kodeBarang, nmBarang, 
-                    harga, total, date));                
+                    harga, totalAkhir, date, jumlahAkhir));                
             }else{
                 
                 bc.updateBarangNoDate(new Barang(id, kodeBarang, nmBarang, 
-                    harga, total));                
+                    harga, totalAkhir, jumlahAkhir));                
             }
             
             JOptionPane.showMessageDialog(null, "Barang berhasil diupdate");

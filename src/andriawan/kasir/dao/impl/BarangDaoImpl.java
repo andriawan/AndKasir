@@ -109,7 +109,8 @@ public class BarangDaoImpl implements BarangDao {
             + COLUMN_KODE_BARANG + "=?, "
             + COLUMN_HARGA + "=?, "
             + COLUMN_STOK + "=?, "
-            + COLUMN_TGL_INPUT + "=? "
+            + COLUMN_TGL_INPUT + "=? , "
+            + COLUMN_JUMLAH_MASUK + "=? "
             + "WHERE "
             + COLUMN_ID_BARANG + "=?";
     
@@ -118,7 +119,8 @@ public class BarangDaoImpl implements BarangDao {
             + COLUMN_NAMA_BARANG + "=?, "
             + COLUMN_KODE_BARANG + "=?, "
             + COLUMN_HARGA + "=?, "
-            + COLUMN_STOK + "=? "
+            + COLUMN_STOK + "=? , "
+            + COLUMN_JUMLAH_MASUK + "=? "
             + "WHERE "
             + COLUMN_ID_BARANG + "=?";
     
@@ -312,7 +314,8 @@ public class BarangDaoImpl implements BarangDao {
             preparedStatement.setInt(4, barang.getStok());
             preparedStatement.setString(5, Formater.setStringReadySql(
                     barang.getDateInput()));
-            preparedStatement.setInt(6, barang.getIdBarang());
+            preparedStatement.setInt(6, barang.getJumlahBarangMasuk());
+            preparedStatement.setInt(7, barang.getIdBarang());
             
             int status = preparedStatement.executeUpdate();
             
@@ -333,7 +336,8 @@ public class BarangDaoImpl implements BarangDao {
             preparedStatement.setString(2, barang.getKodeBarang().toUpperCase());
             preparedStatement.setInt(3, barang.getHarga());
             preparedStatement.setInt(4, barang.getStok());
-            preparedStatement.setInt(5, barang.getIdBarang());
+            preparedStatement.setInt(5, barang.getJumlahBarangMasuk());
+            preparedStatement.setInt(6, barang.getIdBarang());
             
             int status = preparedStatement.executeUpdate();
             
