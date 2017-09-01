@@ -795,15 +795,16 @@ public class MainForm extends javax.swing.JFrame{
     }//GEN-LAST:event_btnCekBarangActionPerformed
 
     private void btnCekTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCekTransaksiActionPerformed
-        TransaksiController tc = new TransaksiController();
+        TransaksiController tc = TransaksiController.getInstanceTransaksiController();
         TableTransaksi tt;
         
-        tt = new TableTransaksi(tc.getAllTransakasi());
-        txtHeader.setText("Informasi Transaksi");
-        jScrollTabelTransaksi.setViewportView(tabelTransaksi);
+        tt = new TableTransaksi(tc.getTransaksiOneDay());
+        
+        
         tabelTransaksi.setModel(tt);
+        jScrollTabelTransaksi.setViewportView(tabelTransaksi);
                     
-        txtHeader.setText("Informasi Transaksi");
+        txtHeader.setText("Informasi Transaksi Hari ini");
         panelSearchTransaksi.setVisible(true);
         panelSearchBarang.setVisible(false);
         panelSearchUser.setVisible(false);

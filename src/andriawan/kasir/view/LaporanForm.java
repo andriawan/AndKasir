@@ -336,9 +336,15 @@ panelLaporanLayout.setHorizontalGroup(
                     dateChooserCombo1.getSelectedDate().getTime()),
                     Formater.setDateComboSql2(
                             dateChooserCombo2.getSelectedDate().getTime()));
+            Barang br2 = bc.getJumlahBarangKeluar(Formater.setDateComboSql1(
+                    dateChooserCombo1.getSelectedDate().getTime()),
+                    Formater.setDateComboSql2(
+                            dateChooserCombo2.getSelectedDate().getTime()));
             
             txtBarangMasuk.setText(String.valueOf(
                     br.getJumlahBarangMasuk()));
+            
+            txtBarangKeluar.setText(String.valueOf(br2.getJumlahBarangKeluar()));
             
             TabelLaporan tl = new TabelLaporan(
                 lc.getReport(Formater.setDateComboSql1(
@@ -367,7 +373,6 @@ panelLaporanLayout.setHorizontalGroup(
                     + Formater.setNiceIndonesianDateShort(
                             dateChooserCombo2.getSelectedDate().getTimeInMillis()));
             txtTotalPendapatan.setText(Formater.setRupiahFormat(totalHarga));
-            txtBarangKeluar.setText(String.valueOf(jumlah));
         
             
         } catch (SQLException ex) {
