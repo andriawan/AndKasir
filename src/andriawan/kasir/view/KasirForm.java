@@ -16,6 +16,7 @@ import andriawan.kasir.model.Struk;
 import andriawan.kasir.model.TableBarang;
 import andriawan.kasir.model.TableListBelanja;
 import andriawan.kasir.model.Transaksi;
+import com.mysql.jdbc.MysqlDataTruncation;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -997,6 +998,8 @@ public class KasirForm extends javax.swing.JFrame {
             }else {
 
                 if (utilities.Devices.isPrinterAvailable()) {
+                    
+                    btnCetakStruk.setEnabled(false);
 
                     int harga = 0;
                     int jumlah = 0;
@@ -1046,6 +1049,19 @@ public class KasirForm extends javax.swing.JFrame {
                                         new Integer(jTableListBelanja.
                                                 getValueAt(i, 3).toString()));
                             } catch (SQLException ex) {
+                                JOptionPane.showMessageDialog(rootPane, "Pastikan Jumlah Barang Cukup"
+                            + " keadaan on", "Error", JOptionPane.ERROR_MESSAGE);
+                                Logger.getLogger(KasirForm.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            
+                            try {
+                                bc.insertBarangKeluar(
+                                        new Integer(jTableListBelanja.
+                                                getValueAt(i, 0).toString()),
+                                        Formater.setStringReadySql(System.currentTimeMillis()), 
+                                        new Integer(jTableListBelanja.
+                                                getValueAt(i, 3).toString()));
+                            } catch (SQLException ex) {
                                 Logger.getLogger(KasirForm.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
@@ -1073,6 +1089,7 @@ public class KasirForm extends javax.swing.JFrame {
                                 totalBayar, totalKembalian, ais, namaPetugas, tanggal);
                         try {
                             StrukController.previewCetakStruk(struk);
+                            btnCetakStruk.setEnabled(true);
                         } catch (IOException ex) {
                             Logger.getLogger(KasirForm.class.getName()).log(Level.SEVERE, null, ex);
                         }
