@@ -18,6 +18,7 @@ public class Barang {
     private int harga;
     private int Stok;
     private int jumlahBarangMasuk;
+    private int jumlahBarangKeluar;
     private long dateInput;
 
     // Default Constructor
@@ -143,5 +144,15 @@ public class Barang {
     public void setKodeBarang(String kodeBarang) {
         this.kodeBarang = kodeBarang;
     }    
+
+    public int getJumlahBarangKeluar() {
+        return jumlahBarangKeluar;
+    }
+
+    public void setJumlahBarangKeluar(int jumlahBarangKeluar) {
+        this.jumlahBarangKeluar = jumlahBarangKeluar;
+    }
+    
+    
     
 }

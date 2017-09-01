@@ -27,6 +27,16 @@ public class BarangDaoImpl implements BarangDao {
     private final List<Barang> semuaBarang;
     private Connection con;
     private PreparedStatement preparedStatement;
+    
+    // info tabel barang masuk
+    private static final String TABLE_MASUK = "barang_masuk";
+    private static final String COLUMN_TGL_TABLE_MASUK = "tgl_masuk";
+    private static final String COLUMN_JUMLAH_TABLE_MASUK = "jumlah_barang_masuk";
+    
+    // info tabel barang keluar
+    private static final String TABLE_KELUAR = "barang_keluar";
+    private static final String COLUMN_TGL_TABLE_KELUAR = "tgl_keluar";
+    private static final String COLUMN_JUMLAH_TABLE_KELUAR = "jumlah_barang_keluar";
 
     // info table
     private static final String TABLE = "barang";
@@ -37,16 +47,6 @@ public class BarangDaoImpl implements BarangDao {
     private static final String COLUMN_STOK = "stok";
     private static final String COLUMN_TGL_INPUT = "tgl_input";
     private static final String COLUMN_JUMLAH_MASUK = "jumlah_barang_masuk";
-    
-    // GET JUMLAH BARANG MASUK TOTAL IN CERTAIN DATE
-    private static final String GET_BARANG_MASUK
-            = "SELECT SUM("
-            + COLUMN_JUMLAH_MASUK
-            + ") FROM "
-            + TABLE + 
-            " WHERE "
-            + COLUMN_TGL_INPUT + 
-            " BETWEEN ? AND ?";
 
     // FIND ALL
     private static final String FIND_ALL = 
@@ -92,6 +92,15 @@ public class BarangDaoImpl implements BarangDao {
             + TABLE + 
             " WHERE " 
             + COLUMN_NAMA_BARANG + " like ?";
+    
+    //FIND by nama_barang and kode_barang
+    private static final String FIND_BY_NAME_AND_KODE = 
+            "SELECT * FROM " 
+            + TABLE + 
+            " WHERE " 
+            + COLUMN_NAMA_BARANG + " =? AND "
+            + COLUMN_KODE_BARANG + " =?";
+    
     //INSERT
     private static final String INSERT = 
             "INSERT INTO " 
@@ -129,6 +138,50 @@ public class BarangDaoImpl implements BarangDao {
             + COLUMN_STOK + "=stok-? "
             + "WHERE "
             + COLUMN_ID_BARANG + "=?";
+    
+    // GET RECORD BARANG MASUK
+    private static final String GET_RECORD_BARANG_MASUK = 
+            "SELECT * FROM " 
+            + TABLE_MASUK
+            + " WHERE "
+            + COLUMN_TGL_TABLE_MASUK + 
+            " BETWEEN ? AND ? ORDER BY " + COLUMN_TGL_TABLE_MASUK;
+    
+    // INSERT BARANG MASUK
+    private static final String INSERT_BARANG_MASUK = 
+            "INSERT INTO " 
+            + TABLE_MASUK + "("
+            + COLUMN_ID_BARANG + ", "
+            + COLUMN_TGL_TABLE_MASUK + ", "
+            + COLUMN_JUMLAH_TABLE_MASUK + ") VALUES(?, ?, ?)";
+    
+    // GET JUMLAH BARANG MASUK TOTAL IN CERTAIN DATE
+    private static final String GET_BARANG_MASUK
+            = "SELECT SUM("
+            + COLUMN_JUMLAH_TABLE_MASUK
+            + ") FROM "
+            + TABLE_MASUK + 
+            " WHERE "
+            + COLUMN_TGL_TABLE_MASUK + 
+            " BETWEEN ? AND ?";
+    
+    // GET RECORD BARANG KELUAR
+    private static final String GET_BARANG_KELUAR
+           = "SELECT SUM("
+            + COLUMN_JUMLAH_TABLE_KELUAR
+            + ") FROM "
+            + TABLE_KELUAR + 
+            " WHERE "
+            + COLUMN_TGL_TABLE_KELUAR + 
+            " BETWEEN ? AND ?";
+    
+    // INSERT BARANG KELUAR
+    private static final String INSERT_BARANG_KELUAR = 
+            "INSERT INTO " 
+            + TABLE_KELUAR + "("
+            + COLUMN_ID_BARANG + ", "
+            + COLUMN_TGL_TABLE_KELUAR + ", "
+            + COLUMN_JUMLAH_TABLE_KELUAR + ") VALUES(?, ?, ?)";
 
     public BarangDaoImpl() throws SQLException {
         ResultSet result = null;
@@ -263,6 +316,39 @@ public class BarangDaoImpl implements BarangDao {
         }
         
         return barangs;
+    }
+    
+    public Barang getBarangByNameAndKode(String name, String code) {
+        ResultSet result = null;
+        try {
+            con = ConnectionManager.getConnection();
+            preparedStatement = con.prepareStatement(FIND_BY_NAME_AND_KODE);
+            preparedStatement.setString(1, name );
+            preparedStatement.setString(2, code );
+            result = preparedStatement.executeQuery();
+
+            if (result.next()) {
+                int kode = result.getInt(1);
+                String kodeBarang = result.getString(2);
+                String nama_barang = result.getString(3);
+                int harga = result.getInt(4);
+                int stok = result.getInt(5);
+                long date = result.getTimestamp(6).getTime();
+                int jmlahBarangMasuk = result.getInt(7);
+                Barang br = new Barang(kode, kodeBarang, nama_barang, 
+                        Formater.setRupiahFormat(harga), stok, date, jmlahBarangMasuk);
+
+                return br;
+            } else {
+                return null;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(con);
+            close(preparedStatement);
+        }
     }
     
     
@@ -437,6 +523,75 @@ public class BarangDaoImpl implements BarangDao {
             close(preparedStatement);
         }
     }
+    
+    public void insertBarangMasuk(int id, String date, int jumlah) {
+        try {
+            
+            con = ConnectionManager.getConnection();
+            
+            preparedStatement = con.prepareStatement(INSERT_BARANG_MASUK);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setString(2, date);
+            preparedStatement.setInt(3, jumlah);
+            
+            int status = preparedStatement.executeUpdate();
+            
+            } catch (SQLException ex) {
+            Logger.getLogger(BarangDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            close(con);
+            close(preparedStatement);
+        }
+    }
+    
+    public Barang getJumlahBarangKeluar(String tgl1, String tgl2) {
+        ResultSet result = null;
+        try {
+            con = ConnectionManager.getConnection();
+            preparedStatement = con.prepareStatement(GET_BARANG_KELUAR);
+            preparedStatement.setString(1, tgl1);
+            preparedStatement.setString(2, tgl2);
+            result = preparedStatement.executeQuery();
+
+            if (result.next()) {
+                int total = result.getInt(1);
+                Barang br = new Barang();
+                br.setJumlahBarangKeluar(total);
+
+                return br;
+            } else {
+                return null;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(con);
+            close(preparedStatement);
+        }
+    }
+    
+    public void insertBarangKeluar(int id, String date, int jumlah) {
+        try {
+            
+            con = ConnectionManager.getConnection();
+            
+            preparedStatement = con.prepareStatement(INSERT_BARANG_KELUAR);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setString(2, date);
+            preparedStatement.setInt(3, jumlah);
+            
+            int status = preparedStatement.executeUpdate();
+            
+            } catch (SQLException ex) {
+            Logger.getLogger(BarangDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            close(con);
+            close(preparedStatement);
+        }
+    }
+    
+    
 
     private static void close(Connection con) {
         if (con != null) {

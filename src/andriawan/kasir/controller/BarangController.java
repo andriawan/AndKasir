@@ -55,6 +55,14 @@ public class BarangController {
     
     // mengambil fungsi pada BarangDaoImpl untuk diolah lebih lanjut pada 
     // view object (JFrame MainForm)
+    public Barang getBarangByNameAndKode(String name, String kode) throws SQLException{
+        return new BarangDaoImpl().getBarangByNameAndKode(name, kode);
+    }
+    
+    
+    
+    // mengambil fungsi pada BarangDaoImpl untuk diolah lebih lanjut pada 
+    // view object (JFrame MainForm)
     public List<Barang> multiSearch(String a, String b, String c, 
             String d, String e) throws SQLException{
         return new BarangDaoImpl().multiSearch(a, b, c, d, e);
@@ -135,6 +143,19 @@ public class BarangController {
     // mengambil total barang masuk dalam rentang tanggal tertentu
     public Barang getJumlahBarangMasuk(String tgl1, String tgl2) throws SQLException{
         return new BarangDaoImpl().getJumlahBarangMasuk(tgl1, tgl2);
+    }
+    
+    public void insertBarangMasuk(int id, String date, int jumlah) throws SQLException{
+        new BarangDaoImpl().insertBarangMasuk(id, date, jumlah);
+    }
+    
+    // mengambil total barang masuk dalam rentang tanggal tertentu
+    public Barang getJumlahBarangKeluar(String tgl1, String tgl2) throws SQLException{
+        return new BarangDaoImpl().getJumlahBarangKeluar(tgl1, tgl2);
+    }
+    
+    public void insertBarangKeluar(int id, String date, int jumlah) throws SQLException{
+        new BarangDaoImpl().insertBarangKeluar(id, date, jumlah);
     }
     
     
