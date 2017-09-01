@@ -319,11 +319,16 @@ public class EditorBarangForm extends javax.swing.JFrame {
             if (dateTglMasuk.isEnabled()) {
                 
                 bc.updateBarang(new Barang(id, kodeBarang, nmBarang, 
-                    harga, totalAkhir, date, jumlahAkhir));                
+                    harga, totalAkhir, date, jumlahAkhir)); 
+                bc.insertBarangMasuk(id, Formater.setStringReadySql(date), 
+                        (total - totalAwal));
             }else{
                 
                 bc.updateBarangNoDate(new Barang(id, kodeBarang, nmBarang, 
                     harga, totalAkhir, jumlahAkhir));                
+                bc.insertBarangMasuk(id, 
+                        Formater.setStringReadySql(System.currentTimeMillis()), 
+                        (total - jumlahAwal));
             }
             
             JOptionPane.showMessageDialog(null, "Barang berhasil diupdate");
@@ -347,6 +352,13 @@ public class EditorBarangForm extends javax.swing.JFrame {
         try {
             bc.insertBarang(new Barang(nmBarang, kodeBarang, 
                     harga, total, date, total));
+            
+            // mencari id barang yang baru saja di insert
+            int id = bc.getBarangByNameAndKode(nmBarang,kodeBarang).getIdBarang();
+            
+            // memasukan id barang dan totalnya
+            bc.insertBarangMasuk(id, Formater.setStringReadySql(date), total);
+            
             JOptionPane.showMessageDialog(null, "Barang berhasil ditambahkan");
             UserLoginController.getMainFormInstance().reloadTableBarang(evt);
         } catch (SQLException ex) {
