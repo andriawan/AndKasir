@@ -76,8 +76,14 @@ public class TransaksiDaoImpl implements TransaksiDao {
             + "WHERE "
             + "detail_transaksi.id_transaksi=?";
 
-    // FIND ALL
-    private static final String FIND_ALL
+    // FIND ALL TRANSAKSI IN 1 DAY
+     private static String FIND_1_DAY
+            = "SELECT * FROM "
+            + TABLE + " WHERE "
+            + COLUMN_TGL_TRANSAKSI + " BETWEEN ? AND ? ";
+   
+    
+    private static String FIND_ALL
             = "SELECT * FROM "
             + TABLE + " WHERE "
             + COLUMN_TGL_TRANSAKSI + " BETWEEN '"
@@ -189,6 +195,48 @@ public class TransaksiDaoImpl implements TransaksiDao {
             }
             
             return semuaTransaksi;
+
+        } catch (SQLException sq) {
+            throw new RuntimeException(sq);
+        } finally {
+            this.close(con);
+            close(preparedStatement);
+        }
+    }
+    
+    public List<Transaksi> getTransaksiOneDay() {
+        
+        ResultSet result = null;
+        
+        List<Transaksi> transaksiInADay = new ArrayList<>();
+
+        try {
+            con = ConnectionManager.getConnection();
+            preparedStatement = con.prepareStatement(FIND_1_DAY);
+            preparedStatement.setString(1, Formater.setStringReadySql(
+                    System.currentTimeMillis()- TimeUnit.DAYS.toMillis(1)));
+            preparedStatement.setString(2, Formater.setStringReadySql(
+                    System.currentTimeMillis()));
+            
+            result = preparedStatement.executeQuery();
+
+            while (result.next()) {
+                int idTransaksi = result.getInt(1);
+                long date = result.getTimestamp(2).getTime();
+                int totalItem = result.getInt(3);
+                int totalHarga = result.getInt(4);
+                int idPetugas = result.getInt(5);
+                
+                
+                KasirUser ku = new KasirUser();
+                ku.setId(idPetugas);
+                
+                transaksiInADay.add(
+                        new Transaksi(idTransaksi, totalItem, totalHarga, 
+                                date, ku.getId()));
+            }
+            
+            return transaksiInADay;
 
         } catch (SQLException sq) {
             throw new RuntimeException(sq);

@@ -28,6 +28,10 @@ public class TransaksiController {
         return new TransaksiDaoImpl().getAllTransaksi();
     }
     
+    public List<Transaksi> getTransaksiOneDay(){
+        return new TransaksiDaoImpl().getTransaksiOneDay();
+    }
+    
     // mengolah pengembalian dari objek anonim TransaksiDaoImpl agar dihandle
     // controller
     public List<Transaksi> getTransakasi(int kode){
