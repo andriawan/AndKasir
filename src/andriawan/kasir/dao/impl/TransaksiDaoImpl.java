@@ -26,7 +26,8 @@ import java.util.logging.Logger;
  * @author andriawan
  */
 public class TransaksiDaoImpl implements TransaksiDao {
-
+    
+    // TODO : pagination query untuk view pada MainForm
     private List<Transaksi> semuaTransaksi;
     private Connection con;
     private PreparedStatement preparedStatement;
@@ -385,7 +386,7 @@ public class TransaksiDaoImpl implements TransaksiDao {
         } catch (SQLException sq) {
             throw new RuntimeException(sq);
         } finally {
-            this.close(con);
+            TransaksiDaoImpl.close(con);
             close(preparedStatement);
         }
     }
