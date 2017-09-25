@@ -27,6 +27,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.javalite.activejdbc.Base;
 import static utilities.SwingProgressBar.MIN;
 
 /**
@@ -53,7 +54,14 @@ public class ConnectionManager {
     private static String ftpPass;
     private static String ftpPath;
     
+    public static void javaLiteConnect(){
+        LoadConfigFile();
+        Base.open(driver, url + database, username, password);
+    }
     
+    public static void close(){
+        Base.close(Boolean.FALSE);
+    }
 
     private static Connection con;
 
