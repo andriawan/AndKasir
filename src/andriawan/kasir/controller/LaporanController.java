@@ -38,32 +38,84 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class LaporanController {
 
-    // field variable untuk keperluan penerapan singleton
+    /**
+     *
+     * instance of LaporanController
+     * singelton pattern
+     */
     public static LaporanController lc = new LaporanController();
 
-    // field variable untuk keperluan penerapan singleton
+    /**
+     *
+    *  instance of LaporanForm
+     * singelton pattern
+     * 
+     */
     public static LaporanForm lf = new LaporanForm();
-    
-    // field variable untuk keperluan penerapan singleton
+
+    /**
+     *
+     *  instance of JFileChooser
+     * singelton pattern
+     * 
+     */
     public static JFileChooser jfc = new JFileChooser();
 
+    /**
+     *
+     * mendapatkan list laporan dari kelas Laporan dengan rentang tanggal tertentu
+     * 
+     * @param tgl1
+     * @param tgl2
+     * @return
+     */
     public List<Laporan> getReport(String tgl1, String tgl2) {
         return new LaporanDaoImpl().getReport(tgl1, tgl2);
     }
 
+    /**
+     *
+     * mendapatkan list laporan dari kelas Laporan dengan rentang 1 hari
+     * @param sql
+     * @return
+     */
     public List<Laporan> getDailyReport(String sql) {
         return new LaporanDaoImpl().getDailyReport(sql);
     }
 
+    /**
+     *
+     * * mendapatkan list laporan dari kelas Laporan dengan rentang 1 bulan
+     * @param sql
+     * @return
+     */
     public List<Laporan> getMonthlyReport(String sql) {
         return new LaporanDaoImpl().getMonthlyReport(sql);
     }
 
+    /**
+     *
+     * * mendapatkan list laporan dari kelas Laporan dengan rentang 1 tahun
+     * @param sql
+     * @return
+     */
     public List<Laporan> getYearlyReport(String sql) {
         return new LaporanDaoImpl().getYearlyReport(sql);
     }
 
-    // prosedur mencetak PDF daru tabel laporan
+    /**
+     *
+     * prosedur mencetak PDF dari tabel laporan
+     * 
+     * @param tgl digunakan untuk penamaan file
+     * @param tl Jtabel referensi yang akan dijadikan konten tabel
+     * @param labelTanggal sebagai heading dokumen
+     * @param pendapatan jumlah pendapatan selamar rentang tanggal tertentu
+     * @param barangMasuk jumlah barang masuk
+     * @param barangKeluar jumlah barang keluar
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public static void printReportToPDF
         (String tgl, 
                 JTable tl,
@@ -377,8 +429,11 @@ public class LaporanController {
             jf.setVisible(true);
         }
     }
-    
-    // Singleton untuk penghematan memori
+
+    /**
+     *
+     * @return object dari JFileChooser menggunakan teknik singleton
+     */
     public static JFileChooser getInstanceJFileChooser() {
 
         try {
@@ -393,7 +448,10 @@ public class LaporanController {
         }
     }
 
-    // Singleton untuk penghematan memori
+    /**
+     *
+     * @return object dari LaporanController menggunakan teknik singleton
+     */
     public static LaporanController getInstanceLaporanController() {
 
         try {
@@ -408,7 +466,10 @@ public class LaporanController {
         }
     }
 
-    //Singleton
+    /**
+     *
+     * @return object dari LaporanForm menggunakan teknik singleton
+     */
     public static LaporanForm getInstanceLaporanForm() {
         try {
             if (lf == null) {

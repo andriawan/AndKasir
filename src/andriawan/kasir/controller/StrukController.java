@@ -38,10 +38,17 @@ public class StrukController {
     // field variable instance digunakan untuk menampung singleton object
     // StrukController
     private static StrukController instance = new StrukController();
-   
-    // melakukan printing secara langsung jika sistem menemukan printer aktif
-    // perhatikan, jika tidak ada printer yang terdeteksi, maka akan melempar
-    // nullpointer exception
+
+    /**
+     *
+     * melakukan printing secara langsung jika sistem menemukan printer aktif
+     * perhatikan, jika tidak ada printer yang terdeteksi, maka akan melempar
+     * nullpointer exception yang akan menginformasikan ke user melalui Message dialog
+     * 
+     * @param struk Objek dari Struk class
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public void printStruk(Struk struk) throws FileNotFoundException, IOException{
         
         new SimpleEscp().print(
@@ -49,8 +56,14 @@ public class StrukController {
                         new FileInputStream("template.json")),
                             DataSources.from(struk));
     }
-    
-    // melakukan preview printing sebelum dicetak
+
+    /**
+     *
+     * melakukan preview printing sebelum dicetak
+     * 
+     * @param struk
+     * @throws IOException
+     */
     public static void previewCetakStruk(Struk struk) throws IOException{
         try {
             Template template = new JsonTemplate(new FileInputStream("template.json"));
@@ -72,8 +85,13 @@ public class StrukController {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    //Singleton sebagai langkah penghematan memori
+
+    /**
+     *
+     * Singleton sebagai langkah penghematan memori
+     * 
+     * @return instance of StrukController
+     */
     public static StrukController getInstance(){
         try {
             if(instance == null){
