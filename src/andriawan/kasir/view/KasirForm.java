@@ -16,7 +16,6 @@ import andriawan.kasir.model.Struk;
 import andriawan.kasir.model.TableBarang;
 import andriawan.kasir.model.TableListBelanja;
 import andriawan.kasir.model.Transaksi;
-import com.mysql.jdbc.MysqlDataTruncation;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -970,7 +969,7 @@ public class KasirForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jTableListBelanjaFocusLost
 
     private void jTableListBelanjaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTableListBelanjaPropertyChange
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jTableListBelanjaPropertyChange
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed

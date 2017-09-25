@@ -183,7 +183,7 @@ public class ConnectionManager {
             Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    // TODO: backup via FTP
+                    
                     final FTPClient client = new FTPClient();
                     try {
                         // setting host

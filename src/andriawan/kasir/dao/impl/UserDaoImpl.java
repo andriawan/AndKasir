@@ -26,6 +26,8 @@ import java.util.logging.Logger;
  * yang telah didefinisikan dalam Model User
  */
 public class UserDaoImpl implements UserDao {
+    
+    // TODO : pagination query untuk view pada MainForm
 
     // List yang akan menangkap hasil query ke variable semuaUser
     private final List<User> semuaUser;
@@ -120,7 +122,7 @@ public class UserDaoImpl implements UserDao {
             + COLUMN_KODE_USER + "=?";
     
     // Konstruktor akan memanggil query semua user
-    // TO DO: Penerapan perintah Limit pada quey getAll dan multisearch 
+    
     // untuk membatasi konsumsi memori
     public UserDaoImpl() {
         
