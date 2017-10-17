@@ -7,6 +7,7 @@ Saat ini, Aplikasi ini masih dalam tahap pengembangan. Fitur-fitur yang dimiliki
 - Perhitungan Standart Kasir
 - Cetak Struk
 - Cetak Laporan PDF
+- Backup Database via FTP
 
 Versi Development Release Aplikasi AndKasir v0.1 dapat anda unduh [di sini](https://github.com/andriawan/AndKasir/files/1019473/AndKasir-v0.1.zip)
 
@@ -42,6 +43,7 @@ Kontribusi:
 - direkomendasikan untuk menggunakan IDE Netbeans untuk kemudahan pengembangan GUI
 
 TODO list:
+- Fitur Restore database
 - Dokumentasi secara lengkap 
 - Release Stabil
 - Lisensi ( Belum begitu paham. Mohon jika Anda berpengalaman dalam hal lisensi untuk melakukan pengecekan)

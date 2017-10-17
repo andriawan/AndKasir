@@ -11,7 +11,8 @@ package andriawan.kasir.model;
  */
 public class Barang {
     
-    private int kodeBarang;
+    private int idBarang;
+    private String kodeBarang;
     private String namaBarang;
     private String hargaFormat;
     private int harga;
@@ -24,10 +25,10 @@ public class Barang {
     }
     
     // get barang
-    public Barang(int kodeBarang, String namaBarang, int harga, int Stok, long getDate, int jmlah) {
+    public Barang(int idBarang, String kodeBarang, String namaBarang, int harga, int Stok, long getDate, int jmlah) {
+        this.idBarang = idBarang;
         this.kodeBarang = kodeBarang;
         this.namaBarang = namaBarang;
-        this.hargaFormat = hargaFormat;
         this.harga = harga;
         this.Stok = Stok;
         this.dateInput = getDate;
@@ -35,7 +36,18 @@ public class Barang {
     }
     
     // for updating into database
-    public Barang(int kodeBarang, String namaBarang, int harga, int Stok) {
+    public Barang(int idBarang, String kodeBarang, String namaBarang, int harga, int Stok, long getDate) {
+        this.idBarang = idBarang;
+        this.kodeBarang = kodeBarang;
+        this.namaBarang = namaBarang;
+        this.harga = harga;
+        this.Stok = Stok;
+        this.dateInput = getDate;
+    }
+    
+    // for updating into database alternative
+    public Barang(int idBarang, String kodeBarang, String namaBarang, int harga, int Stok) {
+        this.idBarang = idBarang;
         this.kodeBarang = kodeBarang;
         this.namaBarang = namaBarang;
         this.harga = harga;
@@ -43,7 +55,8 @@ public class Barang {
     }
     
     // get all
-    public Barang(int kodeBarang, String namaBarang, String harga, int Stok, long getDate, int jmlah) {
+    public Barang(int idBarang, String kodeBarang, String namaBarang, String harga, int Stok, long getDate, int jmlah) {
+        this.idBarang = idBarang;
         this.kodeBarang = kodeBarang;
         this.namaBarang = namaBarang;
         this.hargaFormat = harga;
@@ -53,11 +66,12 @@ public class Barang {
     }
     
     public Barang(int kodeBarang){
-        this.kodeBarang = kodeBarang;
+        this.idBarang = kodeBarang;
     }
     
     // for inserting into database
-    public Barang(String namaBarang, int harga, int Stok , long getDate, int jmlah) {
+    public Barang(String namaBarang, String kodeBarang, int harga, int Stok , long getDate, int jmlah) {
+        this.kodeBarang = kodeBarang;
         this.namaBarang = namaBarang;
         this.harga = harga;
         this.Stok = Stok;
@@ -65,12 +79,12 @@ public class Barang {
         this.jumlahBarangMasuk = jmlah;
     }
 
-    public int getKodeBarang() {
-        return kodeBarang;
+    public int getIdBarang() {
+        return idBarang;
     }
 
-    public void setKodeBarang(int kodeBarang) {
-        this.kodeBarang = kodeBarang;
+    public void setIdBarang(int idBarang) {
+        this.idBarang = idBarang;
     }
 
     public String getNamaBarang() {
@@ -120,9 +134,13 @@ public class Barang {
     public void setJumlahBarangMasuk(int jumlahBarangMasuk) {
         this.jumlahBarangMasuk = jumlahBarangMasuk;
     }
-    
-    
 
-    
+    public String getKodeBarang() {
+        return kodeBarang;
+    }
+
+    public void setKodeBarang(String kodeBarang) {
+        this.kodeBarang = kodeBarang;
+    }    
     
 }

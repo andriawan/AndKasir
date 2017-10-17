@@ -332,47 +332,47 @@ panelLaporanLayout.setHorizontalGroup(
         BarangController bc = BarangController.getInstance();
         
         try {
-            Barang br = bc.getJumlahBarangMasuk(Formater.setStringReadySql(
-                    dateChooserCombo1.getSelectedDate().getTimeInMillis()),
-                    Formater.setStringReadySql(
-                            dateChooserCombo2.getSelectedDate().getTimeInMillis()));
+            Barang br = bc.getJumlahBarangMasuk(Formater.setDateComboSql1(
+                    dateChooserCombo1.getSelectedDate().getTime()),
+                    Formater.setDateComboSql2(
+                            dateChooserCombo2.getSelectedDate().getTime()));
             
             txtBarangMasuk.setText(String.valueOf(
                     br.getJumlahBarangMasuk()));
             
+            TabelLaporan tl = new TabelLaporan(
+                lc.getReport(Formater.setDateComboSql1(
+                    dateChooserCombo1.getSelectedDate().getTime()),
+                    Formater.setDateComboSql2(
+                            dateChooserCombo2.getSelectedDate().getTime())));
+            
+            tabelLaporan.setModel(tl);
+            jScrollPane1.setViewportView(tabelLaporan);
+            
+            int jumlah = 0;
+            int totalHarga = 0;
+
+            for (int i = 0; i < tabelLaporan.getRowCount(); i++) {
+                jumlah = jumlah + new Integer(
+                        tabelLaporan.getValueAt(i, 6).toString());
+                totalHarga = totalHarga + (Formater.setRupiahToInteger(
+                        tabelLaporan.getValueAt(i, 5).toString())
+                        * new Integer(
+                                tabelLaporan.getValueAt(i, 6).toString()));
+            }
+
+            txtTglRange.setText(
+                    Formater.setNiceIndonesianDateShort(
+                            dateChooserCombo1.getSelectedDate().getTimeInMillis()) + " - "
+                    + Formater.setNiceIndonesianDateShort(
+                            dateChooserCombo2.getSelectedDate().getTimeInMillis()));
+            txtTotalPendapatan.setText(Formater.setRupiahFormat(totalHarga));
+            txtBarangKeluar.setText(String.valueOf(jumlah));
+        
+            
         } catch (SQLException ex) {
             Logger.getLogger(LaporanForm.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        TabelLaporan tl = new TabelLaporan(
-                lc.getReport(Formater.setStringReadySql(
-                        dateChooserCombo1.getSelectedDate().getTimeInMillis()),
-                        Formater.setStringReadySql(
-                                dateChooserCombo2.getSelectedDate().getTimeInMillis())));
-        
-        tabelLaporan.setModel(tl);
-        jScrollPane1.setViewportView(tabelLaporan);
-        
-        int jumlah = 0;
-        int totalHarga = 0;
-        
-        for (int i = 0; i < tabelLaporan.getRowCount(); i++) {
-            jumlah = jumlah + new Integer(
-                    tabelLaporan.getValueAt(i, 6).toString());
-            totalHarga = totalHarga + (
-                    Formater.setRupiahToInteger(
-                    tabelLaporan.getValueAt(i, 5).toString()) *
-                    new Integer(
-                    tabelLaporan.getValueAt(i, 6).toString()));
-        }
-        
-        txtTglRange.setText(
-                Formater.setNiceIndonesianDateShort(
-                        dateChooserCombo1.getSelectedDate().getTimeInMillis()) + " - " +
-                Formater.setNiceIndonesianDateShort(
-                        dateChooserCombo2.getSelectedDate().getTimeInMillis()));
-        txtTotalPendapatan.setText(Formater.setRupiahFormat(totalHarga));
-        txtBarangKeluar.setText(String.valueOf(jumlah));
         
     }//GEN-LAST:event_btnLihatLaporanActionPerformed
 

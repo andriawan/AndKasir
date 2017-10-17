@@ -30,6 +30,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import utilities.ConnectionManager;
 import utilities.Formater;
 
 /**
@@ -44,9 +45,8 @@ public class KasirForm extends javax.swing.JFrame {
     public KasirForm() {
         initComponents();
         setUpIcon();
-        
-        
-        
+        jCheckKodeBarang.setSelected(true);
+
     }
 
     public JLabel getTxtPetugasKasir() {
@@ -85,13 +85,20 @@ public class KasirForm extends javax.swing.JFrame {
         return labelIdKasir;
     }
 
+    public void clearRecentKasirComponents() {
+        jScrollPaneKasirBarang.setViewport(null);
+        DefaultTableModel listBelanja = (DefaultTableModel) jTableListBelanja.getModel();
+        listBelanja.setRowCount(0);
+        txtTerbilang.setText("");
+        txtKembalian.setText("");
+        labelTotalBig.setText("");
+        labelTotalFooter.setText("");
+        labelKembalian.setText("");
+    }
+
     public void setLabelIdKasir(String s) {
         this.labelIdKasir.setText(s);
     }
-    
-    
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -110,6 +117,8 @@ public class KasirForm extends javax.swing.JFrame {
         panelSearchBarang = new javax.swing.JPanel();
         btnCariBarang = new javax.swing.JButton();
         txtCariBarang = new javax.swing.JTextField();
+        jCheckKodeBarang = new javax.swing.JCheckBox();
+        jCheckNamaBarang = new javax.swing.JCheckBox();
         jLabelListBelanja = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableListBelanja = new javax.swing.JTable();
@@ -213,15 +222,26 @@ public class KasirForm extends javax.swing.JFrame {
             }
         });
 
+        jCheckKodeBarang.setText("Kode Barang");
+
+        jCheckNamaBarang.setText("Nama Barang");
+
         javax.swing.GroupLayout panelSearchBarangLayout = new javax.swing.GroupLayout(panelSearchBarang);
         panelSearchBarang.setLayout(panelSearchBarangLayout);
         panelSearchBarangLayout.setHorizontalGroup(
             panelSearchBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSearchBarangLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(txtCariBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCariBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelSearchBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelSearchBarangLayout.createSequentialGroup()
+                        .addComponent(jCheckKodeBarang)
+                        .addGap(18, 18, 18)
+                        .addComponent(jCheckNamaBarang)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(panelSearchBarangLayout.createSequentialGroup()
+                        .addComponent(txtCariBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCariBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         panelSearchBarangLayout.setVerticalGroup(
@@ -231,6 +251,10 @@ public class KasirForm extends javax.swing.JFrame {
                 .addGroup(panelSearchBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnCariBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtCariBarang))
+                .addGap(8, 8, 8)
+                .addGroup(panelSearchBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jCheckKodeBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckNamaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -364,7 +388,7 @@ public class KasirForm extends javax.swing.JFrame {
                     .addComponent(jLabelListBelanja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPaneKasirBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneKasirBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -639,27 +663,55 @@ public class KasirForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCariBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariBarangActionPerformed
-        
-        Barang barang;
-        List<Barang> brList = null; 
-        
+
+        Barang barang = null;
+        List<Barang> brList = null;
+
         BarangController bc = new BarangController();
         String name = txtCariBarang.getText();
-        
-        try {
 
-            brList = bc.multiSearch(name, name, name, name);
+        try {
+            
+            if(jCheckKodeBarang.isSelected()){
+                brList = bc.getBarangByKode(name);
+                
+            }else if(jCheckNamaBarang.isSelected() && jCheckKodeBarang.isSelected() == false){
+                
+                barang = bc.getBarangByName(name);
+                brList = new ArrayList<>();
+                brList.add(barang);
+                
+                if (barang == null){
+                    jScrollPaneKasirBarang.setViewportView(null);
+                    JOptionPane.showMessageDialog(this, "Kesalahan: Data tidak ditemukan");
+                }
+                
+            }else{
+                brList = bc.multiSearch(name, name, name, name, name);                
+                
+                if (brList == null) {
+                    
+                }
+            }
+            
+            TableBarang tb = new TableBarang(brList);
+            
+            if (tb.getRowCount() <= 0){
+                jScrollPaneKasirBarang.setViewportView(null);
+                JOptionPane.showMessageDialog(this, "Kesalahan: Data tidak ditemukan");
+            }
+            
+            jTableBarangKasir.setModel(tb);
+            
+            jScrollPaneKasirBarang.setViewportView(jTableBarangKasir);
 
         } catch (NullPointerException ex) {
             JOptionPane.showMessageDialog(this, "Kesalahan: Data tidak ditemukan");
         } catch (SQLException ex) {
             Logger.getLogger(KasirForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NumberFormatException c) {
+            JOptionPane.showMessageDialog(this, "Kesalahan: Masukan hanya angka");            
         }
-        
-        TableBarang tb = new TableBarang(brList);
-        jTableBarangKasir.setModel(tb);
-
-        jScrollPaneKasirBarang.setViewportView(jTableBarangKasir);
     }//GEN-LAST:event_btnCariBarangActionPerformed
 
     private void txtCariBarangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCariBarangFocusGained
@@ -682,52 +734,53 @@ public class KasirForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCariBarangKeyPressed
 
     private void jTableBarangKasirMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableBarangKasirMousePressed
-        
-        if(evt.getClickCount() == 2){
+
+        if (evt.getClickCount() == 2) {
             String id = jTableBarangKasir.getValueAt(
                     jTableBarangKasir.getSelectedRow(), 0).toString();
-            String namaBarang = jTableBarangKasir.getValueAt(
-                    jTableBarangKasir.getSelectedRow(), 1).toString();
-            String hargaRp = jTableBarangKasir.getValueAt(
+            String Barang = jTableBarangKasir.getValueAt(
                     jTableBarangKasir.getSelectedRow(), 2).toString();
+            String hargaRp = jTableBarangKasir.getValueAt(
+                    jTableBarangKasir.getSelectedRow(), 3).toString();
             int stok = new Integer(jTableBarangKasir.getValueAt(
-                    jTableBarangKasir.getSelectedRow(), 3).toString()) - 1;
-            
+                    jTableBarangKasir.getSelectedRow(), 4).toString()) - 1;
+
             int harga = Formater.setRupiahToInteger(hargaRp);
             int totalDefault = 1;
             ArrayList ar = new ArrayList();
-            ar.add(id); ar.add(namaBarang); ar.add(harga); ar.add(totalDefault);
+            ar.add(id);
+            ar.add(Barang);
+            ar.add(harga);
+            ar.add(totalDefault);
             DefaultTableModel listBelanja = (DefaultTableModel) jTableListBelanja.getModel();
             listBelanja.addRow(ar.toArray());
             jTableListBelanja.isCellEditable(jTableBarangKasir.getSelectedRow(), 3);
             int total = 0;
-            
+
             for (int i = 0; i < listBelanja.getRowCount(); i++) {
-                
+
                 total = total + new Integer(
-                    jTableListBelanja.getValueAt(i, 2).toString())
-                    * new Integer(
-                            jTableListBelanja.getValueAt(i, 3).toString());
+                        jTableListBelanja.getValueAt(i, 2).toString())
+                        * new Integer(
+                                jTableListBelanja.getValueAt(i, 3).toString());
             }
-            
+
             labelTotalBig.setText(Formater.setRupiahFormat(total));
             labelTotalFooter.setText(Formater.setRupiahFormat(total));
-            txtTerbilang.setText(Formater.setRupiahTerbilang
-            (Formater.setRupiahToInteger(labelTotalBig.getText())));
-            
+            txtTerbilang.setText(Formater.setRupiahTerbilang(Formater.setRupiahToInteger(labelTotalBig.getText())));
+
             int kembalian = Formater.setRupiahToInteger(
-                    txtKembalian.getText()) -
-                    Formater.setRupiahToInteger(labelTotalFooter.getText());
-            
-            if (kembalian < 0){
-                    labelKembalian.setText("Pembayaran Tidak Mencukupi");
-                    labelKembalian.setForeground(Color.red);
-            } else if(txtKembalian.equals("0") || txtKembalian.equals("Rp. 0,00")){
-                    labelKembalian.setText("");
-            }
-            else{
-                    labelKembalian.setText(Formater.setRupiahFormat(kembalian));
-                    labelKembalian.setForeground(new Color(0,153,51));//Green
+                    txtKembalian.getText())
+                    - Formater.setRupiahToInteger(labelTotalFooter.getText());
+
+            if (kembalian < 0) {
+                labelKembalian.setText("Pembayaran Tidak Mencukupi");
+                labelKembalian.setForeground(Color.red);
+            } else if (txtKembalian.equals("0") || txtKembalian.equals("Rp. 0,00")) {
+                labelKembalian.setText("");
+            } else {
+                labelKembalian.setText(Formater.setRupiahFormat(kembalian));
+                labelKembalian.setForeground(new Color(0, 153, 51));//Green
             }
         }
     }//GEN-LAST:event_jTableBarangKasirMousePressed
@@ -739,20 +792,19 @@ public class KasirForm extends javax.swing.JFrame {
             if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
                 int total = Formater.setRupiahToInteger(labelTotalFooter.getText());
                 int bayar = new Integer(txtKembalian.getText());
-                
+
                 int kembalian = bayar - total;
-                if (kembalian < 0){
+                if (kembalian < 0) {
                     labelKembalian.setText("Pembayaran Tidak Mencukupi");
                     labelKembalian.setForeground(Color.red);
-                }else if(kembalian == 0){
+                } else if (kembalian == 0) {
                     labelKembalian.setText("Uang pas");
-                    labelKembalian.setForeground(new Color(0,153,51));//Green
-                }else{
+                    labelKembalian.setForeground(new Color(0, 153, 51));//Green
+                } else {
                     labelKembalian.setText(Formater.setRupiahFormat(kembalian));
-                    labelKembalian.setForeground(new Color(0,153,51));
+                    labelKembalian.setForeground(new Color(0, 153, 51));
                 }
-                
-                
+
             }
         } catch (NumberFormatException ex) {
             txtKembalian.setText("");
@@ -761,9 +813,27 @@ public class KasirForm extends javax.swing.JFrame {
 
     private void txtKembalianKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKembalianKeyReleased
         try {
-            txtKembalian.setText(Formater.setRupiahFormat(Formater.setRupiahToInteger(txtKembalian.getText())));            
+            txtKembalian.setText(Formater.setRupiahFormat(Formater.setRupiahToInteger(txtKembalian.getText())));
+            int total = Formater.setRupiahToInteger(labelTotalFooter.getText());
+            int bayar = Formater.setRupiahToInteger(txtKembalian.getText());
+            int kembalian = bayar - total;
+            labelKembalian.setText(Formater.setRupiahFormat(kembalian));
+
+            if (kembalian < 0) {
+                labelKembalian.setText("Pembayaran Tidak Mencukupi");
+                labelKembalian.setForeground(Color.red);
+            } else if (txtKembalian.equals("0") || txtKembalian.equals("Rp. 0,00")) {
+                labelKembalian.setText("");
+            } else if (kembalian == 0) {
+                labelKembalian.setText("Uang pas");
+                labelKembalian.setForeground(new Color(0, 153, 51));//Green
+            } else {
+                labelKembalian.setText(Formater.setRupiahFormat(kembalian));
+                labelKembalian.setForeground(new Color(0, 153, 51));//Green
+            }
         } catch (Exception e) {
             txtKembalian.setText("");
+            labelKembalian.setText("");
         }
     }//GEN-LAST:event_txtKembalianKeyReleased
 
@@ -778,54 +848,55 @@ public class KasirForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHapusListBelanjaActionPerformed
 
     private void btnHapusItemBelanjaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusItemBelanjaActionPerformed
-        if (jTableListBelanja.getSelectedRow()>=0){
+        if (jTableListBelanja.getSelectedRow() >= 0) {
             DefaultTableModel listBelanja = (DefaultTableModel) jTableListBelanja.getModel();
             listBelanja.removeRow(jTableListBelanja.getSelectedRow());
             int total = 0;
             for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
-                
+
                 total = total + new Integer(
-                    jTableListBelanja.getValueAt(i, 2).toString())
-                    * new Integer(
-                            jTableListBelanja.getValueAt(i, 3).toString());
+                        jTableListBelanja.getValueAt(i, 2).toString())
+                        * new Integer(
+                                jTableListBelanja.getValueAt(i, 3).toString());
             }
             int kembalian = Formater.setRupiahToInteger(txtKembalian.getText());
-            
+
             int kembalianx = kembalian - total;
-            
+
             labelTotalBig.setText(Formater.setRupiahFormat(total));
-            labelTotalFooter.setText(Formater.setRupiahFormat(total)); 
+            labelTotalFooter.setText(Formater.setRupiahFormat(total));
             txtTerbilang.setText(Formater.setRupiahTerbilang(
                     Formater.setRupiahToInteger(labelTotalBig.getText())));
-            
+
             if (kembalianx < 0) {
                 labelKembalian.setText("Pembayaran Tidak Mencukupi");
                 labelKembalian.setForeground(Color.red);
             } else if (kembalianx == 0) {
                 labelKembalian.setText("Uang pas");
-                labelKembalian.setForeground(new Color(0,153,51));//Green
+                labelKembalian.setForeground(new Color(0, 153, 51));//Green
             } else {
                 labelKembalian.setText(Formater.setRupiahFormat(kembalianx));
-                labelKembalian.setForeground(new Color(0,153,51));//Green
+                labelKembalian.setForeground(new Color(0, 153, 51));//Green
             }
-            
-            
+
         } else {
             JOptionPane.showMessageDialog(null, "Silahkan pilih barang yang akan dihapus dari list");
         }
     }//GEN-LAST:event_btnHapusItemBelanjaActionPerformed
 
     private void jTableListBelanjaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTableListBelanjaFocusGained
+
+        int jumlah, harga, total = 0, kembalian = 0;
         
         try {
-            
-            int jumlah = new Integer(
+
+            jumlah = new Integer(
                     jTableListBelanja.getValueAt(
                             jTableListBelanja.getSelectedRow(), 3).toString());
-            int harga = new Integer(
+            harga = new Integer(
                     jTableListBelanja.getValueAt(
                             jTableListBelanja.getSelectedRow(), 2).toString());
-            int total = 0;
+            total = 0;
             for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
                 total = total + new Integer(
                         jTableListBelanja.getValueAt(i, 2).toString())
@@ -833,31 +904,38 @@ public class KasirForm extends javax.swing.JFrame {
                                 jTableListBelanja.getValueAt(i, 3).toString());
             }
 
-            labelTotalBig.setText(Formater.setRupiahFormat(total));
-            labelTotalFooter.setText(Formater.setRupiahFormat(total));
-            txtTerbilang.setText(Formater.setRupiahTerbilang(Formater.setRupiahToInteger(labelTotalBig.getText())));
-
-            int kembalian = Formater.setRupiahToInteger(txtKembalian.getText());
-            int totalx = kembalian - total;
-
-            if (totalx < 0) {
-                labelKembalian.setText("Pembayaran Tidak Mencukupi");
-                labelKembalian.setForeground(Color.red);
-            } else if (totalx == 0) {
-                labelKembalian.setText("Uang pas");
-                labelKembalian.setForeground(new Color(0,153,51));//Green
-            } else {
-                labelKembalian.setText(Formater.setRupiahFormat(totalx));
-                labelKembalian.setForeground(new Color(0,153,51));//Green
-            }
+            
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(rootPane, 
+            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(rootPane,
                     "Kesalahan: Periksa kembali kolom jumlah pada tabel list belanja",
                     "Error", JOptionPane.ERROR_MESSAGE);
             jTableListBelanja.setValueAt(
                     1,
-                    jTableListBelanja.getSelectedRow(), 
+                    jTableListBelanja.getSelectedRow(),
                     jTableListBelanja.getSelectedColumn());
+        }
+        
+        labelTotalBig.setText(Formater.setRupiahFormat(total));
+        labelTotalFooter.setText(Formater.setRupiahFormat(total));
+        txtTerbilang.setText(Formater.setRupiahTerbilang(Formater.setRupiahToInteger(labelTotalBig.getText())));
+
+        if (txtKembalian.getText().equals("")) {
+            kembalian = 0;
+        }
+
+        kembalian = Formater.setRupiahToInteger(txtKembalian.getText());
+        int totalx = kembalian - total;
+
+        if (totalx < 0) {
+            labelKembalian.setText("Pembayaran Tidak Mencukupi");
+            labelKembalian.setForeground(Color.red);
+        } else if (totalx == 0) {
+            labelKembalian.setText("Uang pas");
+            labelKembalian.setForeground(new Color(0, 153, 51));//Green
+        } else {
+            labelKembalian.setText(Formater.setRupiahFormat(totalx));
+            labelKembalian.setForeground(new Color(0, 153, 51));//Green
         }
 
     }//GEN-LAST:event_jTableListBelanjaFocusGained
@@ -879,76 +957,116 @@ public class KasirForm extends javax.swing.JFrame {
 
     private void btnCetakStrukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakStrukActionPerformed
         
-        int harga = 0;
-        int jumlah = 0;
-        int totalHargaStruk = 0;
-        TransaksiController tc = new TransaksiController();
+        // mencegah aktif tombol cetak jika tidak ada pembayaran
+        if("".equals(labelKembalian.getText()) || "0".equals(labelKembalian.getText())){
+            JOptionPane.showMessageDialog(rootPane, "Pembayaran tidak mencukupi atau kembalian belum dihitung", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        } else if("".equals(txtKembalian.getText()) || "0".equals(txtKembalian.getText())) {
+            JOptionPane.showMessageDialog(rootPane, "Pembayaran tidak mencukupi atau kembalian belum dihitung", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        } else if(!"".equals(txtKembalian.getText())){
+            int total = Formater.setRupiahToInteger(labelTotalFooter.getText());
+            int bayar = Formater.setRupiahToInteger(txtKembalian.getText());
+            if (bayar < total) {
+                JOptionPane.showMessageDialog(rootPane, "Pembayaran tidak mencukupi atau kembalian belum dihitung", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            }else {
 
-        if (jTableListBelanja.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(rootPane, "Silahkan tambahkan barang ke"
-                    + " List belanja terlebih dahulu", "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
-                jumlah = jumlah + new Integer(
-                        jTableListBelanja.getValueAt(i, 3).toString());
-                harga = harga + new Integer(
-                        jTableListBelanja.getValueAt(i, 2).toString());
-                totalHargaStruk = totalHargaStruk + new Integer(
-                        jTableListBelanja.getValueAt(i, 2).toString())
-                        * new Integer(
-                                jTableListBelanja.getValueAt(i, 3).toString());
-            }
-            tc.insertTransaksi(new Transaksi(jumlah, totalHargaStruk, Calendar.getInstance().
-                    getTimeInMillis(), new Integer(labelIdKasir.getText().toString())));
-            Transaksi tr = tc.getLastRecord();
-            ArrayList<ItemStruk> ais = new ArrayList<>();
-            BarangController bc = new BarangController();
-            for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
-                tc.insertTransaksiDetail(new DetailTransaksi(tr.getIdTransaksi(),
-                        new Integer(jTableListBelanja.getValueAt(i, 0).toString()),
-                        new Integer(jTableListBelanja.getValueAt(i, 3).toString()),
-                        new Integer(jTableListBelanja.getValueAt(i, 2).toString()),
-                        new Integer(labelIdKasir.getText().toString())));
+                if (utilities.Devices.isPrinterAvailable()) {
 
-                ais.add(new ItemStruk(jTableListBelanja.getValueAt(i, 1).toString(),
-                        jTableListBelanja.getValueAt(i, 3).toString(),
-                        jTableListBelanja.getValueAt(i, 2).toString(),
-                        String.valueOf(
-                                new Integer(jTableListBelanja.getValueAt(i, 2).toString())
-                                * new Integer(jTableListBelanja.getValueAt(i, 3).toString()))));
+                    int harga = 0;
+                    int jumlah = 0;
+                    int totalHargaStruk = 0;
+                    TransaksiController tc = new TransaksiController();
 
-                try {
-                    bc.updateStok(
-                            new Barang(new Integer(jTableListBelanja.
-                                    getValueAt(i, 0).toString())), new Integer(jTableListBelanja.
-                                    getValueAt(i, 3).toString()));
-                } catch (SQLException ex) {
-                    Logger.getLogger(KasirForm.class.getName()).log(Level.SEVERE, null, ex);
+                    if (jTableListBelanja.getRowCount() == 0) {
+                        JOptionPane.showMessageDialog(rootPane, "Silahkan tambahkan barang ke"
+                                + " List belanja terlebih dahulu", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
+                            jumlah = jumlah + new Integer(
+                                    jTableListBelanja.getValueAt(i, 3).toString());
+                            harga = harga + new Integer(
+                                    jTableListBelanja.getValueAt(i, 2).toString());
+                            totalHargaStruk = totalHargaStruk + new Integer(
+                                    jTableListBelanja.getValueAt(i, 2).toString())
+                                    * new Integer(
+                                            jTableListBelanja.getValueAt(i, 3).toString());
+                        }
+                        tc.insertTransaksi(new Transaksi(jumlah, totalHargaStruk, Calendar.getInstance().
+                                getTimeInMillis(), new Integer(labelIdKasir.getText())));
+                        Transaksi tr = tc.getLastRecord();
+                        
+                        ArrayList<ItemStruk> ais = new ArrayList<>();
+                        
+                        BarangController bc = new BarangController();
+                        
+                        for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
+                            tc.insertTransaksiDetail(new DetailTransaksi(tr.getIdTransaksi(),
+                                    new Integer(jTableListBelanja.getValueAt(i, 0).toString()),
+                                    new Integer(jTableListBelanja.getValueAt(i, 3).toString()),
+                                    new Integer(jTableListBelanja.getValueAt(i, 2).toString()),
+                                    new Integer(labelIdKasir.getText())));
+
+                            ais.add(new ItemStruk(jTableListBelanja.getValueAt(i, 1).toString(),
+                                    jTableListBelanja.getValueAt(i, 3).toString(),
+                                    jTableListBelanja.getValueAt(i, 2).toString(),
+                                    String.valueOf(
+                                            new Integer(jTableListBelanja.getValueAt(i, 2).toString())
+                                            * new Integer(jTableListBelanja.getValueAt(i, 3).toString()))));
+
+                            try {
+                                bc.updateStok(
+                                        new Barang(new Integer(jTableListBelanja.
+                                                getValueAt(i, 0).toString())),
+                                        new Integer(jTableListBelanja.
+                                                getValueAt(i, 3).toString()));
+                            } catch (SQLException ex) {
+                                Logger.getLogger(KasirForm.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+
+                        txtTotalPemasukan.setText(utilities.Formater.setRupiahFormat(
+                                utilities.Formater.setRupiahToInteger(txtTotalPemasukan.getText())
+                                + utilities.Formater.setRupiahToInteger(labelTotalFooter.getText()))
+                        );
+
+                        txtTotalPemasukanHariIni.setText(utilities.Formater.setRupiahFormat(
+                                utilities.Formater.setRupiahToInteger(txtTotalPemasukanHariIni.getText())
+                                + utilities.Formater.setRupiahToInteger(labelTotalFooter.getText()))
+                        );
+
+                        //Cetak Struk
+                        String idTransaksi = String.valueOf(tr.getIdTransaksi());
+                        String idPetugas = labelIdKasir.getText();
+                        String totalHarga = labelTotalFooter.getText();
+                        String totalBayar = txtKembalian.getText();
+                        String totalKembalian = labelKembalian.getText();
+                        String tanggal = Formater.setNiceIndonesianDate(System.currentTimeMillis());
+                        String namaPetugas = txtPetugasKasir.getText();
+
+                        Struk struk = new Struk(idTransaksi, totalHarga,
+                                totalBayar, totalKembalian, ais, namaPetugas, tanggal);
+                        try {
+                            StrukController.previewCetakStruk(struk);
+                        } catch (IOException ex) {
+                            Logger.getLogger(KasirForm.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Pastikan printer sudah dalam"
+                            + " keadaan on", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            }
 
-            //Cetak Struk
-            String idTransaksi = String.valueOf(tr.getIdTransaksi());
-            String idPetugas = labelIdKasir.getText();
-            String totalHarga = labelTotalFooter.getText();
-            String totalBayar = txtKembalian.getText();
-            String totalKembalian = labelKembalian.getText();
-            String tanggal = Formater.setNiceIndonesianDate(System.currentTimeMillis());
-            String namaPetugas = txtPetugasKasir.getText();
-
-            Struk struk = new Struk(idTransaksi, totalHarga,
-                    totalBayar, totalKembalian, ais, namaPetugas, tanggal);
-            try {
-                StrukController.previewCetakStruk(struk);
-            } catch (IOException ex) {
-                Logger.getLogger(KasirForm.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
     }//GEN-LAST:event_btnCetakStrukActionPerformed
 
     private void jMenuLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuLogoutActionPerformed
-        setVisible(false);
+        txtTotalPemasukan.setText("Rp. 0,00");
+        dispose();
         LoginForm lf = UserLoginController.getLoginFormInstance();
         lf.setVisible(true);
         lf.setTxtFieldPengguna("");
@@ -960,38 +1078,36 @@ public class KasirForm extends javax.swing.JFrame {
         af.setVisible(true);
     }//GEN-LAST:event_infoAplikasiActionPerformed
 
-    private void setUpIcon(){
+    private void setUpIcon() {
         // SET ICON RESOURCE
         ImageIcon iconBtnCariBarang = new ImageIcon(
                 new ImageIcon("resources/search.png").getImage().
-        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+                        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
         btnCariBarang.setIcon(iconBtnCariBarang);
-        
-        
+
         ImageIcon iconBtnCetakStruk = new ImageIcon(
                 new ImageIcon("resources/print.png").getImage().
-        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+                        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
         btnCetakStruk.setIcon(iconBtnCetakStruk);
-        
-        
+
         ImageIcon iconHapusList = new ImageIcon(
                 new ImageIcon("resources/delete.png").getImage().
-        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+                        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
         btnHapusListBelanja.setIcon(iconHapusList);
-        
+
         ImageIcon iconHapusItem = new ImageIcon(
                 new ImageIcon("resources/delete.png").getImage().
-        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+                        getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
         btnHapusItemBelanja.setIcon(iconHapusItem);
-        
+
         ImageIcon iconLabelListBelanja = new ImageIcon(
                 new ImageIcon("resources/chart.png").getImage().
-        getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
+                        getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
         jLabelListBelanja.setIcon(iconLabelListBelanja);
-        
+
         ImageIcon af = new ImageIcon(
                 new ImageIcon("resources/AndKasir.png").getImage().
-        getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
+                        getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
         jLabelBanner.setIcon(af);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1000,6 +1116,8 @@ public class KasirForm extends javax.swing.JFrame {
     private javax.swing.JButton btnHapusItemBelanja;
     private javax.swing.JButton btnHapusListBelanja;
     private javax.swing.JMenuItem infoAplikasi;
+    private javax.swing.JCheckBox jCheckKodeBarang;
+    private javax.swing.JCheckBox jCheckNamaBarang;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;

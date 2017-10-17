@@ -27,21 +27,23 @@ public class TableBarang extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 5;
+        return 6;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex){
             case 0:
-                return barang.get(rowIndex).getKodeBarang();
+                return barang.get(rowIndex).getIdBarang();
             case 1:
-                return barang.get(rowIndex).getNamaBarang();
+                return barang.get(rowIndex).getKodeBarang();
             case 2:
-                return barang.get(rowIndex).getHargaFormat();
+                return barang.get(rowIndex).getNamaBarang();
             case 3:
-                return barang.get(rowIndex).getStok();
+                return barang.get(rowIndex).getHargaFormat();
             case 4:
+                return barang.get(rowIndex).getStok();
+            case 5:
                 return Formater.setNiceIndonesianDate(barang.get(rowIndex).getDateInput());
             default:
                 return null;
@@ -53,20 +55,20 @@ public class TableBarang extends AbstractTableModel {
     public String getColumnName(int column) {
         switch (column) {
             case 0:
-                return "Kode Barang";
+                return "ID Barang";
             case 1:
-                return "Nama Barang";
+                return "Kode Barang"; 
             case 2:
-                return "Harga";
+                return "Nama Barang";
             case 3:
-                return "Stok";
+                return "Harga";
             case 4:
+                return "Stok";
+            case 5:
                 return "Tanggal Masuk";  
             default:
                 return null;
         }
     }
-    
-    
     
 }

@@ -36,15 +36,28 @@ public class BarangController {
     }
     
     // mengambil fungsi pada BarangDaoImpl untuk diolah lebih lanjut pada 
-    // view objcet (JFrame MainForm)
+    // view object (JFrame MainForm)
     public Barang getBarang(int kodeBarang) throws SQLException{
         return new BarangDaoImpl().getBarang(kodeBarang);
     }
     
     // mengambil fungsi pada BarangDaoImpl untuk diolah lebih lanjut pada 
-    // view objcet (JFrame MainForm)
-    public List<Barang> multiSearch(String a, String b, String c, String d) throws SQLException{
-        return new BarangDaoImpl().multiSearch(a, b, c, d);
+    // view object (JFrame MainForm)
+    public Barang getBarangByName(String name) throws SQLException{
+        return new BarangDaoImpl().getBarangByName(name);
+    }
+    
+    // mengambil fungsi pada BarangDaoImpl untuk diolah lebih lanjut pada 
+    // view object (JFrame MainForm)
+    public List<Barang> getBarangByKode(String kode) throws SQLException{
+        return new BarangDaoImpl().getBarangByKode(kode);
+    }
+    
+    // mengambil fungsi pada BarangDaoImpl untuk diolah lebih lanjut pada 
+    // view object (JFrame MainForm)
+    public List<Barang> multiSearch(String a, String b, String c, 
+            String d, String e) throws SQLException{
+        return new BarangDaoImpl().multiSearch(a, b, c, d, e);
     }
     
     //Singleton insert Editor form
@@ -99,6 +112,12 @@ public class BarangController {
     // view objcet (JFrame MainForm)
     public void updateBarang(Barang br) throws SQLException{
         new BarangDaoImpl().updateBarang(br);
+    }
+    
+    // mengambil fungsi pada BarangDaoImpl untuk diolah lebih lanjut pada 
+    // view objcet (JFrame MainForm) tanpa date
+    public void updateBarangNoDate(Barang br) throws SQLException{
+        new BarangDaoImpl().updateBarangNoDate(br);
     }
     
     // mengambil fungsi pada BarangDaoImpl untuk diolah lebih lanjut pada 

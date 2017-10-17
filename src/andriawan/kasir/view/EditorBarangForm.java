@@ -8,6 +8,8 @@ package andriawan.kasir.view;
 import andriawan.kasir.controller.BarangController;
 import andriawan.kasir.controller.UserLoginController;
 import andriawan.kasir.model.Barang;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -24,6 +26,7 @@ public class EditorBarangForm extends javax.swing.JFrame {
      */
     public EditorBarangForm() {
         initComponents();
+        
         txtIdBarang.setVisible(false);
         
         // SET ICON RESOURCE
@@ -48,8 +51,19 @@ public class EditorBarangForm extends javax.swing.JFrame {
         this.txtIdBarang.setText(set);
     }
     
+    public void setDisableCheck(){
+        this.jCheckTanggal.setSelected(false);
+        this.dateTglMasuk.setEnabled(false);
+    }
+    
     public void setTxtFieldNamaBarang(String set){
         this.txtFieldNamaBarang.setText(set);
+    
+    }
+    
+    public void setTxtFieldKodeBarang(String set){
+        this.txtFieldKodeBarang.setText(set);
+    
     }
     
     public void setTxtFieldHarga(String set){
@@ -81,6 +95,11 @@ public class EditorBarangForm extends javax.swing.JFrame {
         labelHeader = new javax.swing.JLabel();
         btnUpdateBarangFrame = new javax.swing.JButton();
         txtIdBarang = new javax.swing.JTextField();
+        txtFieldKodeBarang = new javax.swing.JTextField();
+        labelKodeBarang = new javax.swing.JLabel();
+        dateTglMasuk = new datechooser.beans.DateChooserCombo();
+        labelKodeBarang1 = new javax.swing.JLabel();
+        jCheckTanggal = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Editor Barang");
@@ -117,6 +136,11 @@ public class EditorBarangForm extends javax.swing.JFrame {
                 btnTambahBarangFrameActionPerformed(evt);
             }
         });
+        btnTambahBarangFrame.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnTambahBarangFrameKeyPressed(evt);
+            }
+        });
 
         labelHarga.setText("Harga");
 
@@ -146,6 +170,25 @@ public class EditorBarangForm extends javax.swing.JFrame {
 
         txtIdBarang.setEditable(false);
 
+        txtFieldKodeBarang.setMargin(new java.awt.Insets(0, 5, 0, 0));
+        txtFieldKodeBarang.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFieldKodeBarangKeyReleased(evt);
+            }
+        });
+
+        labelKodeBarang.setText("Kode Barang");
+
+        labelKodeBarang1.setText("Tanggal Masuk");
+
+        jCheckTanggal.setBackground(new java.awt.Color(255, 255, 255));
+        jCheckTanggal.setText("<html>Centang jika ingin <br>mengubah tanggal</html>");
+        jCheckTanggal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckTanggalActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelTambahBarangFrameLayout = new javax.swing.GroupLayout(panelTambahBarangFrame);
         panelTambahBarangFrame.setLayout(panelTambahBarangFrameLayout);
         panelTambahBarangFrameLayout.setHorizontalGroup(
@@ -153,26 +196,28 @@ public class EditorBarangForm extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTambahBarangFrameLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(panelTambahBarangFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(dateTglMasuk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelNamaBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtFieldStok, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtFieldHarga, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtFieldNamaBarang, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelTambahBarangFrameLayout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(labelStok, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(labelHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelTambahBarangFrameLayout.createSequentialGroup()
-                        .addComponent(labelHarga, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
-                        .addGap(174, 174, 174))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelTambahBarangFrameLayout.createSequentialGroup()
-                        .addComponent(txtIdBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(panelTambahBarangFrameLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(panelTambahBarangFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtIdBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
                         .addGroup(panelTambahBarangFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(btnUpdateBarangFrame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnTambahBarangFrame, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
-                            .addComponent(btnBatalTambahBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(btnBatalTambahBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(txtFieldKodeBarang)
+                    .addComponent(txtFieldHarga, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtFieldStok, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelKodeBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(panelTambahBarangFrameLayout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(labelStok, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(labelHarga, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelKodeBarang1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(22, 22, 22))
         );
         panelTambahBarangFrameLayout.setVerticalGroup(
@@ -184,7 +229,11 @@ public class EditorBarangForm extends javax.swing.JFrame {
                 .addComponent(labelNamaBarang)
                 .addGap(12, 12, 12)
                 .addComponent(txtFieldNamaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(labelKodeBarang)
+                .addGap(11, 11, 11)
+                .addComponent(txtFieldKodeBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(labelHarga)
                 .addGap(12, 12, 12)
                 .addComponent(txtFieldHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -192,22 +241,28 @@ public class EditorBarangForm extends javax.swing.JFrame {
                 .addComponent(labelStok)
                 .addGap(12, 12, 12)
                 .addComponent(txtFieldStok, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(txtIdBarang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnUpdateBarangFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelKodeBarang1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dateTglMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelTambahBarangFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnUpdateBarangFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtIdBarang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btnTambahBarangFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelTambahBarangFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnTambahBarangFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnBatalTambahBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addGap(23, 23, 23))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 402, Short.MAX_VALUE)
+            .addGap(0, 381, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, 0)
@@ -216,12 +271,12 @@ public class EditorBarangForm extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 469, Short.MAX_VALUE)
+            .addGap(0, 582, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, 0)
-                    .addComponent(panelTambahBarangFrame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGap(0, 0, 0)))
+                    .addComponent(panelTambahBarangFrame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         pack();
@@ -237,11 +292,23 @@ public class EditorBarangForm extends javax.swing.JFrame {
         
         int id = Integer.parseInt(txtIdBarang.getText());
         String nmBarang = txtFieldNamaBarang.getText();
+        String kodeBarang = txtFieldKodeBarang.getText();
         int harga = Formater.setRupiahToInteger(txtFieldHarga.getText());
+        long date = dateTglMasuk.getSelectedDate().getTimeInMillis();
         int total = Integer.parseInt(txtFieldStok.getText());
         
         try {
-            bc.updateBarang(new Barang(id, nmBarang, harga, total));
+            
+            if (dateTglMasuk.isEnabled()) {
+                
+                bc.updateBarang(new Barang(id, kodeBarang, nmBarang, 
+                    harga, total, date));                
+            }else{
+                
+                bc.updateBarangNoDate(new Barang(id, kodeBarang, nmBarang, 
+                    harga, total));                
+            }
+            
             JOptionPane.showMessageDialog(null, "Barang berhasil diupdate");
             this.setVisible(false);
             UserLoginController.getMainFormInstance().reloadTableBarang(evt);
@@ -255,11 +322,16 @@ public class EditorBarangForm extends javax.swing.JFrame {
     private void btnTambahBarangFrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahBarangFrameActionPerformed
         BarangController bc = new BarangController();
         String nmBarang = txtFieldNamaBarang.getText();
+        String kodeBarang = txtFieldKodeBarang.getText();
         int harga = Formater.setRupiahToInteger(txtFieldHarga.getText());
         int total = Integer.parseInt(txtFieldStok.getText());
+        long date = dateTglMasuk.getSelectedDate().getTimeInMillis();
+        
         try {
-            bc.insertBarang(new Barang(nmBarang, harga, total, System.currentTimeMillis(), total));
+            bc.insertBarang(new Barang(nmBarang, kodeBarang, 
+                    harga, total, date, total));
             JOptionPane.showMessageDialog(null, "Barang berhasil ditambahkan");
+            UserLoginController.getMainFormInstance().reloadTableBarang(evt);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Terjadi kesalahan: periksa inputan anda");
         } catch(NumberFormatException b){
@@ -269,6 +341,7 @@ public class EditorBarangForm extends javax.swing.JFrame {
         txtFieldNamaBarang.setText("");
         txtFieldHarga.setText("");
         txtFieldStok.setText("");
+        txtFieldKodeBarang.setText("");
     }//GEN-LAST:event_btnTambahBarangFrameActionPerformed
 
     private void txtFieldHargaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldHargaKeyReleased
@@ -283,6 +356,30 @@ public class EditorBarangForm extends javax.swing.JFrame {
 
         txtFieldStok.setText(Formater.filterOnlyNumber(txtFieldStok.getText()));
     }//GEN-LAST:event_txtFieldStokKeyReleased
+
+    private void txtFieldKodeBarangKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldKodeBarangKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldKodeBarangKeyReleased
+
+    private void jCheckTanggalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckTanggalActionPerformed
+        
+        if(jCheckTanggal.isSelected()){
+            dateTglMasuk.setEnabled(true);
+        }else{
+            dateTglMasuk.setEnabled(false);
+        }
+    }//GEN-LAST:event_jCheckTanggalActionPerformed
+
+    private void btnTambahBarangFrameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnTambahBarangFrameKeyPressed
+        try {
+            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                ActionEvent et = null;
+                btnTambahBarangFrameActionPerformed(et);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }//GEN-LAST:event_btnTambahBarangFrameKeyPressed
 
     public void setVisibilityBtnUpdate(){
         btnUpdateBarangFrame.setVisible(true);
@@ -299,12 +396,17 @@ public class EditorBarangForm extends javax.swing.JFrame {
     private javax.swing.JButton btnBatalTambahBarang;
     private javax.swing.JButton btnTambahBarangFrame;
     private javax.swing.JButton btnUpdateBarangFrame;
+    private datechooser.beans.DateChooserCombo dateTglMasuk;
+    private javax.swing.JCheckBox jCheckTanggal;
     private javax.swing.JLabel labelHarga;
     private javax.swing.JLabel labelHeader;
+    private javax.swing.JLabel labelKodeBarang;
+    private javax.swing.JLabel labelKodeBarang1;
     private javax.swing.JLabel labelNamaBarang;
     private javax.swing.JLabel labelStok;
     private javax.swing.JPanel panelTambahBarangFrame;
     private javax.swing.JTextField txtFieldHarga;
+    private javax.swing.JTextField txtFieldKodeBarang;
     private javax.swing.JTextField txtFieldNamaBarang;
     private javax.swing.JTextField txtFieldStok;
     private javax.swing.JTextField txtIdBarang;
