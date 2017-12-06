@@ -5,7 +5,6 @@
  */
 package andriawan.kasir.model;
 
-import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,7 +18,7 @@ public class TableListBelanja extends DefaultTableModel {
 
     @Override
     public int getColumnCount() {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -38,12 +37,10 @@ public class TableListBelanja extends DefaultTableModel {
                 return "Harga";
             case 3:
                 return "Jumlah";
+            case 4:
+                return "Stok";
             default:
                 return null;
         }
     }
-    
-    
-
-    
 }

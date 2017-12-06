@@ -350,13 +350,14 @@ public class EditorBarangForm extends javax.swing.JFrame {
         long date = dateTglMasuk.getSelectedDate().getTimeInMillis();
         
         try {
+            // insert barang baru
             bc.insertBarang(new Barang(nmBarang, kodeBarang, 
                     harga, total, date, total));
             
             // mencari id barang yang baru saja di insert
             int id = bc.getBarangByNameAndKode(nmBarang,kodeBarang).getIdBarang();
             
-            // memasukan id barang dan totalnya
+            // memasukan id barang dan totalnya pada tabel barang_masuk
             bc.insertBarangMasuk(id, Formater.setStringReadySql(date), total);
             
             JOptionPane.showMessageDialog(null, "Barang berhasil ditambahkan");

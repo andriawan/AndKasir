@@ -27,6 +27,7 @@ public class BarangDaoImpl implements BarangDao {
     private final List<Barang> semuaBarang;
     private Connection con;
     private PreparedStatement preparedStatement;
+    private static BarangDaoImpl bmpl;
     
     // info tabel barang masuk
     private static final String TABLE_MASUK = "barang_masuk";
@@ -55,6 +56,18 @@ public class BarangDaoImpl implements BarangDao {
             + " ORDER BY "
             + COLUMN_TGL_INPUT 
             + " DESC LIMIT 50";
+    
+    // FIND ALL
+    private static final String FIND_PAGINATION = 
+            "SELECT * FROM " 
+            + TABLE 
+            + " LIMIT ? OFFSET ?";
+    
+    // COUNT ALL RECORDS
+    private static final String COUNT_RECORDS = 
+            "SELECT COUNT(*) FROM " 
+            + TABLE;
+    
     // Delete
     private static final String DELETE = 
             "DELETE FROM " 
@@ -524,6 +537,63 @@ public class BarangDaoImpl implements BarangDao {
         }
     }
     
+    public Integer countRecords(){
+        
+        ResultSet result;
+        try {
+            con = ConnectionManager.getConnection();
+            preparedStatement = con.prepareStatement(COUNT_RECORDS);
+            result = preparedStatement.executeQuery();
+
+            if (result.next()) {
+                return result.getInt(1);
+            } else {
+                return null;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(con);
+            close(preparedStatement);
+        }
+    }
+    
+    public List<Barang> getBarangPagination(int Limit, int Offset){
+        ResultSet result = null;
+        List<Barang> barangs = new ArrayList<>();
+
+        try {
+            con = ConnectionManager.getConnection();
+            preparedStatement = con.prepareStatement(FIND_PAGINATION);
+            preparedStatement.setInt(1, Limit);
+            preparedStatement.setInt(2, Offset);
+            
+            result = preparedStatement.executeQuery();
+
+            while (result.next()) {
+                int kode = result.getInt(1);
+                String kodeBarang = result.getString(2);
+                String nama_barang = result.getString(3);
+                int harga = result.getInt(4);
+                int stok = result.getInt(5);
+                long date = result.getTimestamp(6).getTime();
+                int jmlahBarangMasuk = result.getInt(7);
+
+                barangs.add(new Barang(kode, kodeBarang, nama_barang, 
+                        Formater.setRupiahFormat(harga), stok, date, jmlahBarangMasuk));
+            }
+
+            return barangs;
+
+        } catch (SQLException sq) {
+            throw new RuntimeException(sq);
+        } finally {
+            BarangDaoImpl.close(con);
+            close(preparedStatement);
+        }
+    }
+    
     public void insertBarangMasuk(int id, String date, int jumlah) {
         try {
             
@@ -588,6 +658,21 @@ public class BarangDaoImpl implements BarangDao {
         } finally{
             close(con);
             close(preparedStatement);
+        }
+    }
+    
+    
+    //Singleton insert Editor form
+    public static BarangDaoImpl getInstance(){
+        try {
+            if(bmpl == null){
+            bmpl = new BarangDaoImpl();
+        }
+            return bmpl;
+            
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
         }
     }
     
