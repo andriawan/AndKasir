@@ -29,6 +29,8 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.ChangeEvent;
 import javax.swing.table.DefaultTableModel;
 import utilities.ConnectionManager;
 import utilities.Formater;
@@ -48,6 +50,7 @@ public class KasirForm extends javax.swing.JFrame {
         initComponents();
         setUpIcon();
         jCheckKodeBarang.setSelected(true);
+        initListTableBelanja();
 
     }
 
@@ -100,6 +103,11 @@ public class KasirForm extends javax.swing.JFrame {
 
     public void setLabelIdKasir(String s) {
         this.labelIdKasir.setText(s);
+    }
+    
+    private void initListTableBelanja(){
+        jTableListBelanja.removeColumn(
+                jTableListBelanja.getColumnModel().getColumn(4));
     }
 
     /**
@@ -275,6 +283,7 @@ public class KasirForm extends javax.swing.JFrame {
 
         jTableListBelanja.setModel(new TableListBelanja());
         jTableListBelanja.setIntercellSpacing(new java.awt.Dimension(10, 5));
+        jTableListBelanja.setNextFocusableComponent(tableBarang);
         jTableListBelanja.setRowHeight(25);
         jTableListBelanja.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -776,8 +785,36 @@ public class KasirForm extends javax.swing.JFrame {
             ar.add(Barang);
             ar.add(harga);
             ar.add(totalDefault);
+            ar.add(stok);
             DefaultTableModel listBelanja = (DefaultTableModel) jTableListBelanja.getModel();
-            listBelanja.addRow(ar.toArray());
+            
+            if (listBelanja.getRowCount() == 0) {
+                listBelanja.addRow(ar.toArray());
+                initTabelKasirEnv(listBelanja);
+            }else{            
+                for (int i = 0; i < listBelanja.getRowCount(); i++) {
+                    int td = new Integer(jTableListBelanja.getValueAt(i, 3).toString());
+                    String idc = jTableListBelanja.getValueAt(i, 0).toString();
+                    
+                    if (id.equals(idc)) {
+                        if (td == stok) {
+                            JOptionPane.showMessageDialog(null, "Barang pada list"
+                                + " Melebih Stok");
+                            return;
+                        }
+                        jTableListBelanja.setValueAt(totalDefault + td, i, 3);
+                        initTabelKasirEnv(listBelanja);
+                        return;
+                    }
+                }
+                
+                listBelanja.addRow(ar.toArray());
+                initTabelKasirEnv(listBelanja);
+            }
+        }
+    }//GEN-LAST:event_jTableBarangKasirMousePressed
+
+    private void initTabelKasirEnv(DefaultTableModel listBelanja){
             jTableListBelanja.isCellEditable(jTableBarangKasir.getSelectedRow(), 3);
             int total = 0;
 
@@ -806,9 +843,8 @@ public class KasirForm extends javax.swing.JFrame {
                 labelKembalian.setText(Formater.setRupiahFormat(kembalian));
                 labelKembalian.setForeground(new Color(0, 153, 51));//Green
             }
-        }
-    }//GEN-LAST:event_jTableBarangKasirMousePressed
 
+    }
     private void txtKembalianKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKembalianKeyPressed
         int raw = Formater.setRupiahToInteger(txtKembalian.getText());
         txtKembalian.setText(Integer.toString(raw));
@@ -912,7 +948,46 @@ public class KasirForm extends javax.swing.JFrame {
 
         int jumlah, harga, total = 0, kembalian = 0;
         
+         jTableListBelanja.getDefaultEditor(String.class).addCellEditorListener(
+                new CellEditorListener() {
+            public void editingCanceled(ChangeEvent e) {
+                System.out.println("editingCanceled");
+            }
+
+            public void editingStopped(ChangeEvent e) {
+                if (jTableListBelanja.getCellEditor().
+                        getCellEditorValue() == null) {
+                    JOptionPane.showMessageDialog(rootPane,
+                            "Kesalahan: Kolom jumlah tidak boleh kosong",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    jTableListBelanja.setValueAt(
+                            1,
+                            jTableListBelanja.getSelectedRow(),
+                            jTableListBelanja.getSelectedColumn());
+                }
+            }
+        });
+        
         try {
+            
+            int stok = (int) jTableListBelanja.getModel().getValueAt(
+                    jTableListBelanja.getSelectedRow(), 4);
+
+            int listStok = new Integer(
+                    jTableListBelanja.getValueAt(
+                            jTableListBelanja.getSelectedRow(), 3).toString());
+
+            System.out.println("stoknya adalah: " + stok + " ,listStok :" + listStok);
+
+            if (listStok > stok) {
+                JOptionPane.showMessageDialog(null, "Barang pada list"
+                        + " Melebih Stok");
+                
+                jTableListBelanja.setValueAt(
+                    stok,
+                    jTableListBelanja.getSelectedRow(),
+                    jTableListBelanja.getSelectedColumn());
+            }
 
             jumlah = new Integer(
                     jTableListBelanja.getValueAt(
@@ -932,7 +1007,8 @@ public class KasirForm extends javax.swing.JFrame {
         } catch (NumberFormatException e) {
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, e);
             JOptionPane.showMessageDialog(rootPane,
-                    "Kesalahan: Periksa kembali kolom jumlah pada tabel list belanja",
+                    "Kesalahan: Periksa kembali kolom jumlah pada tabel list "
+                            + "belanja pastikan tidak ada yang kosong",
                     "Error", JOptionPane.ERROR_MESSAGE);
             jTableListBelanja.setValueAt(
                     1,
@@ -965,7 +1041,7 @@ public class KasirForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jTableListBelanjaFocusGained
 
     private void jTableListBelanjaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTableListBelanjaFocusLost
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_jTableListBelanjaFocusLost
 
     private void jTableListBelanjaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTableListBelanjaPropertyChange
