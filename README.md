@@ -8,7 +8,7 @@ Saat ini, Aplikasi ini masih dalam tahap pengembangan. Fitur-fitur yang dimiliki
 - Cetak Struk
 - Cetak Laporan PDF
 
-Versi Development Release Aplikasi AndKasir v0.1 dapat anda unduh [di sini](https://github.com/andriawan/AndKasir/files/1019473/AndKasir-v0.1.zip)
+Versi Development Release Aplikasi AndKasir v0.5.7 dapat anda unduh [di sini](https://github.com/andriawan/AndKasir/releases/tag/v0.5.7)
 
 Screenshot:
 
