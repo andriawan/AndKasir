@@ -35,15 +35,11 @@ import javax.swing.ImageIcon;
  * 
  * TO DO:
  * 
- * 1. Set Draggable pada tabel, hal ini akan mengacaukan update ke databases
- * cek MainForm bagian Tabel User dan Barang
  * 
  * 2. Mengganti icon dan nama Frame
  * 
  * 3. Validasi dan filterasi input user
  * 
- * 4. ActionListener Keypressed Enter untuk Button supaya mempercepat penggunaan
- * tanpa mouse (Keyboard user)
  */
 public class MainForm extends javax.swing.JFrame{
     
@@ -52,6 +48,8 @@ public class MainForm extends javax.swing.JFrame{
     String dateF = sdf.format(dt);
     private int screenHeight;
     private int screenWidth;
+    private static int counterPagination = 0;
+    int limitPagination = 20;
 
     /**
      * Creates new form MainForm
@@ -157,16 +155,23 @@ public class MainForm extends javax.swing.JFrame{
         btnEditorTambahBarang = new javax.swing.JButton();
         btnEditorHapusBarang = new javax.swing.JButton();
         btnEditorEditBarang = new javax.swing.JButton();
+        panelPaginationBarang = new javax.swing.JPanel();
+        prevPaginationButton = new javax.swing.JButton();
+        nextPaginationButton = new javax.swing.JButton();
+        labelJumlahBarang = new javax.swing.JLabel();
+        txtRecord = new javax.swing.JLabel();
         panelCRUDUserButton = new javax.swing.JPanel();
         btnTambahUser = new javax.swing.JButton();
         btnHapusUser = new javax.swing.JButton();
         btnEditUser = new javax.swing.JButton();
+        adminPanel = new javax.swing.JPanel();
         panelButtonAction = new javax.swing.JPanel();
         panelMainButton = new javax.swing.JPanel();
         btnCekTransaksi = new javax.swing.JButton();
         btnCekLaporan = new javax.swing.JButton();
         btnCekBarang = new javax.swing.JButton();
         btnInfoUser = new javax.swing.JButton();
+        buttonBackupDb = new javax.swing.JButton();
         panelHeader = new javax.swing.JPanel();
         panelTextHeader = new javax.swing.JPanel();
         txtHeader = new javax.swing.JLabel();
@@ -244,11 +249,6 @@ public class MainForm extends javax.swing.JFrame{
                 txtCariBarangFocusGained(evt);
             }
         });
-        txtCariBarang.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCariBarangActionPerformed(evt);
-            }
-        });
         txtCariBarang.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtCariBarangKeyPressed(evt);
@@ -294,11 +294,6 @@ public class MainForm extends javax.swing.JFrame{
         txtCariTransaksi.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtCariTransaksiFocusGained(evt);
-            }
-        });
-        txtCariTransaksi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCariTransaksiActionPerformed(evt);
             }
         });
         txtCariTransaksi.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -440,6 +435,57 @@ public class MainForm extends javax.swing.JFrame{
             }
         });
 
+        prevPaginationButton.setBackground(new java.awt.Color(51, 153, 255));
+        prevPaginationButton.setForeground(new java.awt.Color(255, 255, 255));
+        prevPaginationButton.setText("Previous");
+        prevPaginationButton.setBorderPainted(false);
+        prevPaginationButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prevPaginationButtonActionPerformed(evt);
+            }
+        });
+
+        nextPaginationButton.setBackground(new java.awt.Color(51, 153, 255));
+        nextPaginationButton.setForeground(new java.awt.Color(255, 255, 255));
+        nextPaginationButton.setText("Next");
+        nextPaginationButton.setBorderPainted(false);
+        nextPaginationButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextPaginationButtonActionPerformed(evt);
+            }
+        });
+
+        labelJumlahBarang.setText("Jumlah Barang");
+
+        txtRecord.setFont(new java.awt.Font("Dialog", 1, 48)); // NOI18N
+        txtRecord.setText("0");
+
+        javax.swing.GroupLayout panelPaginationBarangLayout = new javax.swing.GroupLayout(panelPaginationBarang);
+        panelPaginationBarang.setLayout(panelPaginationBarangLayout);
+        panelPaginationBarangLayout.setHorizontalGroup(
+            panelPaginationBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPaginationBarangLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(panelPaginationBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(prevPaginationButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelJumlahBarang, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtRecord, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(nextPaginationButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        panelPaginationBarangLayout.setVerticalGroup(
+            panelPaginationBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPaginationBarangLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelJumlahBarang)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtRecord)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(prevPaginationButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(nextPaginationButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout panelCRUDBarangButtonLayout = new javax.swing.GroupLayout(panelCRUDBarangButton);
         panelCRUDBarangButton.setLayout(panelCRUDBarangButtonLayout);
         panelCRUDBarangButtonLayout.setHorizontalGroup(
@@ -449,7 +495,8 @@ public class MainForm extends javax.swing.JFrame{
                 .addGroup(panelCRUDBarangButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnEditorTambahBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnEditorHapusBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
-                    .addComponent(btnEditorEditBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE))
+                    .addComponent(btnEditorEditBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+                    .addComponent(panelPaginationBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelCRUDBarangButtonLayout.setVerticalGroup(
@@ -461,7 +508,9 @@ public class MainForm extends javax.swing.JFrame{
                 .addComponent(btnEditorHapusBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnEditorEditBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(panelPaginationBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         panelCRUDUserButton.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Editor", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
@@ -520,6 +569,17 @@ public class MainForm extends javax.swing.JFrame{
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        javax.swing.GroupLayout adminPanelLayout = new javax.swing.GroupLayout(adminPanel);
+        adminPanel.setLayout(adminPanelLayout);
+        adminPanelLayout.setHorizontalGroup(
+            adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        adminPanelLayout.setVerticalGroup(
+            adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Dashboard");
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
@@ -567,6 +627,16 @@ public class MainForm extends javax.swing.JFrame{
             }
         });
 
+        buttonBackupDb.setBackground(new java.awt.Color(102, 204, 255));
+        buttonBackupDb.setForeground(new java.awt.Color(255, 255, 255));
+        buttonBackupDb.setText("Backup Database");
+        buttonBackupDb.setBorderPainted(false);
+        buttonBackupDb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonBackupDbActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelMainButtonLayout = new javax.swing.GroupLayout(panelMainButton);
         panelMainButton.setLayout(panelMainButtonLayout);
         panelMainButtonLayout.setHorizontalGroup(
@@ -576,22 +646,25 @@ public class MainForm extends javax.swing.JFrame{
                 .addGroup(panelMainButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCekLaporan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCekBarang, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnInfoUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCekTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))
+                    .addComponent(btnCekTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonBackupDb, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                    .addComponent(btnInfoUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelMainButtonLayout.setVerticalGroup(
             panelMainButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMainButtonLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
+                .addContainerGap()
                 .addComponent(btnCekTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnCekLaporan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnCekBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnInfoUser, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(btnInfoUser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(buttonBackupDb, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         ImageIcon iconBtnTransaksi = new ImageIcon(new ImageIcon("resources/check.png").getImage().
@@ -612,7 +685,7 @@ public class MainForm extends javax.swing.JFrame{
         panelHeader.setLayout(new javax.swing.BoxLayout(panelHeader, javax.swing.BoxLayout.Y_AXIS));
 
         txtHeader.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        txtHeader.setText("Informasi Transaksi");
+        txtHeader.setText("Informasi Transaksi Hari Ini");
 
         date.setText("Informasi Waktu Login : " + Formater.setNiceIndonesianDate(System.currentTimeMillis()));
 
@@ -665,14 +738,14 @@ public class MainForm extends javax.swing.JFrame{
         panelTabel.setLayout(panelTabelLayout);
         panelTabelLayout.setHorizontalGroup(
             panelTabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollTabelTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jScrollTabelTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, 716, Short.MAX_VALUE)
         );
         panelTabelLayout.setVerticalGroup(
             panelTabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTabelLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jScrollTabelTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                .addContainerGap()
+                .addComponent(jScrollTabelTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jMenu1.setText("File");
@@ -691,6 +764,11 @@ public class MainForm extends javax.swing.JFrame{
         jMenu2.setText("Info");
 
         jMenuItem2.setText("Info Pengembang");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem2);
 
         infoAplikasi.setText("Info Aplikasi");
@@ -712,10 +790,10 @@ public class MainForm extends javax.swing.JFrame{
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelHeader, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
+                    .addComponent(panelHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelTabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelButtonAction, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelButtonAction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -762,15 +840,15 @@ public class MainForm extends javax.swing.JFrame{
     private void btnCekBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCekBarangActionPerformed
         // Set Tabel Model for Barang
         BarangController bc = new BarangController();      
+        txtRecord.setText(bc.countRecords().toString());
         TableBarang tb;
-        try {
-            tb = new TableBarang(bc.getAllBarang());
-            txtHeader.setText("Informasi Stok Barang");
-            jScrollTabelTransaksi.setViewportView(tableBarang);
-            tableBarang.setModel(tb);
-        } catch (SQLException ex) {
-            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        counterPagination = 0;
+        nextPaginationButton.setEnabled(true);
+        prevPaginationButton.setEnabled(false);
+        tb = new TableBarang(bc.getBarangPagination(limitPagination, counterPagination * 20 ));
+        txtHeader.setText("Informasi Stok Barang");
+        jScrollTabelTransaksi.setViewportView(tableBarang);
+        tableBarang.setModel(tb);
         
         panelSearchBarang.setVisible(true);
         panelSearchUser.setVisible(false);
@@ -781,15 +859,16 @@ public class MainForm extends javax.swing.JFrame{
     }//GEN-LAST:event_btnCekBarangActionPerformed
 
     private void btnCekTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCekTransaksiActionPerformed
-        TransaksiController tc = new TransaksiController();
+        TransaksiController tc = TransaksiController.getInstanceTransaksiController();
         TableTransaksi tt;
         
-        tt = new TableTransaksi(tc.getAllTransakasi());
-        txtHeader.setText("Informasi Transaksi");
-        jScrollTabelTransaksi.setViewportView(tabelTransaksi);
+        tt = new TableTransaksi(tc.getTransaksiOneDay());
+        
+        
         tabelTransaksi.setModel(tt);
+        jScrollTabelTransaksi.setViewportView(tabelTransaksi);
                     
-        txtHeader.setText("Informasi Transaksi");
+        txtHeader.setText("Informasi Transaksi Hari ini");
         panelSearchTransaksi.setVisible(true);
         panelSearchBarang.setVisible(false);
         panelSearchUser.setVisible(false);
@@ -797,14 +876,6 @@ public class MainForm extends javax.swing.JFrame{
         panelCRUDBarangButton.setVisible(false);
         panelCRUDUserButton.setVisible(false);
     }//GEN-LAST:event_btnCekTransaksiActionPerformed
-
-    private void txtCariBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCariBarangActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCariBarangActionPerformed
-
-    private void txtCariTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCariTransaksiActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCariTransaksiActionPerformed
 
     private void txtCariBarangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCariBarangFocusGained
         txtCariBarang.setText("");
@@ -825,7 +896,7 @@ public class MainForm extends javax.swing.JFrame{
             String name = txtCariBarang.getText();
             
             Barang barang;
-            List<Barang> brList = bc.multiSearch(name, name, name, name);
+            List<Barang> brList = bc.getBarangByKode(name);
             
             TableBarang tb = new TableBarang(brList);
             tableBarang.setModel(tb);
@@ -868,7 +939,7 @@ public class MainForm extends javax.swing.JFrame{
             UserController.getUpdateFormInstance().
                     setTxtNama(usr.getNama());
             UserController.getUpdateFormInstance().
-                    setTxtId(new Integer(usr.getId()).toString());
+                    setTxtId(Integer.toString(usr.getId()));
             UserController.getUpdateFormInstance().
                 setLabelHeader("Edit Pengguna");
             
@@ -884,16 +955,28 @@ public class MainForm extends javax.swing.JFrame{
             s = tableBarang.getValueAt(tableBarang.getSelectedRow(), 0).toString();
             try {
                 Barang br = bc.getBarang(new Integer(s));
+                
                 BarangController.getUpdateFormInstance().
                         setVisible(true);
+                
+                BarangController.getUpdateFormInstance().
+                        setDisableCheck();
+                
                 BarangController.getUpdateFormInstance().
                         setVisibilityBtnUpdate();
+                
+                BarangController.getUpdateFormInstance().
+                        setTxtFieldKodeBarang(br.getKodeBarang());
+                
                 BarangController.getUpdateFormInstance().
                         setTxtFieldNamaBarang(br.getNamaBarang());
+                
                 BarangController.getUpdateFormInstance().
-                        setTxtFieldHarga(Formater.setRupiahFormat(br.getHarga()));
+                        setTxtFieldHarga(br.getHargaFormat());
+                
                 BarangController.getUpdateFormInstance().
                         setTxtFieldStok(String.valueOf(br.getStok()));
+                
                 BarangController.getUpdateFormInstance().
                         setTxtFieldIdBarang(String.valueOf(s));
                 
@@ -985,10 +1068,11 @@ public class MainForm extends javax.swing.JFrame{
                         JOptionPane.INFORMATION_MESSAGE);
                 if(action == JOptionPane.YES_OPTION){
                     uc.deleteUser(new Integer(id));
+                    UserLoginController.getMainFormInstance().reloadUserLive(evt);
                 }
                 
-            } catch (RuntimeException f){
-                f.printStackTrace();
+            } catch (RuntimeException | SQLException f){
+                Logger.getLogger(EditorUserForm.class.getName()).log(Level.SEVERE, null, f);
             }            
         }else{
             JOptionPane.showMessageDialog(
@@ -1000,7 +1084,7 @@ public class MainForm extends javax.swing.JFrame{
         TransaksiController tc = TransaksiController.getInstanceTransaksiController();
         TableTransaksi tt = new TableTransaksi(
                 tc.getTransakasi(
-                        new Integer(txtCariTransaksi.getText().toString())));
+                        new Integer(txtCariTransaksi.getText())));
         tabelTransaksi.setModel(tt);
         jScrollTabelTransaksi.setViewportView(tabelTransaksi);
     }//GEN-LAST:event_btnCariTransaksiActionPerformed
@@ -1085,19 +1169,94 @@ public class MainForm extends javax.swing.JFrame{
         AboutForm af = AboutForm.getInstance();
         af.setVisible(true);
     }//GEN-LAST:event_infoAplikasiActionPerformed
+
+    private void buttonBackupDbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBackupDbActionPerformed
+        utilities.ConnectionManager.backupDB();
+    }//GEN-LAST:event_buttonBackupDbActionPerformed
+
+    private void prevPaginationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevPaginationButtonActionPerformed
+        --counterPagination;
+        // Set Tabel Model for Barang
+        BarangController bc = BarangController.getInstance();
+        Integer records = bc.countRecords();
+        txtRecord.setText(records.toString());
+        if(counterPagination * limitPagination <= 0){
+            prevPaginationButton.setEnabled(false);
+            nextPaginationButton.setEnabled(true);
+        }else{
+            prevPaginationButton.setEnabled(true);
+            nextPaginationButton.setEnabled(true);
+        }
+        TableBarang tb;
+        tb = new TableBarang(bc.getBarangPagination(
+                limitPagination, counterPagination * limitPagination ));
+        txtHeader.setText("Informasi Stok Barang");
+        jScrollTabelTransaksi.setViewportView(tableBarang);
+        tableBarang.setModel(tb);
+        
+        panelSearchBarang.setVisible(true);
+        panelSearchUser.setVisible(false);
+        panelSearchTransaksi.setVisible(false);
+        
+        panelCRUDBarangButton.setVisible(true);
+        panelCRUDUserButton.setVisible(false);
+    }//GEN-LAST:event_prevPaginationButtonActionPerformed
+
+    private void nextPaginationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextPaginationButtonActionPerformed
+        ++counterPagination;
+        // Set Tabel Model for Barang
+        BarangController bc = BarangController.getInstance();
+        Integer records = bc.countRecords();
+        txtRecord.setText(records.toString());
+        if(counterPagination >= records/limitPagination){
+            nextPaginationButton.setEnabled(false);
+            prevPaginationButton.setEnabled(true);
+        }else{
+            nextPaginationButton.setEnabled(true);
+            prevPaginationButton.setEnabled(true);
+        }
+        TableBarang tb;
+        tb = new TableBarang(bc.getBarangPagination(
+                limitPagination, counterPagination * limitPagination ));
+        txtHeader.setText("Informasi Stok Barang");
+        jScrollTabelTransaksi.setViewportView(tableBarang);
+        tableBarang.setModel(tb);
+        
+        panelSearchBarang.setVisible(true);
+        panelSearchUser.setVisible(false);
+        panelSearchTransaksi.setVisible(false);
+        
+        panelCRUDBarangButton.setVisible(true);
+        panelCRUDUserButton.setVisible(false);
+        
+    }//GEN-LAST:event_nextPaginationButtonActionPerformed
+    
+    // @todo rename in proper way
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        JOptionPane.showMessageDialog(null, "Software AndKasir v1 ini dikembangkan oleh Muhammad Irwan Andriawan\n\n"
+                + "Email andriawan2014@gmail.com\n"
+                + "Telegram irwan_andriawan\n"
+                + "github https://github.com/andriawan");
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
     
     // Custom Code
     public void getSizeScreen(){
         Dimension screenSize = getMaximumSize();
         this.screenHeight = screenSize.height;
         this.screenWidth = screenSize.width;
-        
     }
     
+    // public method
     public void reloadTableBarang(ActionEvent evt){
         btnCekBarangActionPerformed(evt);
     }
+    
+    // public method
+    public void reloadUserLive(ActionEvent evt){
+        btnCariUserActionPerformed(evt);
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel adminPanel;
     private javax.swing.JButton btnCariBarang;
     private javax.swing.JButton btnCariTransaksi;
     private javax.swing.JButton btnCariUser;
@@ -1111,6 +1270,7 @@ public class MainForm extends javax.swing.JFrame{
     private javax.swing.JButton btnHapusUser;
     private javax.swing.JButton btnInfoUser;
     private javax.swing.JButton btnTambahUser;
+    private javax.swing.JButton buttonBackupDb;
     private javax.swing.JLabel date;
     private javax.swing.JMenuItem infoAplikasi;
     private javax.swing.JMenu jMenu1;
@@ -1122,17 +1282,21 @@ public class MainForm extends javax.swing.JFrame{
     private javax.swing.JScrollPane jScrollTabelTransaksi;
     private javax.swing.JScrollPane jScrollUser;
     private javax.swing.JTable jTableResultBarang;
+    private javax.swing.JLabel labelJumlahBarang;
     private javax.swing.JMenuBar mainMenu;
+    private javax.swing.JButton nextPaginationButton;
     private javax.swing.JPanel panelButtonAction;
     private javax.swing.JPanel panelCRUDBarangButton;
     private javax.swing.JPanel panelCRUDUserButton;
     private javax.swing.JPanel panelHeader;
     private javax.swing.JPanel panelMainButton;
+    private javax.swing.JPanel panelPaginationBarang;
     private javax.swing.JPanel panelSearchBarang;
     private javax.swing.JPanel panelSearchTransaksi;
     private javax.swing.JPanel panelSearchUser;
     private javax.swing.JPanel panelTabel;
     private javax.swing.JPanel panelTextHeader;
+    private javax.swing.JButton prevPaginationButton;
     private javax.swing.JTable tabelTransaksi;
     private javax.swing.JTable tabelUser;
     private javax.swing.JTable tableBarang;
@@ -1140,6 +1304,7 @@ public class MainForm extends javax.swing.JFrame{
     private javax.swing.JTextField txtCariTransaksi;
     private javax.swing.JTextField txtCariUser;
     private javax.swing.JLabel txtHeader;
+    private javax.swing.JLabel txtRecord;
     // End of variables declaration//GEN-END:variables
 
 }

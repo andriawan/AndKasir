@@ -6,9 +6,8 @@
 package andriawan.kasir.app;
 
 import andriawan.kasir.controller.UserLoginController;
-import andriawan.kasir.dao.impl.UserDaoImpl;
-import andriawan.kasir.view.LoginForm;
 import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -26,17 +25,20 @@ public class AndKasirApp {
      * @param args
      */
     public static void main(String[] args) {
-        
+        // wrap dengan try catch untuk menghandle execption
         try{
-            LoginForm loginForm = UserLoginController.getLoginFormInstance();
-            UserDaoImpl user = UserLoginController.getUserInstance();
-            UserLoginController userLoginController
-                    = new UserLoginController(user, loginForm);   
+            // standart penanganan backup database, setiap applikasi dipanggil, procedure
+            // backup standart via ftp akan dipanggil
+            utilities.ConnectionManager.backupDB();
+            // instansiasi class LoginForm (view) via UserLoginController.getLoginFormInstance()
+            // menerapkan design pattern singleton untuk pengehematan resource
+            UserLoginController.getLoginFormInstance();
         }catch(ExceptionInInitializerError e){
-            e.printStackTrace();
+            // memeberi info pada user jika terjadi kesalahan/error
             JOptionPane.showMessageDialog(null
                     ,"Kesalahan: File Konfigurasi tidak dapat ditemukan. Silahkan Baca README"
                     ,"Error", JOptionPane.ERROR_MESSAGE);
+            // keluar dari aplikasi
             System.exit(0);
         }
     }

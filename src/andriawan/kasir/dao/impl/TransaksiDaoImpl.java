@@ -16,9 +16,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Formatter;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,7 +26,8 @@ import java.util.logging.Logger;
  * @author andriawan
  */
 public class TransaksiDaoImpl implements TransaksiDao {
-
+    
+    // TODO : pagination query untuk view pada MainForm
     private List<Transaksi> semuaTransaksi;
     private Connection con;
     private PreparedStatement preparedStatement;
@@ -73,14 +73,27 @@ public class TransaksiDaoImpl implements TransaksiDao {
             + "INNER JOIN "
             + "barang "
             + "ON "
-            + "barang.kode_barang=detail_transaksi.id_barang "
+            + "barang.id_barang=detail_transaksi.id_barang "
             + "WHERE "
             + "detail_transaksi.id_transaksi=?";
 
-    // FIND ALL
-    private static final String FIND_ALL
+    // FIND ALL TRANSAKSI IN 1 DAY
+     private static String FIND_1_DAY
             = "SELECT * FROM "
-            + TABLE;
+            + TABLE + " WHERE "
+            + COLUMN_TGL_TRANSAKSI + " BETWEEN ? AND ? ";
+   
+    
+    private static String FIND_ALL
+            = "SELECT * FROM "
+            + TABLE + " WHERE "
+            + COLUMN_TGL_TRANSAKSI + " BETWEEN '"
+            + Formater.setStringReadySql(
+                    System.currentTimeMillis()- TimeUnit.DAYS.toMillis(1))
+            + "' AND '"
+            + Formater.setStringReadySql(
+                    System.currentTimeMillis())
+            + "'";
     // Delete
     private static final String DELETE
             = "DELETE FROM "
@@ -126,7 +139,7 @@ public class TransaksiDaoImpl implements TransaksiDao {
 
     public TransaksiDaoImpl() {
         ResultSet result = null;
-        List<Transaksi> semuaTransaksi = new ArrayList<Transaksi>();
+        List<Transaksi> semuaTransaksi = new ArrayList<>();
 
         try {
             con = ConnectionManager.getConnection();
@@ -183,6 +196,48 @@ public class TransaksiDaoImpl implements TransaksiDao {
             }
             
             return semuaTransaksi;
+
+        } catch (SQLException sq) {
+            throw new RuntimeException(sq);
+        } finally {
+            this.close(con);
+            close(preparedStatement);
+        }
+    }
+    
+    public List<Transaksi> getTransaksiOneDay() {
+        
+        ResultSet result = null;
+        
+        List<Transaksi> transaksiInADay = new ArrayList<>();
+
+        try {
+            con = ConnectionManager.getConnection();
+            preparedStatement = con.prepareStatement(FIND_1_DAY);
+            preparedStatement.setString(1, Formater.setStringReadySql(
+                    System.currentTimeMillis()- TimeUnit.DAYS.toMillis(1)));
+            preparedStatement.setString(2, Formater.setStringReadySql(
+                    System.currentTimeMillis()));
+            
+            result = preparedStatement.executeQuery();
+
+            while (result.next()) {
+                int idTransaksi = result.getInt(1);
+                long date = result.getTimestamp(2).getTime();
+                int totalItem = result.getInt(3);
+                int totalHarga = result.getInt(4);
+                int idPetugas = result.getInt(5);
+                
+                
+                KasirUser ku = new KasirUser();
+                ku.setId(idPetugas);
+                
+                transaksiInADay.add(
+                        new Transaksi(idTransaksi, totalItem, totalHarga, 
+                                date, ku.getId()));
+            }
+            
+            return transaksiInADay;
 
         } catch (SQLException sq) {
             throw new RuntimeException(sq);
@@ -331,7 +386,7 @@ public class TransaksiDaoImpl implements TransaksiDao {
         } catch (SQLException sq) {
             throw new RuntimeException(sq);
         } finally {
-            this.close(con);
+            TransaksiDaoImpl.close(con);
             close(preparedStatement);
         }
     }
