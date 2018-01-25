@@ -201,7 +201,7 @@ public class BarangDaoImpl implements BarangDao {
         List<Barang> barangs = new ArrayList<Barang>();
 
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getMysqlConnection();
             preparedStatement = con.prepareStatement(FIND_ALL);
             result = preparedStatement.executeQuery();
 

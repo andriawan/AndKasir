@@ -83,7 +83,7 @@ public class LaporanDaoImpl implements LaporanDao{
         List<Laporan> dailyReport = new ArrayList<>();
 
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getMysqlConnection();
             preparedStatement = con.prepareStatement(GET_REPORT_PER_DAY);
             preparedStatement.setString(1, tgl);
             result = preparedStatement.executeQuery();

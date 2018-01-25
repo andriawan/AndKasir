@@ -10,6 +10,16 @@
 <project name="AndKasir" default="default" basedir=".">
     <description>Builds, tests, and runs the project AndKasir.</description>
     <import file="nbproject/build-impl.xml"/>
+    <target name="-post-compile">
+    <java classname="org.javalite.instrumentation.Main" failonerror="true">
+        <sysproperty key="outputDirectory" value="${build.classes.dir}"/>
+        <classpath>
+            <pathelement path="${build.classes.dir}" />
+            <pathelement path="${javac.classpath}" />
+            <pathelement path="${javac.processorpath}" />
+        </classpath>
+    </java>
+</target>
     <!--
 
     There exist several targets which are by default empty and which can be 

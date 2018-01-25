@@ -136,7 +136,7 @@ public class UserDaoImpl implements UserDao {
         try {
             // Assignment Object con (field variable) dari static Object 
             // Connection manager
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getMysqlConnection();
             
             // Assignment Object PreparedStatement dari Object con 
             // yang memanggil fungsi prepareStatement dengan parameter String FIND_ALL 

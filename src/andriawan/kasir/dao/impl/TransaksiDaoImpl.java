@@ -142,7 +142,7 @@ public class TransaksiDaoImpl implements TransaksiDao {
         List<Transaksi> semuaTransaksi = new ArrayList<>();
 
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getMysqlConnection();
             preparedStatement = con.prepareStatement(FIND_ALL);
             result = preparedStatement.executeQuery();
 
