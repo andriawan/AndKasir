@@ -27,9 +27,9 @@ Screenshot:
 ## Tentang Aplikasi
 ![tentang](https://github.com/andriawan/AndKasir/blob/development/screenshot/about.png "Tentang Aplikasi")
 
-Migrasi Databases
+# Migrasi Databases
 
-Mulai versi 0.5.8, Management database version akan menggunakan migration tool flayway. Sebelum melakukan aktifitas pengembangan, diharapkan untuk mengaktifkan migrasi database terlebih dahulu. Caranya ialah melakukan eksekusi pada terminal:
+Mulai versi 0.5.8, Management database version akan menggunakan migration tool flayway. Sebelum melakukan aktifitas pengembangan, diharapkan untuk mengaktifkan migrasi database terlebih dahulu. Caranya ialah melakukan eksekusi pada terminal. Pastikan anda berada pada folder root tempat aplikasi AndKasir Berada :
 
 ```
 java -jar AndKasir.jar db-migrate
