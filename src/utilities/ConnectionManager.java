@@ -42,19 +42,19 @@ import static utilities.SwingProgressBar.MIN;
 public class ConnectionManager {
 
     // handle db
-    private static String url;
-    private static String database;
-    private static String username;
-    private static String password;
-    private static String driver;
+    public static String url;
+    public static String database;
+    public static String username;
+    public static String password;
+    public static String driver;
     // handle path
-    private static String customPath;
+    public static String customPath;
     // handle ftp
-    private static String ftpHost;
-    private static String ftpPort;
-    private static String ftpUser;
-    private static String ftpPass;
-    private static String ftpPath;
+    public static String ftpHost;
+    public static String ftpPort;
+    public static String ftpUser;
+    public static String ftpPass;
+    public static String ftpPath;
     
     public static void javaLiteConnect(){
         LoadConfigFile();
@@ -97,7 +97,7 @@ public class ConnectionManager {
     // method ini akan melakukan pengecekan beberapa string yang didefinisikan
     // dalam file eksternal "config.properties". String tersebut digunakan untuk
     // membangun konfigurasi ke database driver
-    private static void LoadConfigFile() {
+    public static void LoadConfigFile() {
 
         Properties config = new Properties();
         InputStream is;
