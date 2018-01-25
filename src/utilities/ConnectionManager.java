@@ -13,6 +13,7 @@ import it.sauronsoftware.ftp4j.FTPDataTransferException;
 import it.sauronsoftware.ftp4j.FTPDataTransferListener;
 import it.sauronsoftware.ftp4j.FTPException;
 import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
+import java.awt.HeadlessException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,6 +28,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.javalite.activejdbc.Base;
 import static utilities.SwingProgressBar.MIN;
 
@@ -295,5 +297,35 @@ public class ConnectionManager {
         } catch (IllegalStateException ex) {
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public static Connection getMysqlConnection() {
+
+        LoadConfigFile();
+
+        try {
+            BasicDataSource mysqlDs = new BasicDataSource();
+            
+            mysqlDs.setDriverClassName(ConnectionManager.driver);
+            mysqlDs.setUrl(ConnectionManager.url + ConnectionManager.database);
+            mysqlDs.setUsername(ConnectionManager.username);
+            mysqlDs.setPassword(ConnectionManager.password);
+            
+
+            try {
+                con = mysqlDs.getConnection();
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(UserLoginController.getLoginFormInstance(),
+                        "Error: Terjadi Masalah dengan Koneksi Database. "
+                        + "Periksa apakah database service telah berjalan ",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                System.out.println("Failed to Establish Database Connection");
+                System.exit(0);
+            }
+        } catch (HeadlessException e) {
+            System.out.println("Driver not found");
+        }
+        return con;
     }
 }
