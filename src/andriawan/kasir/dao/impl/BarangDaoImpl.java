@@ -201,7 +201,7 @@ public class BarangDaoImpl implements BarangDao {
         List<Barang> barangs = new ArrayList<Barang>();
 
         try {
-            con = ConnectionManager.getMysqlConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(FIND_ALL);
             result = preparedStatement.executeQuery();
 
@@ -238,7 +238,7 @@ public class BarangDaoImpl implements BarangDao {
     public Barang getBarang(int idBarang) {
         ResultSet result = null;
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(FIND_BY_ID);
             preparedStatement.setInt(1, idBarang);
             result = preparedStatement.executeQuery();
@@ -270,7 +270,7 @@ public class BarangDaoImpl implements BarangDao {
     public Barang getBarangByName(String name) {
         ResultSet result = null;
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(FIND_BY_NAME);
             preparedStatement.setString(1, "%" + name + "%");
             result = preparedStatement.executeQuery();
@@ -303,7 +303,7 @@ public class BarangDaoImpl implements BarangDao {
         List<Barang> barangs = new ArrayList<>();
         ResultSet result = null;
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(FIND_BY_KODE);
             preparedStatement.setString(1, name);
             result = preparedStatement.executeQuery();
@@ -334,7 +334,7 @@ public class BarangDaoImpl implements BarangDao {
     public Barang getBarangByNameAndKode(String name, String code) {
         ResultSet result = null;
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(FIND_BY_NAME_AND_KODE);
             preparedStatement.setString(1, name );
             preparedStatement.setString(2, code );
@@ -370,7 +370,7 @@ public class BarangDaoImpl implements BarangDao {
         ResultSet result = null;
         List<Barang> barangs = new ArrayList<>();
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(MULTI_SEARCH);
             preparedStatement.setString(1, "%" + a + "%");
             preparedStatement.setString(2, "%" + b + "%");
@@ -405,7 +405,7 @@ public class BarangDaoImpl implements BarangDao {
     @Override
     public void updateBarang(Barang barang) {
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(UPDATE);
             preparedStatement.setString(1, barang.getNamaBarang());
             preparedStatement.setString(2, barang.getKodeBarang().toUpperCase());
@@ -429,7 +429,7 @@ public class BarangDaoImpl implements BarangDao {
     
     public void updateBarangNoDate(Barang barang) {
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(UPDATE2);
             preparedStatement.setString(1, barang.getNamaBarang());
             preparedStatement.setString(2, barang.getKodeBarang().toUpperCase());
@@ -452,7 +452,7 @@ public class BarangDaoImpl implements BarangDao {
     @Override
     public void deleteBarang(int kodebarang) {
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(DELETE);
             preparedStatement.setInt(1, kodebarang);
             
@@ -470,7 +470,7 @@ public class BarangDaoImpl implements BarangDao {
     public void insertBarang(Barang barang) {
         try {
             
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             
             preparedStatement = con.prepareStatement(INSERT);
             preparedStatement.setString(1, barang.getNamaBarang());
@@ -494,7 +494,7 @@ public class BarangDaoImpl implements BarangDao {
     // CUSTOM CRUD
     public void updateStok(Barang barang, int jumlah) {
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(UPDATE_STOK);
             preparedStatement.setInt(1, jumlah);
             preparedStatement.setInt(2, barang.getIdBarang());
@@ -513,7 +513,7 @@ public class BarangDaoImpl implements BarangDao {
     public Barang getJumlahBarangMasuk(String tgl1, String tgl2) {
         ResultSet result = null;
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(GET_BARANG_MASUK);
             preparedStatement.setString(1, tgl1);
             preparedStatement.setString(2, tgl2);
@@ -541,7 +541,7 @@ public class BarangDaoImpl implements BarangDao {
         
         ResultSet result;
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(COUNT_RECORDS);
             result = preparedStatement.executeQuery();
 
@@ -564,7 +564,7 @@ public class BarangDaoImpl implements BarangDao {
         List<Barang> barangs = new ArrayList<>();
 
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(FIND_PAGINATION);
             preparedStatement.setInt(1, Limit);
             preparedStatement.setInt(2, Offset);
@@ -597,7 +597,7 @@ public class BarangDaoImpl implements BarangDao {
     public void insertBarangMasuk(int id, String date, int jumlah) {
         try {
             
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             
             preparedStatement = con.prepareStatement(INSERT_BARANG_MASUK);
             preparedStatement.setInt(1, id);
@@ -617,7 +617,7 @@ public class BarangDaoImpl implements BarangDao {
     public Barang getJumlahBarangKeluar(String tgl1, String tgl2) {
         ResultSet result = null;
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(GET_BARANG_KELUAR);
             preparedStatement.setString(1, tgl1);
             preparedStatement.setString(2, tgl2);
@@ -644,7 +644,7 @@ public class BarangDaoImpl implements BarangDao {
     public void insertBarangKeluar(int id, String date, int jumlah) {
         try {
             
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             
             preparedStatement = con.prepareStatement(INSERT_BARANG_KELUAR);
             preparedStatement.setInt(1, id);

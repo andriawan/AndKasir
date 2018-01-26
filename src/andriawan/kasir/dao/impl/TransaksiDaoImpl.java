@@ -142,7 +142,7 @@ public class TransaksiDaoImpl implements TransaksiDao {
         List<Transaksi> semuaTransaksi = new ArrayList<>();
 
         try {
-            con = ConnectionManager.getMysqlConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(FIND_ALL);
             result = preparedStatement.executeQuery();
 
@@ -179,7 +179,7 @@ public class TransaksiDaoImpl implements TransaksiDao {
         List<DetailTransaksi> semuaTransaksi = new ArrayList<>();
 
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(FIND_DETAIL_BY_ID);
             preparedStatement.setInt(1, kode);
             result = preparedStatement.executeQuery();
@@ -212,7 +212,7 @@ public class TransaksiDaoImpl implements TransaksiDao {
         List<Transaksi> transaksiInADay = new ArrayList<>();
 
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(FIND_1_DAY);
             preparedStatement.setString(1, Formater.setStringReadySql(
                     System.currentTimeMillis()- TimeUnit.DAYS.toMillis(1)));
@@ -253,7 +253,7 @@ public class TransaksiDaoImpl implements TransaksiDao {
         ResultSet result = null;
 
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(FIND_BY_ID);
             preparedStatement.setInt(1, kode);
             result = preparedStatement.executeQuery();
@@ -301,7 +301,7 @@ public class TransaksiDaoImpl implements TransaksiDao {
     public void insertTransaksi(Transaksi transaksi) {
         try {
             
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             
             preparedStatement = con.prepareStatement(INSERT);
             preparedStatement.setString(1, Formater.setStringReadySql(transaksi.getTglTransaksi()));
@@ -328,7 +328,7 @@ public class TransaksiDaoImpl implements TransaksiDao {
         List<Transaksi> semuaTransaksi = new ArrayList<Transaksi>();
 
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             String query = "select * from pembelian inner join userapp on pembelian.kode_user=userapp.kode_user;";
             preparedStatement = con.prepareStatement(query);
             result = preparedStatement.executeQuery();
@@ -360,7 +360,7 @@ public class TransaksiDaoImpl implements TransaksiDao {
         ResultSet result = null;
 
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(GET_LAST_RECORD);
             result = preparedStatement.executeQuery();
 
@@ -394,7 +394,7 @@ public class TransaksiDaoImpl implements TransaksiDao {
     public void insertDetailTransaksi(DetailTransaksi detailTransaksi) {
         try {
             
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             
             preparedStatement = con.prepareStatement(INSERT_DETAIL);
             preparedStatement.setInt(1, detailTransaksi.getId_transaksi());

@@ -83,7 +83,7 @@ public class LaporanDaoImpl implements LaporanDao{
         List<Laporan> dailyReport = new ArrayList<>();
 
         try {
-            con = ConnectionManager.getMysqlConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(GET_REPORT_PER_DAY);
             preparedStatement.setString(1, tgl);
             result = preparedStatement.executeQuery();
@@ -119,7 +119,7 @@ public class LaporanDaoImpl implements LaporanDao{
         List<Laporan> report = new ArrayList<>();
 
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(GET_REPORT);
             preparedStatement.setString(1, tgl);
             preparedStatement.setString(2, tgl2);
@@ -156,7 +156,7 @@ public class LaporanDaoImpl implements LaporanDao{
         List<Laporan> monthlyReport = new ArrayList<>();
 
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(GET_REPORT_PER_MONTH);
             preparedStatement.setString(1, tgl);
             result = preparedStatement.executeQuery();
@@ -192,7 +192,7 @@ public class LaporanDaoImpl implements LaporanDao{
         List<Laporan> yearlyReport = new ArrayList<>();
 
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(GET_REPORT_PER_YEAR);
             preparedStatement.setString(1, tgl);
             result = preparedStatement.executeQuery();

@@ -136,7 +136,7 @@ public class UserDaoImpl implements UserDao {
         try {
             // Assignment Object con (field variable) dari static Object 
             // Connection manager
-            con = ConnectionManager.getMysqlConnection();
+            con = ConnectionManager.getDataSourceConnection();
             
             // Assignment Object PreparedStatement dari Object con 
             // yang memanggil fungsi prepareStatement dengan parameter String FIND_ALL 
@@ -196,7 +196,7 @@ public class UserDaoImpl implements UserDao {
             
             // Assignment Object con (field variable) dari static Object 
             // Connection manager
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             
             // Assignment Object PreparedStatement dari Object con 
             // yang memanggil fungsi prepareStatement dengan parameter String FIND_BY_ID
@@ -242,7 +242,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void updateUser(User user, int id) {
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(UPDATE);
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, SafePassword.hashSecureBcrypt(user.getPassword()));
@@ -265,7 +265,7 @@ public class UserDaoImpl implements UserDao {
     
     public void updateUserNoPassword(User user, int id) {
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(UPDATE_NO_PASSWORD);
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getNama());
@@ -289,7 +289,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void deleteUser(int kodeUser) {
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(DELETE);
             preparedStatement.setInt(1, kodeUser);
             
@@ -310,7 +310,7 @@ public class UserDaoImpl implements UserDao {
     public void insertUser(User user) {
         try {
             
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             
             preparedStatement = con.prepareStatement(INSERT);
             preparedStatement.setString(1, user.getUsername());
@@ -336,7 +336,7 @@ public class UserDaoImpl implements UserDao {
     public ArrayList<String> getUserLevel(String username, String status) {
         ResultSet result = null;
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(FIND_BY_LEVEL);
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, status);
@@ -375,7 +375,7 @@ public class UserDaoImpl implements UserDao {
         ResultSet result = null;
         List<User> list = new ArrayList<>();
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getDataSourceConnection();
             preparedStatement = con.prepareStatement(MULTI_SEARCH);
             preparedStatement.setString(1, "%" + a + "%");
             preparedStatement.setString(2, "%" + b + "%");

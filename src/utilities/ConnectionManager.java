@@ -58,11 +58,22 @@ public class ConnectionManager {
     
     public static void javaLiteConnect(){
         LoadConfigFile();
-        Base.open(driver, url + database, username, password);
+        BasicDataSource ds = new BasicDataSource();
+            
+        ds.setDriverClassName(ConnectionManager.driver);
+        ds.setUrl(ConnectionManager.url + ConnectionManager.database);
+        ds.setUsername(ConnectionManager.username);
+        ds.setPassword(ConnectionManager.password);
+        
+        Base.open(ds);
     }
     
     public static void close(){
         Base.close(Boolean.FALSE);
+    }
+    
+    public static Boolean isClosed(){
+        return Base.hasConnection();
     }
 
     private static Connection con;
@@ -119,6 +130,7 @@ public class ConnectionManager {
             ConnectionManager.ftpPath = config.getProperty("ftp_folder_path");
 
             is.close();
+            
         } catch (IOException e) {
         }
 
@@ -299,21 +311,21 @@ public class ConnectionManager {
         }
     }
     
-    public static Connection getMysqlConnection() {
+    public static Connection getDataSourceConnection() {
 
         LoadConfigFile();
 
         try {
-            BasicDataSource mysqlDs = new BasicDataSource();
+            BasicDataSource ds = new BasicDataSource();
             
-            mysqlDs.setDriverClassName(ConnectionManager.driver);
-            mysqlDs.setUrl(ConnectionManager.url + ConnectionManager.database);
-            mysqlDs.setUsername(ConnectionManager.username);
-            mysqlDs.setPassword(ConnectionManager.password);
+            ds.setDriverClassName(ConnectionManager.driver);
+            ds.setUrl(ConnectionManager.url + ConnectionManager.database);
+            ds.setUsername(ConnectionManager.username);
+            ds.setPassword(ConnectionManager.password);
             
 
             try {
-                con = mysqlDs.getConnection();
+                con = ds.getConnection();
 
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(UserLoginController.getLoginFormInstance(),
