@@ -16,6 +16,7 @@ Versi Development Release Aplikasi AndKasir v0.1 dapat anda unduh [di sini](http
 
 ### v0.5
 Versi Development Release Aplikasi AndKasir v0.5 dapat anda unduh [di sini](https://github.com/andriawan/AndKasir/releases/download/v0.5/AndKasir-v0.5.tar.gz)
+
 Screenshot:
 
 ## Panel Login 
