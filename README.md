@@ -47,8 +47,8 @@ Info lanjut tentang flyway dapat anda peroleh pada [laman resmi flyway](http://f
 
 Sebelum mencoba Versi Development Pastikan
 
-1. cek file config.properties. Konfigurasi database ada di file ini, seperti nama database, driver database dan lain-lain
-2. cek folder lib. Semua dependensi library ada disini.
+1. Cek file config.properties. Konfigurasi database ada di file ini, seperti nama database, driver database dan lain-lain
+2. Cek folder lib. Semua dependensi library ada [disini](https://github.com/andriawan/AndKasir/releases/download/v0.5/AndKasir-v0.5.tar.gz).
 3. Mysql sudah terinstall pada komputer anda beserta database yang sudah disedakan pada source code
 4. Pastikan Java runtime sudah terinstall (Direkomendasikan versi 7 atau 8)
 
