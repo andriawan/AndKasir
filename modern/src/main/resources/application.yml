@@ -1,0 +1,96 @@
+spring:
+  application:
+    name: andkasir-desktop
+  
+  profiles:
+    active: dev
+  
+  # Database Configuration
+  datasource:
+    url: jdbc:h2:file:./data/andkasir;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+    
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+    
+  # Flyway Configuration
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    
+  # Jackson Configuration
+  jackson:
+    time-zone: Asia/Jakarta
+    date-format: yyyy-MM-dd HH:mm:ss
+    
+  # Security Configuration
+  security:
+    user:
+      name: admin
+      password: admin
+      
+# Application Configuration
+app:
+  name: AndKasir Desktop
+  version: 2.0.0
+  
+  # PDF Configuration
+  pdf:
+    font-size: 12
+    margin: 20
+    
+  # Backup Configuration
+  backup:
+    enabled: true
+    schedule: "0 0 2 * * ?" # Daily at 2 AM
+    location: ./backups
+    
+  # UI Configuration
+  ui:
+    theme: dark
+    font-size: 14
+
+---
+# Production Profile
+spring:
+  config:
+    activate:
+      on-profile: prod
+      
+  datasource:
+    url: jdbc:postgresql://localhost:5432/andkasir
+    username: ${DB_USER:andkasir}
+    password: ${DB_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
+    
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        
+# Logging Configuration
+logging:
+  level:
+    com.andkasir: INFO
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.flywaydb: INFO
+    
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    
+  file:
+    name: ./logs/andkasir.log

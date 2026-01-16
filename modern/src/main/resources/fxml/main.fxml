@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+    
+    <!-- Top Menu Bar -->
+    <top>
+        <VBox>
+            <MenuBar style="-fx-background-color: #2d2d2d;">
+                <Menu text="File">
+                    <MenuItem text="Transaksi Baru" onAction="#handleTransaction"/>
+                    <SeparatorMenuItem />
+                    <MenuItem text="Keluar" onAction="#handleLogout"/>
+                </Menu>
+                <Menu text="Master">
+                    <MenuItem text="Produk" onAction="#handleProductManagement"/>
+                    <MenuItem text="Pengguna" onAction="#handleUserManagement"/>
+                </Menu>
+                <Menu text="Laporan">
+                    <MenuItem text="Laporan Penjualan" onAction="#handleReports"/>
+                    <MenuItem text="Laporan Stok" onAction="#handleReports"/>
+                </Menu>
+                <Menu text="Bantuan">
+                    <MenuItem text="Tentang"/>
+                </Menu>
+            </MenuBar>
+            
+            <!-- Welcome Bar -->
+            <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #404040; -fx-padding: 10px 20px;">
+                <VBox spacing="5.0">
+                    <Label fx:id="welcomeLabel" styleClass="label-title" text="Selamat datang"/>
+                    <Label fx:id="userRoleLabel" styleClass="label-subtitle" text="Role: ADMIN"/>
+                </VBox>
+                
+                <Region HBox.hgrow="ALWAYS"/>
+                
+                <VBox alignment="CENTER_RIGHT" spacing="5.0">
+                    <Label fx:id="dateTimeLabel" styleClass="label-info" text="Loading..."/>
+                    <Button text="Logout" styleClass="button-danger" onAction="#handleLogout"/>
+                </VBox>
+            </HBox>
+        </VBox>
+    </top>
+    
+    <!-- Left Sidebar -->
+    <left>
+        <VBox prefWidth="200.0" spacing="10.0" style="-fx-background-color: #2d2d2d; -fx-padding: 20px;">
+            <Label text="Menu Utama" styleClass="label-title"/>
+            
+            <VBox spacing="5.0" style="-fx-padding: 10px 0;">
+                <Button text="🛒 Transaksi" styleClass="button-secondary" maxWidth="Infinity" onAction="#handleTransaction"/>
+                <Button text="📦 Produk" styleClass="button-secondary" maxWidth="Infinity" onAction="#handleProductManagement"/>
+                <Button text="👥 Pengguna" styleClass="button-secondary" maxWidth="Infinity" onAction="#handleUserManagement"/>
+                <Button text="📊 Laporan" styleClass="button-secondary" maxWidth="Infinity" onAction="#handleReports"/>
+            </VBox>
+        </VBox>
+    </left>
+    
+    <!-- Center Content -->
+    <center>
+        <StackPane fx:id="mainPane" style="-fx-background-color: #1e1e1e;">
+            <!-- Default welcome content -->
+            <VBox alignment="CENTER" spacing="30.0">
+                <Label text="Selamat Datang di AndKasir Desktop" styleClass="label-title"/>
+                <Label text="Silakan pilih menu di sebelah kiri untuk memulai" styleClass="label-subtitle"/>
+                
+                <!-- Quick Stats -->
+                <HBox spacing="20.0" alignment="CENTER">
+                    <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #2d2d2d; -fx-padding: 20px; -fx-background-radius: 10px;">
+                        <Label text="0" styleClass="label-title" style="-fx-text-fill: #34d399;"/>
+                        <Label text="Transaksi Hari Ini" styleClass="label-subtitle"/>
+                    </VBox>
+                    
+                    <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #2d2d2d; -fx-padding: 20px; -fx-background-radius: 10px;">
+                        <Label text="Rp 0" styleClass="label-title" style="-fx-text-fill: #0078d4;"/>
+                        <Label text="Penjualan Hari Ini" styleClass="label-subtitle"/>
+                    </VBox>
+                    
+                    <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #2d2d2d; -fx-padding: 20px; -fx-background-radius: 10px;">
+                        <Label text="0" styleClass="label-title" style="-fx-text-fill: #fbbf24;"/>
+                        <Label text="Produk Stok Rendah" styleClass="label-subtitle"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+        </StackPane>
+    </center>
+    
+    <!-- Bottom Status Bar -->
+    <bottom>
+        <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #404040; -fx-padding: 5px 20px;">
+            <Label text="AndKasir Desktop v2.0" styleClass="label-subtitle"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="Status: Online" styleClass="label-success"/>
+        </HBox>
+    </bottom>
+    
+</BorderPane>
