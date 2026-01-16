@@ -3,17 +3,25 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/view/LoginForm.java</file>
-            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/view/KasirForm.java</file>
-            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/controller/BarangController.java</file>
-            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/view/LaporanForm.java</file>
-            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/view/EditorUserForm.java</file>
-            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/app/AndKasirApp.java</file>
-            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/view/InfoDetailTransaksiForm.java</file>
-            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/view/EditorBarangForm.java</file>
-            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/controller/UserLoginController.java</file>
-            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/view/AboutForm.java</file>
-            <file>file:/home/andriawan/NetBeansProjects/Kasir/src/andriawan/kasir/view/MainForm.java</file>
+            <file>file:/C:/Users/ThinkPad/projects/AndKasir/src/andriawan/kasir/controller/LaporanController.java</file>
+            <file>file:/C:/Users/ThinkPad/projects/AndKasir/src/andriawan/kasir/controller/StrukController.java</file>
+            <file>file:/C:/Users/ThinkPad/projects/AndKasir/src/andriawan/kasir/controller/UserLoginController.java</file>
+            <file>file:/C:/Users/ThinkPad/projects/AndKasir/src/andriawan/kasir/view/LaporanForm.java</file>
+            <file>file:/C:/Users/ThinkPad/projects/AndKasir/src/andriawan/kasir/view/EditorBarangForm.java</file>
+            <file>file:/C:/Users/ThinkPad/projects/AndKasir/src/utilities/ConnectionManager.java</file>
+            <file>file:/C:/Users/ThinkPad/projects/AndKasir/config.properties</file>
+            <file>file:/C:/Users/ThinkPad/projects/AndKasir/build.xml</file>
+            <file>file:/C:/Users/ThinkPad/projects/AndKasir/template.json</file>
+            <file>file:/C:/Users/ThinkPad/projects/AndKasir/README.md</file>
+            <file>file:/C:/Users/ThinkPad/projects/AndKasir/nbproject/build-impl.xml</file>
+            <file>file:/C:/Users/ThinkPad/projects/AndKasir/nbproject/project.xml</file>
+            <file>file:/C:/Users/ThinkPad/projects/AndKasir/src/andriawan/kasir/view/EditorUserForm.java</file>
+            <file>file:/C:/Users/ThinkPad/projects/AndKasir/src/andriawan/kasir/view/MainForm.java</file>
+            <file>file:/C:/Users/ThinkPad/projects/AndKasir/src/andriawan/kasir/view/KasirForm.java</file>
+            <file>file:/C:/Users/ThinkPad/projects/AndKasir/src/utilities/Formater.java</file>
+            <file>file:/C:/Users/ThinkPad/projects/AndKasir/kasir.sql</file>
+            <file>file:/C:/Users/ThinkPad/projects/AndKasir/src/andriawan/kasir/dao/impl/BarangDaoImpl.java</file>
+            <file>file:/C:/Users/ThinkPad/projects/AndKasir/src/andriawan/kasir/controller/BarangController.java</file>
         </group>
     </open-files>
 </project-private>

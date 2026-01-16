@@ -54,7 +54,7 @@ public class Formater {
         String replace2 = replace1.replace(".", "");
         String replace3 = replace2.replace(",00", "");
 
-        return new Integer(replace3);
+        return Integer.parseInt(replace3);
     }
 
    /**
@@ -113,7 +113,7 @@ public class Formater {
     
     public static String setRupiahTerbilang(int l){
         String d = Integer.toString(l);
-        Long s = new Long(d);
+        Long s = Long.valueOf(d);
         return setTerbilang(s) + "Rupiah";
     }
     

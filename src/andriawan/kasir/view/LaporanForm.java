@@ -359,11 +359,11 @@ panelLaporanLayout.setHorizontalGroup(
             int totalHarga = 0;
 
             for (int i = 0; i < tabelLaporan.getRowCount(); i++) {
-                jumlah = jumlah + new Integer(
+                jumlah = jumlah + Integer.valueOf(
                         tabelLaporan.getValueAt(i, 6).toString());
                 totalHarga = totalHarga + (Formater.setRupiahToInteger(
                         tabelLaporan.getValueAt(i, 5).toString())
-                        * new Integer(
+                        * Integer.valueOf(
                                 tabelLaporan.getValueAt(i, 6).toString()));
             }
 

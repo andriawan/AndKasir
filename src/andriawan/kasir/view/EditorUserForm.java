@@ -293,7 +293,7 @@ public class EditorUserForm extends javax.swing.JFrame {
         String username = txtFieldNamaUsername.getText();
         String password = new String(txtPassword.getPassword());
         String status = jComboBoxJabatan.getSelectedItem().toString();
-        int id = new Integer(txtIdUser.getText());
+        int id = Integer.valueOf(txtIdUser.getText());
         
         if(password.isEmpty() || password.equals(""))
             uc.updateUserNoPassword(new User(id, username, namaAsli, status));

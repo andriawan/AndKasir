@@ -763,7 +763,7 @@ public class KasirForm extends javax.swing.JFrame {
             String hargaRp = jTableBarangKasir.getValueAt(
                     jTableBarangKasir.getSelectedRow(), 3).toString();
             int stok;
-            stok = new Integer(jTableBarangKasir.getValueAt(
+            stok = Integer.parseInt(jTableBarangKasir.getValueAt(
                     jTableBarangKasir.getSelectedRow(), 4).toString());
             
             int val = stok - 1;
@@ -793,7 +793,8 @@ public class KasirForm extends javax.swing.JFrame {
                 initTabelKasirEnv(listBelanja);
             }else{            
                 for (int i = 0; i < listBelanja.getRowCount(); i++) {
-                    int td = new Integer(jTableListBelanja.getValueAt(i, 3).toString());
+                    int td;
+                    td = Integer.parseInt(jTableListBelanja.getValueAt(i, 3).toString());
                     String idc = jTableListBelanja.getValueAt(i, 0).toString();
                     
                     if (id.equals(idc)) {
@@ -820,10 +821,8 @@ public class KasirForm extends javax.swing.JFrame {
 
             for (int i = 0; i < listBelanja.getRowCount(); i++) {
 
-                total = total + new Integer(
-                        jTableListBelanja.getValueAt(i, 2).toString())
-                        * new Integer(
-                                jTableListBelanja.getValueAt(i, 3).toString());
+                total = total + Integer.valueOf(jTableListBelanja.getValueAt(i, 2).toString())
+                        * Integer.valueOf(jTableListBelanja.getValueAt(i, 3).toString());
             }
 
             labelTotalBig.setText(Formater.setRupiahFormat(total));
@@ -851,7 +850,7 @@ public class KasirForm extends javax.swing.JFrame {
         try {
             if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
                 int total = Formater.setRupiahToInteger(labelTotalFooter.getText());
-                int bayar = new Integer(txtKembalian.getText());
+                int bayar = Integer.parseInt(txtKembalian.getText());
 
                 int kembalian = bayar - total;
                 if (kembalian < 0) {
@@ -914,10 +913,8 @@ public class KasirForm extends javax.swing.JFrame {
             int total = 0;
             for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
 
-                total = total + new Integer(
-                        jTableListBelanja.getValueAt(i, 2).toString())
-                        * new Integer(
-                                jTableListBelanja.getValueAt(i, 3).toString());
+                total = total + Integer.valueOf(jTableListBelanja.getValueAt(i, 2).toString())
+                        * Integer.valueOf(jTableListBelanja.getValueAt(i, 3).toString());
             }
             int kembalian = Formater.setRupiahToInteger(txtKembalian.getText());
 
@@ -973,9 +970,9 @@ public class KasirForm extends javax.swing.JFrame {
             int stok = (int) jTableListBelanja.getModel().getValueAt(
                     jTableListBelanja.getSelectedRow(), 4);
 
-            int listStok = new Integer(
-                    jTableListBelanja.getValueAt(
-                            jTableListBelanja.getSelectedRow(), 3).toString());
+            int listStok;
+            listStok = Integer.parseInt(jTableListBelanja.getValueAt(
+                    jTableListBelanja.getSelectedRow(), 3).toString());
 
             System.out.println("stoknya adalah: " + stok + " ,listStok :" + listStok);
 
@@ -989,18 +986,14 @@ public class KasirForm extends javax.swing.JFrame {
                     jTableListBelanja.getSelectedColumn());
             }
 
-            jumlah = new Integer(
-                    jTableListBelanja.getValueAt(
-                            jTableListBelanja.getSelectedRow(), 3).toString());
-            harga = new Integer(
-                    jTableListBelanja.getValueAt(
-                            jTableListBelanja.getSelectedRow(), 2).toString());
+            jumlah = Integer.parseInt(jTableListBelanja.getValueAt(
+                    jTableListBelanja.getSelectedRow(), 3).toString());
+            harga = Integer.parseInt(jTableListBelanja.getValueAt(
+                    jTableListBelanja.getSelectedRow(), 2).toString());
             total = 0;
             for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
-                total = total + new Integer(
-                        jTableListBelanja.getValueAt(i, 2).toString())
-                        * new Integer(
-                                jTableListBelanja.getValueAt(i, 3).toString());
+                total = total + Integer.valueOf(jTableListBelanja.getValueAt(i, 2).toString())
+                        * Integer.valueOf(jTableListBelanja.getValueAt(i, 3).toString());
             }
 
             
@@ -1086,17 +1079,13 @@ public class KasirForm extends javax.swing.JFrame {
                                 + " List belanja terlebih dahulu", "Error", JOptionPane.ERROR_MESSAGE);
                     } else {
                         for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
-                            jumlah = jumlah + new Integer(
-                                    jTableListBelanja.getValueAt(i, 3).toString());
-                            harga = harga + new Integer(
-                                    jTableListBelanja.getValueAt(i, 2).toString());
-                            totalHargaStruk = totalHargaStruk + new Integer(
-                                    jTableListBelanja.getValueAt(i, 2).toString())
-                                    * new Integer(
-                                            jTableListBelanja.getValueAt(i, 3).toString());
+                            jumlah = jumlah + Integer.parseInt(jTableListBelanja.getValueAt(i, 3).toString());
+                            harga = harga + Integer.parseInt(jTableListBelanja.getValueAt(i, 2).toString());
+                            totalHargaStruk = totalHargaStruk + Integer.valueOf(jTableListBelanja.getValueAt(i, 2).toString())
+                                    * Integer.valueOf(jTableListBelanja.getValueAt(i, 3).toString());
                         }
                         tc.insertTransaksi(new Transaksi(jumlah, totalHargaStruk, Calendar.getInstance().
-                                getTimeInMillis(), new Integer(labelIdKasir.getText())));
+                                getTimeInMillis(), Integer.parseInt(labelIdKasir.getText())));
                         Transaksi tr = tc.getLastRecord();
                         
                         ArrayList<ItemStruk> ais = new ArrayList<>();
@@ -1104,25 +1093,19 @@ public class KasirForm extends javax.swing.JFrame {
                         BarangController bc = new BarangController();
                         
                         for (int i = 0; i < jTableListBelanja.getRowCount(); i++) {
-                            tc.insertTransaksiDetail(new DetailTransaksi(tr.getIdTransaksi(),
-                                    new Integer(jTableListBelanja.getValueAt(i, 0).toString()),
-                                    new Integer(jTableListBelanja.getValueAt(i, 3).toString()),
-                                    new Integer(jTableListBelanja.getValueAt(i, 2).toString()),
-                                    new Integer(labelIdKasir.getText())));
+                            tc.insertTransaksiDetail(new DetailTransaksi(tr.getIdTransaksi(), Integer.valueOf(jTableListBelanja.getValueAt(i, 0).toString()), Integer.valueOf(jTableListBelanja.getValueAt(i, 3).toString()), Integer.valueOf(jTableListBelanja.getValueAt(i, 2).toString()), Integer.valueOf(labelIdKasir.getText())));
 
                             ais.add(new ItemStruk(jTableListBelanja.getValueAt(i, 1).toString(),
                                     jTableListBelanja.getValueAt(i, 3).toString(),
                                     jTableListBelanja.getValueAt(i, 2).toString(),
                                     String.valueOf(
-                                            new Integer(jTableListBelanja.getValueAt(i, 2).toString())
-                                            * new Integer(jTableListBelanja.getValueAt(i, 3).toString()))));
+                                            Integer.valueOf(jTableListBelanja.getValueAt(i, 2).toString())
+                                            * Integer.valueOf(jTableListBelanja.getValueAt(i, 3).toString()))));
 
                             try {
-                                bc.updateStok(
-                                        new Barang(new Integer(jTableListBelanja.
-                                                getValueAt(i, 0).toString())),
-                                        new Integer(jTableListBelanja.
-                                                getValueAt(i, 3).toString()));
+                                bc.updateStok(new Barang(Integer.parseInt(jTableListBelanja.
+                                                getValueAt(i, 0).toString())), Integer.parseInt(jTableListBelanja.
+                                                        getValueAt(i, 3).toString()));
                             } catch (SQLException ex) {
                                 JOptionPane.showMessageDialog(rootPane, "Pastikan Jumlah Barang Cukup"
                             + " keadaan on", "Error", JOptionPane.ERROR_MESSAGE);
@@ -1130,11 +1113,9 @@ public class KasirForm extends javax.swing.JFrame {
                             }
                             
                             try {
-                                bc.insertBarangKeluar(
-                                        new Integer(jTableListBelanja.
-                                                getValueAt(i, 0).toString()),
-                                        Formater.setStringReadySql(System.currentTimeMillis()), 
-                                        new Integer(jTableListBelanja.
+                                bc.insertBarangKeluar(Integer.parseInt(jTableListBelanja.
+                                        getValueAt(i, 0).toString()),
+                                        Formater.setStringReadySql(System.currentTimeMillis()), Integer.parseInt(jTableListBelanja.
                                                 getValueAt(i, 3).toString()));
                             } catch (SQLException ex) {
                                 Logger.getLogger(KasirForm.class.getName()).log(Level.SEVERE, null, ex);

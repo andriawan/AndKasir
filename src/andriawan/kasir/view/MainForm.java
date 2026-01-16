@@ -927,7 +927,7 @@ public class MainForm extends javax.swing.JFrame{
             UserController uc = new UserController();
             String s;
             s = tabelUser.getValueAt(tabelUser.getSelectedRow(), 0).toString();
-            User usr = uc.getUser(new Integer(s));
+            User usr = uc.getUser(Integer.valueOf(s));
             UserController.getUpdateFormInstance().
                     setVisible(true);
             UserController.getUpdateFormInstance().
@@ -954,7 +954,7 @@ public class MainForm extends javax.swing.JFrame{
             String s;
             s = tableBarang.getValueAt(tableBarang.getSelectedRow(), 0).toString();
             try {
-                Barang br = bc.getBarang(new Integer(s));
+                Barang br = bc.getBarang(Integer.valueOf(s));
                 
                 BarangController.getUpdateFormInstance().
                         setVisible(true);
@@ -1023,7 +1023,7 @@ public class MainForm extends javax.swing.JFrame{
                         JOptionPane.YES_NO_OPTION, 
                         JOptionPane.INFORMATION_MESSAGE);
                 if(action == JOptionPane.YES_OPTION){
-                    bc.hapusBarang(new Integer(id));
+                    bc.hapusBarang(Integer.valueOf(id));
                     try {
                         
                         List<Barang> brList = bc.getAllBarang();
@@ -1067,7 +1067,7 @@ public class MainForm extends javax.swing.JFrame{
                         JOptionPane.YES_NO_OPTION, 
                         JOptionPane.INFORMATION_MESSAGE);
                 if(action == JOptionPane.YES_OPTION){
-                    uc.deleteUser(new Integer(id));
+                    uc.deleteUser(Integer.parseInt(id));
                     UserLoginController.getMainFormInstance().reloadUserLive(evt);
                 }
                 
@@ -1082,9 +1082,9 @@ public class MainForm extends javax.swing.JFrame{
 
     private void btnCariTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariTransaksiActionPerformed
         TransaksiController tc = TransaksiController.getInstanceTransaksiController();
-        TableTransaksi tt = new TableTransaksi(
-                tc.getTransakasi(
-                        new Integer(txtCariTransaksi.getText())));
+        TableTransaksi tt;
+        tt = new TableTransaksi(
+                tc.getTransakasi(Integer.parseInt(txtCariTransaksi.getText())));
         tabelTransaksi.setModel(tt);
         jScrollTabelTransaksi.setViewportView(tabelTransaksi);
     }//GEN-LAST:event_btnCariTransaksiActionPerformed
@@ -1126,7 +1126,7 @@ public class MainForm extends javax.swing.JFrame{
         // Jika Konten Tabel diklik 2 kali akan mengeksekusi
         // kode di bawah ini
         if(evt.getClickCount() == 2){
-            int idTransaksi = new Integer(tabelTransaksi.getValueAt(
+            int idTransaksi = Integer.parseInt(tabelTransaksi.getValueAt(
                     tabelTransaksi.getSelectedRow(), 0 ).toString());
             TransaksiController tc = new TransaksiController();
             TableDetailTransaksi tdt = new TableDetailTransaksi(tc.getDetailTransakasi(idTransaksi));

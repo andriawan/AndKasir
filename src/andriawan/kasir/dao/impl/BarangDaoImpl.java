@@ -41,7 +41,7 @@ public class BarangDaoImpl implements BarangDao {
 
     // info table
     private static final String TABLE = "barang";
-    private static final String COLUMN_ID_BARANG = "id_barang";
+    private static final String COLUMN_ID_BARANG = "id";
     private static final String COLUMN_KODE_BARANG = "kode_barang";
     private static final String COLUMN_NAMA_BARANG = "nama_barang";
     private static final String COLUMN_HARGA = "harga";
