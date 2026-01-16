@@ -19,6 +19,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class AndKasirApplication extends Application {
     
     private ConfigurableApplicationContext springContext;
+    private static ConfigurableApplicationContext staticSpringContext;
     private static final String APPLICATION_NAME = "AndKasir Desktop v2.0";
     private static final double WINDOW_WIDTH = 1200;
     private static final double WINDOW_HEIGHT = 800;
@@ -29,6 +30,8 @@ public class AndKasirApplication extends Application {
         springContext = new SpringApplicationBuilder(AndKasirApplication.class)
                 .headless(false) // Important for JavaFX
                 .run();
+        // Store for static access
+        staticSpringContext = springContext;
     }
     
     @Override
@@ -89,7 +92,6 @@ public class AndKasirApplication extends Application {
     }
     
     public static ConfigurableApplicationContext getSpringContext() {
-        // This can be used by controllers to access Spring context if needed
-        return ((AndKasirApplication) Application.getUserData()).springContext;
+        return staticSpringContext;
     }
 }

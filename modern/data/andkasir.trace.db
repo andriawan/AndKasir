@@ -1,0 +1,4 @@
+2026-01-16 17:02:43.632675+07:00 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "-- Create indexes for performance\000aCREATE INDEX idx_users_username ON users(username) [*]WHERE NOT is_deleted"; SQL statement:
+-- Create indexes for performance
+CREATE INDEX idx_users_username ON users(username) WHERE NOT is_deleted [42000-224]

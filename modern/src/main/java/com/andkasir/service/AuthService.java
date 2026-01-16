@@ -102,8 +102,7 @@ public class AuthService {
     }
     
     // This method provides controller factory for FXML loading
-    public org.springframework.beans.factory.support.DefaultListableBeanFactory getControllerFactory() {
-        return (org.springframework.beans.factory.support.DefaultListableBeanFactory) 
-               org.springframework.context.ApplicationContextProvider.getApplicationContext().getAutowireCapableBeanFactory();
+    public javafx.util.Callback<Class<?>, Object> getControllerFactory() {
+        return clazz -> com.andkasir.config.ApplicationContextProvider.getApplicationContext().getBean(clazz);
     }
 }
